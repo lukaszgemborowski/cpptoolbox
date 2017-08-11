@@ -6,6 +6,7 @@ set(include-dir ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(test-dir ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 set(test-sources
 	${test-dir}/tuple_for_each.cxx
+	${test-dir}/tuple_at.cxx
 )
 
 add_executable(tests ${test-sources})
