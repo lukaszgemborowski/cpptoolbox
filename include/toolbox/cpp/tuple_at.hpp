@@ -1,8 +1,10 @@
 #ifndef _CPP_TUPLE_AT_HPP_
 #define _CPP_TUPLE_AT_HPP_
 
-#include <cpp/tuple_for_each.hpp>
+#include <toolbox/cpp/tuple_for_each.hpp>
 
+namespace toolbox
+{
 namespace cpp
 {
 
@@ -26,5 +28,6 @@ F tuple_at(T &&tuple, std::size_t index, F &&func)
 }
 
 } // namespace cpp
+} // namespace toolbox
 
 #endif

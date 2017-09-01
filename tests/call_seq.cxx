@@ -1,10 +1,10 @@
 #include "catch.hpp"
-#include <cpp/call_seq.hpp>
+#include <toolbox/cpp/call_seq.hpp>
 
 TEST_CASE("Simple use case", "[call_seq]")
 {
 	// create sequence of lambda calls
-	auto seq = cpp::make_call_seq(
+	auto seq = toolbox::cpp::make_call_seq(
 		[](auto &value) {
 			value += 2;
 		},

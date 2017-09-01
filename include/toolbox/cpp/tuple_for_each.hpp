@@ -4,6 +4,8 @@
 #include <tuple>
 #include <type_traits>
 
+namespace toolbox
+{
 namespace cpp
 {
 
@@ -37,5 +39,6 @@ F tuple_for_each(T &&tuple, F &&func)
 }
 
 } // namespace cpp
+} // namespace toolbox
 
 #endif

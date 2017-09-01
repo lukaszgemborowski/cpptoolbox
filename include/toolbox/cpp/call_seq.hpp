@@ -3,6 +3,8 @@
 
 #include <tuple>
 
+namespace toolbox
+{
 namespace cpp
 {
 
@@ -45,5 +47,6 @@ auto make_call_seq(Functors... functors)
 }
 
 } // namespace cpp
+} // namespace toolbox
 
 #endif

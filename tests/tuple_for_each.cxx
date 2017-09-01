@@ -1,12 +1,12 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include <cpp/tuple_for_each.hpp>
+#include <toolbox/cpp/tuple_for_each.hpp>
 
 TEST_CASE("Iterate and sum", "[tuple_for_each][tuple]")
 {
 	auto sum = 0;
 
-	cpp::tuple_for_each(std::make_tuple(1, 2, 3), [&sum](auto arg) { sum += arg; });
+	toolbox::cpp::tuple_for_each(std::make_tuple(1, 2, 3), [&sum](auto arg) { sum += arg; });
 
 	REQUIRE(sum == 6);
 }
@@ -15,7 +15,7 @@ TEST_CASE("Increment elements", "[tuple_for_each][tuple]")
 {
 	auto tuple = std::make_tuple(1, 2, 3);
 
-	cpp::tuple_for_each(tuple, [](auto &arg) { arg ++; });
+	toolbox::cpp::tuple_for_each(tuple, [](auto &arg) { arg ++; });
 
 	REQUIRE(std::get<0>(tuple) == 2);
 	REQUIRE(std::get<1>(tuple) == 3);
@@ -35,7 +35,7 @@ struct adder
 
 TEST_CASE("Functor with state", "[tuple_for_each][tuple]")
 {
-	auto fun = cpp::tuple_for_each(std::make_tuple(1, 2, 3), adder{});
+	auto fun = toolbox::cpp::tuple_for_each(std::make_tuple(1, 2, 3), adder{});
 
 	REQUIRE(fun.sum == 6);
 }
@@ -62,7 +62,7 @@ TEST_CASE("Selective modification", "[tuple_for_each][tuple]")
 	auto tuple = std::make_tuple(1, 2, 3.0, 4.0, 5.f, 6.f);
 	const auto orig = tuple;
 
-	cpp::tuple_for_each(tuple, int_doubler{});
+	toolbox::cpp::tuple_for_each(tuple, int_doubler{});
 
 	REQUIRE(std::get<0>(tuple) == 2);
 	REQUIRE(std::get<1>(tuple) == 4);
