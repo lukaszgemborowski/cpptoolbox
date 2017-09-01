@@ -25,6 +25,8 @@ struct option_def
 using verbose = option_def<CURLOPT_VERBOSE, long>;
 using url = option_def<CURLOPT_URL, const char*>;
 using postfields = option_def<CURLOPT_POSTFIELDS, const char*>;
+using writefunction = option_def<CURLOPT_WRITEFUNCTION, size_t(*)(char *, size_t, size_t, void *)>;
+using writedata = option_def<CURLOPT_WRITEDATA, void *>;
 
 } // namespace options
 
