@@ -8,10 +8,12 @@ set(test-sources
 	${test-dir}/tuple_for_each.cxx
 	${test-dir}/tuple_at.cxx
 	${test-dir}/call_seq.cxx
+	${test-dir}/curl.cxx
 )
 
 add_executable(tests ${test-sources})
 target_include_directories(tests PRIVATE ${include-dir} ${tests})
+target_link_libraries(tests curl)
 
 include(CTest)
 add_test(
