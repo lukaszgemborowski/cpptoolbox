@@ -3,6 +3,8 @@
 
 #include <curl/curl.h>
 #include <tuple>
+#include <vector>
+#include <string>
 #include <toolbox/cpp/tuple_for_each.hpp>
 
 namespace toolbox
