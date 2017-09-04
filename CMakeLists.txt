@@ -12,10 +12,13 @@ set(test-sources
 )
 
 add_executable(tests ${test-sources})
-target_include_directories(tests PRIVATE ${include-dir} ${tests})
+include_directories(${include-dir})
+target_include_directories(tests PRIVATE ${tests})
 target_link_libraries(tests curl)
 
 include(CTest)
 add_test(
 	NAME "unit tests"
 	COMMAND tests)
+
+add_subdirectory(examples)
