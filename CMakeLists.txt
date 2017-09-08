@@ -10,6 +10,7 @@ set(test-sources
 	${test-dir}/call_seq.cxx
 	${test-dir}/curl.cxx
 	${test-dir}/make_ref_tuple.cxx
+	${test-dir}/argv.cxx
 )
 
 add_executable(tests ${test-sources})
