@@ -10,12 +10,16 @@ TEST_CASE("basic parser", "[argv][argv::parser]")
 
 	auto verbose = o::option(o::short_name('v'));
 	auto xes = o::option(o::short_name('x')).multiple();
+	auto number = o::option(o::short_name('n')).value<int>();
+	auto path = o::option(o::short_name('p')).value<std::string>();
 
-	auto parser = toolbox::argv::make_parser(verbose, xes);
+	auto parser = toolbox::argv::make_parser(verbose, xes, number, path);
 
-	const char* args[] = {"app", "-vv", "-xxx"};
-	parser.parse(3, args);
+	const char* args[] = {"app", "-vv", "-xxx", "-n", "123", "-p", "/usr/local"};
+	parser.parse(7, args);
 
 	REQUIRE(verbose.value() == true);
 	REQUIRE(xes.value() == 3);
+	REQUIRE(number.value() == 123);
+	REQUIRE(path.value() == "/usr/local");
 }

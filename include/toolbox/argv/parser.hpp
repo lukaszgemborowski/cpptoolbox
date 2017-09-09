@@ -39,6 +39,7 @@ struct long_name : public  std::string
 
 struct option;
 struct multi_flag;
+template<typename> struct with_value;
 
 struct option
 {
@@ -66,6 +67,9 @@ struct option
 
 	multi_flag multiple() const;
 
+	template<typename T>
+	with_value<T> value() const;
+
 	char get_short() const
 	{
 		return short_name_;
@@ -76,7 +80,7 @@ struct option
 		return long_name_;
 	}
 
-	virtual bool has_argument() const
+	bool has_argument() const
 	{
 		return false;
 	}
@@ -87,6 +91,11 @@ struct option
 	}
 
 	void set_found()
+	{
+		found_ ++;
+	}
+
+	void set_found(const char *)
 	{
 		found_ ++;
 	}
@@ -110,9 +119,45 @@ struct multi_flag : public option
 	}
 };
 
+template<typename T> struct with_value : public option
+{
+	with_value(const option& original) :
+		option (original)
+	{}
+
+	bool has_argument() const
+	{
+		return true;
+	}
+
+	const T& value() const
+	{
+		return value_;
+	}
+
+	void set_found()
+	{
+	}
+
+	void set_found(const char *value)
+	{
+		std::stringstream ss(value);
+		ss >> value_;
+	}
+
+private:
+	T value_;
+};
+
 multi_flag option::multiple() const
 {
 	return multi_flag(*this);
+}
+
+template<typename T>
+with_value<T> option::value() const
+{
+	return with_value<T>(*this);
 }
 
 } // namespace options
@@ -204,7 +249,10 @@ public:
 				options_,
 				[this, c](auto& option) {
 					if (option.get_short() == c) {
-						option.set_found();
+						if (optarg)
+							option.set_found(optarg);
+						else
+							option.set_found();
 					}
 				}
 			);
