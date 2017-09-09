@@ -37,10 +37,90 @@ struct long_name : public  std::string
 	{}
 };
 
-struct option;
-struct multi_flag;
-template<typename> struct with_value;
+struct counter {};
 
+namespace detail
+{
+
+template<typename T>
+struct value_container
+{
+	using type_t = T;
+	using is_void = std::false_type;
+
+	T value_;
+	void set(const char *p)
+	{
+		std::stringstream ss(p);
+		ss >> value_;
+	}
+
+	const T& get() const
+	{
+		return value_;
+	}
+};
+
+template<typename T>
+struct value_container<std::vector<T>>
+{
+	using type_t = std::vector<T>;
+	using is_void = std::false_type;
+
+	std::vector<T> value_;
+	void set(const char *p)
+	{
+		std::stringstream ss(p);
+		T temp;
+		ss >> temp;
+		value_.push_back(temp);
+	}
+
+	const auto& get() const
+	{
+		return value_;
+	}
+};
+
+template<>
+struct value_container<void>
+{
+	using type_t = bool;
+	using is_void = std::true_type;
+
+	bool value_ = false;
+	void set(const char *)
+	{
+		value_ = true;
+	}
+
+	const bool& get() const
+	{
+		return value_;
+	}
+};
+
+template<>
+struct value_container<counter>
+{
+	using type_t = int;
+	using is_void = std::true_type;
+
+	type_t value_ = 0;
+	void set(const char *)
+	{
+		value_ ++;
+	}
+
+	const auto& get() const
+	{
+		return value_;
+	}
+};
+
+}
+
+template<typename T = void>
 struct option
 {
 	option(const option &other) = default;
@@ -48,15 +128,13 @@ struct option
 	option(const short_name &name) :
 		short_name_ (name),
 		long_name_ {},
-		description_ {},
-		found_ {0}
+		description_ {}
 	{}
 
 	option(const long_name &name) :
 		short_name_ (0),
 		long_name_ (name),
-		description_ {},
-		found_ {0}
+		description_ {}
 	{}
 
 	option& description(const std::string &desc)
@@ -64,11 +142,6 @@ struct option
 		description_ = desc;
 		return *this;
 	}
-
-	multi_flag multiple() const;
-
-	template<typename T>
-	with_value<T> value() const;
 
 	char get_short() const
 	{
@@ -82,83 +155,26 @@ struct option
 
 	bool has_argument() const
 	{
-		return false;
+		return detail::value_container<T>::is_void::value == false;
 	}
 
-	bool value() const
+	typename detail::value_container<T>::type_t
+	value() const
 	{
-		return found_;
+		return value_.get();
 	}
 
-	void set_found()
+	void set_found(const char *arg)
 	{
-		found_ ++;
-	}
-
-	void set_found(const char *)
-	{
-		found_ ++;
+		value_.set(arg);
 	}
 
 protected:
 	const char short_name_;
 	const std::string long_name_;
 	std::string description_;
-	int found_;
+	detail::value_container<T> value_;
 };
-
-struct multi_flag : public option
-{
-	multi_flag(const option &original) :
-		option (original)
-	{}
-
-	int value() const
-	{
-		return found_;
-	}
-};
-
-template<typename T> struct with_value : public option
-{
-	with_value(const option& original) :
-		option (original)
-	{}
-
-	bool has_argument() const
-	{
-		return true;
-	}
-
-	const T& value() const
-	{
-		return value_;
-	}
-
-	void set_found()
-	{
-	}
-
-	void set_found(const char *value)
-	{
-		std::stringstream ss(value);
-		ss >> value_;
-	}
-
-private:
-	T value_;
-};
-
-multi_flag option::multiple() const
-{
-	return multi_flag(*this);
-}
-
-template<typename T>
-with_value<T> option::value() const
-{
-	return with_value<T>(*this);
-}
 
 } // namespace options
 
@@ -208,10 +224,7 @@ public:
 				options_,
 				[this, c](auto& option) {
 					if (option.get_short() == c) {
-						if (optarg)
-							option.set_found(optarg);
-						else
-							option.set_found();
+						option.set_found(optarg);
 					}
 				}
 			);

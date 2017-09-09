@@ -9,8 +9,8 @@ int main(int argc, char **argv)
 	FILE* out = nullptr;
 
 	namespace o = toolbox::argv::options;
-	auto verbose = o::option(o::short_name('v'));
-	auto output = o::option(o::short_name('o')).value<std::string>();
+	auto verbose = o::option<void>(o::short_name('v'));
+	auto output = o::option<std::string>(o::short_name('o'));
 
 	auto parser = toolbox::argv::make_parser(verbose, output);
 	parser.parse(argc, argv);
@@ -44,6 +44,5 @@ int main(int argc, char **argv)
 	easy.perform();
 
 	fclose(out);
-
 	return 0;
 }
