@@ -144,13 +144,12 @@ template<> struct function_type<void>
 template<typename T = void>
 struct option
 {
-	option(const option &other) = default;
-
 	option(const short_name &name) :
 		short_name_ (name),
 		long_name_ {},
 		description_ {}
-	{}
+	{
+	}
 
 	option(const long_name &name) :
 		short_name_ (0),
@@ -200,12 +199,28 @@ struct option
 		return *this;
 	}
 
+	option<T>& store(typename detail::value_container<T>::type_t &dest)
+	{
+		transfer_to_storage_ = [&dest](const typename detail::value_container<T>::type_t &src) {
+			dest = src;
+		};
+
+		return *this;
+	}
+
+	void transfer_to_storage() const
+	{
+		if (transfer_to_storage_)
+			transfer_to_storage_(value_.get());
+	}
+
 protected:
 	const char short_name_;
 	const std::string long_name_;
 	std::string description_;
 	detail::value_container<T> value_;
 	callback_type func_;
+	std::function<void (const typename detail::value_container<T>::type_t &)> transfer_to_storage_;
 };
 
 } // namespace options
@@ -264,6 +279,13 @@ public:
 
 		for (int i = optind; i < argc; i ++)
 			non_options_.push_back(std::string(argv[i]));
+
+		cpp::tuple_for_each(
+			options_,
+			[](auto &option) {
+				option.transfer_to_storage();
+			}
+		);
 	}
 
 	const std::vector<std::string> &non_options() const

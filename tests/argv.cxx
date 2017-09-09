@@ -33,12 +33,13 @@ TEST_CASE("basic parser", "[argv][argv::parser]")
 {
 	namespace o = toolbox::argv::options;
 	int value_from_callback = 0;
+	int value_of_number = 0;
 
 	auto verbose = o::option<void>(o::short_name('v'));
 	auto opt_a = o::option<void>(o::short_name('a'));
 	auto opt_b = o::option<void>(o::short_name('b'));
 	auto xes = o::option<o::counter>(o::short_name('x'));
-	auto number = o::option<int>(o::short_name('n'));
+	auto number = o::option<int>(o::short_name('n')).store(value_of_number);
 	auto path = o::option<std::vector<std::string>>(o::short_name('p'));
 	auto callback = o::option<int>(o::short_name('c')).action([&value_from_callback](int value) { value_from_callback = value * 2; });
 
@@ -61,6 +62,7 @@ TEST_CASE("basic parser", "[argv][argv::parser]")
 	REQUIRE(verbose.value() == true);
 	REQUIRE(xes.value() == 3);
 	REQUIRE(number.value() == 123);
+	REQUIRE(value_of_number == 123);
 	REQUIRE(path.value()[0] == "/usr/local");
 	REQUIRE(path.value()[1] == "/var/run");
 	REQUIRE(parser.non_options().size() == 2);
