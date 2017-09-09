@@ -6,19 +6,31 @@
 
 int main(int argc, char **argv)
 {
+	// default is stdout
 	FILE* out = stdout;
 
+	// handy shortcut for options parser
 	namespace o = toolbox::argv::options;
+
+	// user may pass -v option meaning "verbose"
 	auto verbose = o::option<void>(o::short_name('v'));
+
+	// more complex option, if user pass -o some/path.ext callback (lambda)
+	// will be called with user provided path, this lambda will open file
+	// for writing
 	auto output = o::option<std::string>(o::short_name('o'))
 					.action(
 						[&out](const std::string &path) {
 							out = fopen(path.c_str(), "w");
 					});
 
+	// create parser which understands verbose and output options
 	auto parser = toolbox::argv::make_parser(verbose, output);
+
+	// parse
 	parser.parse(argc, argv);
 
+	// there should be one free argument - url to get
 	if (parser.non_options().size() != 1) {
 		std::cerr << "you need to provide url" << std::endl;
 		return 1;
