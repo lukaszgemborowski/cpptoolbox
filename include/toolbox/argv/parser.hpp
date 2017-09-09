@@ -33,6 +33,7 @@ private:
 
 struct long_name : public  std::string
 {
+	long_name() : std::string{} {}
 	explicit long_name(const char *name) :
 		std::string (name)
 	{}
@@ -144,18 +145,12 @@ template<> struct function_type<void>
 template<typename T = void>
 struct option
 {
-	option(const short_name &name) :
+	option(const short_name &name, const long_name &lname = long_name{}) :
 		short_name_ (name),
-		long_name_ {},
+		long_name_ (lname),
 		description_ {}
 	{
 	}
-
-	option(const long_name &name) :
-		short_name_ (0),
-		long_name_ (name),
-		description_ {}
-	{}
 
 	option& description(const std::string &desc)
 	{

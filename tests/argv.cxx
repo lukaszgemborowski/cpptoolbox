@@ -38,7 +38,7 @@ TEST_CASE("basic parser", "[argv][argv::parser]")
 	auto verbose = o::option<void>(o::short_name('v'));
 	auto opt_a = o::option<void>(o::short_name('a'));
 	auto opt_b = o::option<void>(o::short_name('b'));
-	auto xes = o::option<o::counter>(o::short_name('x'));
+	auto xes = o::option<o::counter>(o::short_name('x'), o::long_name("longX"));
 	auto number = o::option<int>(o::short_name('n')).store(value_of_number);
 	auto path = o::option<std::vector<std::string>>(o::short_name('p'));
 	auto callback = o::option<int>(o::short_name('c')).action([&value_from_callback](int value) { value_from_callback = value * 2; });
@@ -50,7 +50,7 @@ TEST_CASE("basic parser", "[argv][argv::parser]")
 		"app",
 		"arg0",
 		"-vv",
-		"-xx", "-x",
+		"-xx", "--longX",
 		"-ab",
 		"-n", "123",
 		"-p", "/usr/local",
