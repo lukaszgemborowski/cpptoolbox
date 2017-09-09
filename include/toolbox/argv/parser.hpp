@@ -162,47 +162,6 @@ with_value<T> option::value() const
 
 } // namespace options
 
-namespace detail
-{
-
-template<typename T>
-struct option
-{
-	option(const T &definition) :
-		definition_ (definition),
-		found_ (false)
-	{
-	}
-
-	const auto & definition() const
-	{
-		return definition_;
-	}
-
-	auto found() const
-	{
-		return found_;
-	}
-
-	void set_found()
-	{
-		found_ = true;
-	}
-
-private:
-	T definition_;
-	bool found_;
-};
-
-
-template<typename T> struct wrap_tuple_elements;
-template<typename... Args> struct wrap_tuple_elements<std::tuple<Args...>> {
-	using type = std::tuple<option<Args>...>;
-};
-
-} // namespace detail
-
-
 template<typename Options>
 class parser
 {
