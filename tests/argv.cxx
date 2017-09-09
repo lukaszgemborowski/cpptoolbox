@@ -32,6 +32,7 @@ struct cmd_line_options
 TEST_CASE("basic parser", "[argv][argv::parser]")
 {
 	namespace o = toolbox::argv::options;
+	int value_from_callback = 0;
 
 	auto verbose = o::option<void>(o::short_name('v'));
 	auto opt_a = o::option<void>(o::short_name('a'));
@@ -39,8 +40,9 @@ TEST_CASE("basic parser", "[argv][argv::parser]")
 	auto xes = o::option<o::counter>(o::short_name('x'));
 	auto number = o::option<int>(o::short_name('n'));
 	auto path = o::option<std::vector<std::string>>(o::short_name('p'));
+	auto callback = o::option<int>(o::short_name('c')).action([&value_from_callback](int value) { value_from_callback = value * 2; });
 
-	auto parser = toolbox::argv::make_parser(verbose, number, path, xes, opt_a, opt_b);
+	auto parser = toolbox::argv::make_parser(verbose, number, path, xes, opt_a, opt_b, callback);
 
 	auto args = cmd_line_options(
 	{
@@ -52,6 +54,7 @@ TEST_CASE("basic parser", "[argv][argv::parser]")
 		"-n", "123",
 		"-p", "/usr/local",
 		"-p", "/var/run",
+		"-c", "3",
 		"arg1"});
 	parser.parse(args.argc, args.argv);
 
@@ -65,4 +68,5 @@ TEST_CASE("basic parser", "[argv][argv::parser]")
 	REQUIRE(parser.non_options()[1] == "arg1");
 	REQUIRE(opt_a.value() == true);
 	REQUIRE(opt_b.value() == true);
+	REQUIRE(value_from_callback == 6);
 }

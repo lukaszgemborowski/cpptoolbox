@@ -6,11 +6,15 @@
 
 int main(int argc, char **argv)
 {
-	FILE* out = nullptr;
+	FILE* out = stdout;
 
 	namespace o = toolbox::argv::options;
 	auto verbose = o::option<void>(o::short_name('v'));
-	auto output = o::option<std::string>(o::short_name('o'));
+	auto output = o::option<std::string>(o::short_name('o'))
+					.action(
+						[&out](const std::string &path) {
+							out = fopen(path.c_str(), "w");
+					});
 
 	auto parser = toolbox::argv::make_parser(verbose, output);
 	parser.parse(argc, argv);
@@ -19,11 +23,6 @@ int main(int argc, char **argv)
 		std::cerr << "you need to provide url" << std::endl;
 		return 1;
 	}
-
-	if (output.value().size() > 0)
-		out = fopen(output.value().c_str(), "w");
-	else
-		out = stdout;
 
 	// create global curl instance, this is for curl initialization and cleanup
 	auto curl = toolbox::curl::global(toolbox::curl::flags::Default);
