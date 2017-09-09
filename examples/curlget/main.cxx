@@ -1,16 +1,47 @@
 #include <toolbox/curl/global.hpp>
 #include <toolbox/curl/easy.hpp>
+#include <toolbox/argv/parser.hpp>
 #include <cstdio>
+#include <iostream>
 
 int main(int argc, char **argv)
 {
-	FILE* out = nullptr;
+	// default is stdout
+	FILE* out = stdout;
 
-	if (argc == 3) {
-		out = fopen(argv[2], "w");
-	} else if (argc == 2) {
-		out = stdout;
-	} else {
+	// handy shortcut for options parser
+	namespace o = toolbox::argv::options;
+
+	auto help = o::option<void>(o::short_name('h'), o::long_name("help")).description("this help message");
+
+	// user may pass -v option meaning "verbose"
+	auto verbose = o::option<void>(o::short_name('v'), o::long_name("verbose")).description("be verbose");
+
+	// more complex option, if user pass -o some/path.ext callback (lambda)
+	// will be called with user provided path, this lambda will open file
+	// for writing
+	auto output = o::option<std::string>(o::short_name('o'), o::long_name("output"))
+					.description("save downloaded file to FILE", "FILE")
+					.action(
+						[&out](const std::string &path) {
+							out = fopen(path.c_str(), "w");
+					});
+
+	// create parser which understands verbose and output options
+	auto parser = toolbox::argv::make_parser(help, verbose, output);
+
+	// parse
+	parser.parse(argc, argv);
+
+	if (help.value()) {
+		parser.print_options(std::cout);
+		fclose(out);
+		return 0;
+	}
+
+	// there should be one free argument - url to get
+	if (parser.non_options().size() != 1) {
+		std::cerr << "you need to provide url" << std::endl;
 		return 1;
 	}
 
@@ -20,8 +51,8 @@ int main(int argc, char **argv)
 	// prepare options for curl
 	namespace opt = toolbox::curl::options;
 	auto options = toolbox::curl::make_options(
-		opt::verbose(1),
-		opt::url(argv[1]),
+		opt::verbose(verbose.value()),
+		opt::url(parser.non_options()[0]),
 
 		// default behavior of libcurl is to write response
 		// to writedata FILE pointer, may be stdout
@@ -33,6 +64,5 @@ int main(int argc, char **argv)
 	easy.perform();
 
 	fclose(out);
-
 	return 0;
 }
