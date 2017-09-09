@@ -257,12 +257,21 @@ public:
 				}
 			);
 		}
+
+		for (int i = optind; i < argc; i ++)
+			non_options_.push_back(std::string(argv[i]));
+	}
+
+	const std::vector<std::string> &non_options() const
+	{
+		return non_options_;
 	}
 
 private:
 	Options options_;
 	std::vector<::option> options_arr_;
 	std::string opt_descriptor_;
+	std::vector<std::string> non_options_;
 };
 
 template<typename... Options>

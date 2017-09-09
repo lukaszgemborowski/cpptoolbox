@@ -15,11 +15,14 @@ TEST_CASE("basic parser", "[argv][argv::parser]")
 
 	auto parser = toolbox::argv::make_parser(verbose, xes, number, path);
 
-	const char* args[] = {"app", "-vv", "-xxx", "-n", "123", "-p", "/usr/local"};
-	parser.parse(7, args);
+	const char* args[] = {"app", "arg0", "-vv", "-xxx", "-n", "123", "-p", "/usr/local", "arg1"};
+	parser.parse(9, args);
 
 	REQUIRE(verbose.value() == true);
 	REQUIRE(xes.value() == 3);
 	REQUIRE(number.value() == 123);
 	REQUIRE(path.value() == "/usr/local");
+	REQUIRE(parser.non_options().size() == 2);
+	REQUIRE(parser.non_options()[0] == "arg0");
+	REQUIRE(parser.non_options()[1] == "arg1");
 }
