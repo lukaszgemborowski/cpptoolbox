@@ -12,23 +12,32 @@ int main(int argc, char **argv)
 	// handy shortcut for options parser
 	namespace o = toolbox::argv::options;
 
+	auto help = o::option<void>(o::short_name('h'), o::long_name("help")).description("this help message");
+
 	// user may pass -v option meaning "verbose"
-	auto verbose = o::option<void>(o::short_name('v'));
+	auto verbose = o::option<void>(o::short_name('v'), o::long_name("verbose")).description("be verbose");
 
 	// more complex option, if user pass -o some/path.ext callback (lambda)
 	// will be called with user provided path, this lambda will open file
 	// for writing
-	auto output = o::option<std::string>(o::short_name('o'))
+	auto output = o::option<std::string>(o::short_name('o'), o::long_name("output"))
+					.description("save downloaded file to FILE", "FILE")
 					.action(
 						[&out](const std::string &path) {
 							out = fopen(path.c_str(), "w");
 					});
 
 	// create parser which understands verbose and output options
-	auto parser = toolbox::argv::make_parser(verbose, output);
+	auto parser = toolbox::argv::make_parser(help, verbose, output);
 
 	// parse
 	parser.parse(argc, argv);
+
+	if (help.value()) {
+		parser.print_options(std::cout);
+		fclose(out);
+		return 0;
+	}
 
 	// there should be one free argument - url to get
 	if (parser.non_options().size() != 1) {

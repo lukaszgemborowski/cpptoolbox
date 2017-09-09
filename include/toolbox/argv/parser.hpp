@@ -4,7 +4,9 @@
 #include <tuple>
 #include <string>
 #include <sstream>
+#include <iomanip>
 #include <functional>
+#include <algorithm>
 #include <getopt.h>
 #include <toolbox/cpp/tuple_for_each.hpp>
 #include <toolbox/cpp/make_ref_tuple.hpp>
@@ -152,9 +154,10 @@ struct option
 	{
 	}
 
-	option& description(const std::string &desc)
+	option& description(const std::string &desc, const std::string &arg_name = std::string())
 	{
 		description_ = desc;
+		argument_name_ = arg_name;
 		return *this;
 	}
 
@@ -166,6 +169,16 @@ struct option
 	const std::string &get_long() const
 	{
 		return long_name_;
+	}
+
+	const std::string &get_description() const
+	{
+		return description_;
+	}
+
+	const std::string &get_argument_name() const
+	{
+		return argument_name_;
 	}
 
 	bool has_argument() const
@@ -213,6 +226,7 @@ protected:
 	const char short_name_;
 	const std::string long_name_;
 	std::string description_;
+	std::string argument_name_;
 	detail::value_container<T> value_;
 	callback_type func_;
 	std::function<void (const typename detail::value_container<T>::type_t &)> transfer_to_storage_;
@@ -243,6 +257,9 @@ public:
 
 					options_arr_.push_back(o);
 				}
+
+				longest_name_ = std::max(longest_name_, option.get_long().size());
+				longest_argname_ = std::max(longest_argname_, option.get_argument_name().size());
 			}
 		);
 
@@ -288,11 +305,39 @@ public:
 		return non_options_;
 	}
 
+	void print_options(std::ostream &os) const
+	{
+		/* TODO: this is just a ugly draft - refactor */
+		cpp::tuple_for_each(
+			options_,
+			[this, &os](auto &option) {
+				std::stringstream p1;
+
+				p1 << "  -" << option.get_short();
+				if (option.get_long().size() > 0)
+					p1 << ", --" << option.get_long();
+
+				if (option.get_argument_name().size() > 0)
+					p1 << " [" << option.get_argument_name() << "]";
+
+				std::stringstream p2;
+				p2 << std::setw(longest_argname_ + longest_name_ + 10) << std::left << p1.str();
+
+				if (option.get_description().size() > 0)
+					p2 << " - " << option.get_description();
+
+				os << p2.str() << std::endl;
+			}
+		);
+	}
+
 private:
 	Options options_;
 	std::vector<::option> options_arr_;
 	std::string opt_descriptor_;
 	std::vector<std::string> non_options_;
+	std::size_t longest_name_ = 0;
+	std::size_t longest_argname_ = 0;
 };
 
 template<typename... Options>
