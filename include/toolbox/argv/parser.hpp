@@ -232,7 +232,7 @@ public:
 		opt_descriptor_ = ss.str();
 	}
 
-	void parse(int argc, const char ** argv)
+	void parse(int argc, char ** argv)
 	{
 		int c;
 		int index;

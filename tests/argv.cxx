@@ -3,6 +3,31 @@
 #include <toolbox/argv/parser.hpp>
 #include <toolbox/cpp/make_ref_tuple.hpp>
 #include <toolbox/gcc/type_to_string.hpp>
+#include <cstring>
+
+struct cmd_line_options
+{
+	cmd_line_options(std::initializer_list<const char *> options)
+	{
+		argc = options.size();
+		argv = new char*[options.size()];
+
+		int index = 0;
+		for (auto &arg : options) {
+			argv[index++] = strdup(arg);
+		}
+	}
+
+	~cmd_line_options()
+	{
+		for (int i = 0; i < argc; i++)
+			free(argv[i]);
+		delete [] argv;
+	}
+
+	int argc;
+	char **argv;
+};
 
 TEST_CASE("basic parser", "[argv][argv::parser]")
 {
@@ -15,8 +40,8 @@ TEST_CASE("basic parser", "[argv][argv::parser]")
 
 	auto parser = toolbox::argv::make_parser(verbose, xes, number, path);
 
-	const char* args[] = {"app", "arg0", "-vv", "-xxx", "-n", "123", "-p", "/usr/local", "arg1"};
-	parser.parse(9, args);
+	auto args = cmd_line_options({"app", "arg0", "-vv", "-xxx", "-n", "123", "-p", "/usr/local", "arg1"});
+	parser.parse(args.argc, args.argv);
 
 	REQUIRE(verbose.value() == true);
 	REQUIRE(xes.value() == 3);
