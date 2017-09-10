@@ -64,6 +64,12 @@ auto t = toolbox::cpp::make_ref_tuple(a, 2);
 
 will produce `std::tuple<int &, int>` with a reference to `a` as first element.
 
+### 2.3. tuple_at(tuple, index, func)
+applies functor `func` on `index`-th element of tuple. What's important indexing is done in runtime by linear evaluation of elements, so access is O(N) and not O(1) as might be expected.
+
+### 2.4. tuple_for_each(tuple, func)
+applies `func` on every element of `tuple` in order. If you have non-compatible types in tuple you need to provide functor with templated `operator()` or lambda with `auto` argument.
+
 ## 3. curl
 libcurl C++ wrapper inspired by libcurlpp providing only small subset of functionalities
 
