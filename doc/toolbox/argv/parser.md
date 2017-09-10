@@ -10,7 +10,8 @@ main parser class
 parser::parser(Options &&options);
 ```
 parser constructor, it `std::move`s options and build everything which is needed for getopt to parse
-command line arguments
+command line arguments. There is utility function [make_parser](make_parser.md) which helps to construct
+actual parser object and deduce template argument list. I recommend you to use this function.
 
 ## parser::parse
 ```cpp
