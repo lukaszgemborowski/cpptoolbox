@@ -3,6 +3,7 @@
 #include <toolbox/argv/parser.hpp>
 #include <toolbox/cpp/make_ref_tuple.hpp>
 #include <toolbox/gcc/type_to_string.hpp>
+#include <initializer_list>
 #include <cstring>
 
 struct cmd_line_options
@@ -38,7 +39,7 @@ TEST_CASE("basic parser", "[argv][argv::parser]")
 	auto verbose = o::option<void>(o::short_name('v'));
 	auto opt_a = o::option<void>(o::short_name('a'));
 	auto opt_b = o::option<void>(o::short_name('b'));
-	auto xes = o::option<o::counter>(o::short_name('x'), o::long_name("longX"));
+	auto xes = o::option<void>(o::short_name('x'), o::long_name("longX"));
 	auto number = o::option<int>(o::short_name('n')).store(value_of_number);
 	auto path = o::option<std::vector<std::string>>(o::short_name('p'));
 	auto callback = o::option<int>(o::short_name('c')).action([&value_from_callback](int value) { value_from_callback = value * 2; });
@@ -60,7 +61,7 @@ TEST_CASE("basic parser", "[argv][argv::parser]")
 	parser.parse(args.argc, args.argv);
 
 	REQUIRE(verbose.value() == true);
-	REQUIRE(xes.value() == 3);
+	REQUIRE(xes.found() == 3);
 	REQUIRE(number.value() == 123);
 	REQUIRE(value_of_number == 123);
 	REQUIRE(path.value()[0] == "/usr/local");

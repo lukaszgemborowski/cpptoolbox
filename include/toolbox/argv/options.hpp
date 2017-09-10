@@ -35,8 +35,6 @@ struct long_name : public  std::string
 	{}
 };
 
-struct counter {};
-
 namespace detail
 {
 
@@ -99,26 +97,6 @@ struct value_container<void>
 	}
 
 	const bool& get() const
-	{
-		return value_;
-	}
-};
-
-template<>
-struct value_container<counter>
-{
-	using type_t = int;
-	using element_type_t = int;
-	using is_void = std::true_type;
-
-	type_t value_ = 0;
-	auto set(const char *)
-	{
-		value_ ++;
-		return value_;
-	}
-
-	const auto& get() const
 	{
 		return value_;
 	}
@@ -188,9 +166,15 @@ struct option
 
 	void set_found(const char *arg)
 	{
+		found_ ++;
 		const auto &value = value_.set(arg);
 		if (func_)
 			func_(value);
+	}
+
+	auto found() const
+	{
+		return found_;
 	}
 
 	using callback_type = std::function<void (const typename detail::value_container<T>::element_type_t &)>;
@@ -224,6 +208,7 @@ protected:
 	detail::value_container<T> value_;
 	callback_type func_;
 	std::function<void (const typename detail::value_container<T>::type_t &)> transfer_to_storage_;
+	unsigned found_ = 0u;
 };
 
 } // namespace options
