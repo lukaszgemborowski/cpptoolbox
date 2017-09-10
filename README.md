@@ -36,6 +36,34 @@ keep in mind that `make_parser` will get references to your option objects so yo
 ## 2. cpp
 Some common C++ helpers related only to language and standard library
 
+### 2.1. call_seq
+wraps several functors into one callable which is sequence of functors. To do that your functor signatures needs to match. Eg.:
+
+```cpp
+auto seq = toolbox::cpp::make_call_seq(
+		[](auto &value) {
+			value += 2;
+		},
+		[](auto &value) {
+			value *= 2;
+		}
+);
+
+auto value = 2;
+seq(value);
+```
+first value will be increased by 2 and than multiplied by 2.
+
+### 2.2. make_ref_tuple
+makes a tuple but if lvalue is provided it takes reference to it instead of a copy.
+
+```cpp
+auto a = 1;
+auto t = toolbox::cpp::make_ref_tuple(a, 2);
+```
+
+will produce `std::tuple<int &, int>` with a reference to `a` as first element.
+
 ## 3. curl
 libcurl C++ wrapper inspired by libcurlpp providing only small subset of functionalities
 
