@@ -3,7 +3,21 @@
 template<typename Options> class parser;
 ```
 
-main parser class
+command line arguments pareser class, it uses getopt as actual parser and it's basically c++ wrapper
+around it with some additional bonuses. The idea behind this class is a little bit different than in
+other parsers. It does not  use argument names directly as for example in `boost.program_options`
+where to access argument you need to type its name as string literal, eg. `vm["some-option"].as<std::string>()`
+but instead you have to create option object, specify argument name, type, etc. and than use this object
+to actually access parsed value.
+
+```cpp
+auto number = o::option<int>(o::short_name('n'));
+auto parser = toolbox::argv::make_parser(number);
+parser.parse(argc, argv);
+```
+now you can use `number` object as handle to parsed value, there's no need to write 'n' anywhere else in
+the program. Thanks to that you can't mistake option name or type in the future. `number` will always
+reference to 'n' and will always return `int` whenever requested.
 
 ## parser::parser
 ```cpp
