@@ -11,6 +11,7 @@ set(test-sources
 	${test-dir}/curl.cxx
 	${test-dir}/make_ref_tuple.cxx
 	${test-dir}/argv.cxx
+	${test-dir}/for_each_param.cxx
 )
 
 add_executable(tests ${test-sources})
