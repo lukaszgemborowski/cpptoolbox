@@ -1,11 +1,10 @@
 # cpptoolbox
 My C++ utilities library with some common C++ constructs I'm using. The goal is to keep it small and header only. Currently the library consists of several "modules":
 
-## 1. argv
+## 1. argv [[doc]](doc/toolbox/argv/argv.md)
 Command line argument parsing (getopt wrapper)
 
-### 1.1. parser
-Documentation can be found [here](doc/toolbox/argv/parser.md).
+### 1.1. parser [[doc]](doc/toolbox/argv/parser.md)
 idea behind this wrapper is a little bit different than in most of the other parsers. You do not fetch parsed options by name (such as `parser.get('help')`) but instead you define option objects (`option` class) which acts both as a definition and a proxy object for argument value. First you define option objects and than based on that you create the parser
 
 ```cpp
