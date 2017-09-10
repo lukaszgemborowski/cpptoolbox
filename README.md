@@ -5,7 +5,7 @@ My C++ utilities library with some common C++ constructs I'm using. The goal is 
 Command line argument parsing (getopt wrapper)
 
 ### 1.1. parser
-idea behind this wrapper is a little bit different in most of the other parsers. You do not fetch parsed options by name (such as `parser.get('help')`) but instead you define option objects (option class) which acts both as a definition and a proxy object for argument value. First you define some object and than based on that you create the parser
+idea behind this wrapper is a little bit different than in most of the other parsers. You do not fetch parsed options by name (such as `parser.get('help')`) but instead you define option objects (`option` class) which acts both as a definition and a proxy object for argument value. First you define option objects and than based on that you create the parser
 
 ```cpp
 namespace o = toolbox::argv::options;
@@ -25,7 +25,7 @@ std::cout << help.value() << ", " << verbose.value() << ", " << value.value() <<
 
 keep in mind that `make_parser` will get references to your option objects so you need to keep them alive.
 
-`option<T>` T template argument defines how the argument is parsed:
+`option<T>`'s T template argument defines how the argument is parsed:
 1. `void` - `value()` returns `bool` indicating if option was found (eg. --help)
 2. `toolbox::argv::options::counter` - `value()` returns int. It counts how many times option was found in command line (eg. -v -vv -vvv etc)
 3. `other` - any type which can be converted by `std::stringstream`, in such case `value()` returns `T`
@@ -37,7 +37,7 @@ keep in mind that `make_parser` will get references to your option objects so yo
 Some common C++ helpers related only to language and standard library
 
 ### 2.1. call_seq
-wraps several functors into one callable which is sequence of functors. To do that your functor signatures needs to match. Eg.:
+wraps several functors into one callable which is sequence of functors. To do that your functors signatures needs to match. Eg.:
 
 ```cpp
 auto seq = toolbox::cpp::make_call_seq(
@@ -71,10 +71,10 @@ applies functor `func` on `index`-th element of tuple. What's important indexing
 applies `func` on every element of `tuple` in order. If you have non-compatible types in tuple you need to provide functor with templated `operator()` or lambda with `auto` argument.
 
 ## 3. curl
-libcurl C++ wrapper inspired by libcurlpp providing only small subset of functionalities
+libcurl C++ wrapper inspired by libcurlpp and providing only small subset of functionalities
 
 ### 3.1. global
-just a RAII wrapper for curl initialzation and deinitialization, basically it's calling curl_global_init in ctor and curl_global_cleanup() in dtor.
+just a RAII wrapper for curl initialzation and deinitialization, basically it's calling `curl_global_init` in ctor and `curl_global_cleanup` in dtor.
 
 ### 3.2. easy
 C++ implementation of curl's easy interface. To perform curl request you need three things:
