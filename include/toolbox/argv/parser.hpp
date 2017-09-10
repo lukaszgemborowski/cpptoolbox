@@ -8,7 +8,9 @@
 #include <getopt.h>
 #include <toolbox/cpp/tuple_for_each.hpp>
 #include <toolbox/cpp/make_ref_tuple.hpp>
+#include <toolbox/cpp/for_each_param.hpp>
 #include <toolbox/argv/options.hpp>
+#include <toolbox/argv/exceptions.hpp>
 
 namespace toolbox
 {
@@ -110,6 +112,22 @@ public:
 				os << p2.str() << std::endl;
 			}
 		);
+	}
+
+	template<typename... RequiredOptions>
+	void check_required(const RequiredOptions&... options) const
+	{
+		std::vector<std::pair<char, std::string>> not_found;
+		cpp::for_each_param(
+			[&not_found](auto &option) {
+				if (option.found() == 0) {
+					not_found.push_back(std::make_pair(option.get_short(), option.get_long()));
+				}
+			},
+			options...
+		);
+		if (not_found.size() > 0)
+			throw exceptions::missing_required(std::move(not_found));
 	}
 
 private:
