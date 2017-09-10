@@ -54,7 +54,23 @@ seq(value);
 ```
 first value will be increased by 2 and than multiplied by 2.
 
-### 2.2. make_ref_tuple
+### 2.2. for_each_param
+convinient meta-function for iterating over all variadic arguments passed to the function.
+
+```cpp
+template<typename... Args>
+auto printer(std::ostream &os, Args... args)
+{
+	toolbox::cpp::for_each_param(
+		[&os](auto arg) {
+			os << " -> " << arg << std::endl;
+		},
+		args...
+	);
+}
+```
+
+### 2.3. make_ref_tuple
 makes a tuple but if lvalue is provided it takes reference to it instead of a copy.
 
 ```cpp
@@ -64,10 +80,10 @@ auto t = toolbox::cpp::make_ref_tuple(a, 2);
 
 will produce `std::tuple<int &, int>` with a reference to `a` as first element.
 
-### 2.3. tuple_at(tuple, index, func)
+### 2.4. tuple_at(tuple, index, func)
 applies functor `func` on `index`-th element of tuple. What's important indexing is done in runtime by linear evaluation of elements, so access is O(N) and not O(1) as might be expected.
 
-### 2.4. tuple_for_each(tuple, func)
+### 2.5. tuple_for_each(tuple, func)
 applies `func` on every element of `tuple` in order. If you have non-compatible types in the tuple (ie. they cannot be automatically converted to your functor's argument type) you need to provide functor with templated `operator()` or lambda with `auto` argument.
 
 ## 3. curl
