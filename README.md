@@ -27,11 +27,8 @@ keep in mind that `make_parser` will get references to your option objects so yo
 
 `option<T>`'s T template argument defines how the argument is parsed:
 1. `void` - `value()` returns `bool` indicating if option was found (eg. --help)
-2. `toolbox::argv::options::counter` - `value()` returns int. It counts how many times option was found in command line (eg. -v -vv -vvv etc)
-3. `other` - any type which can be converted by `std::stringstream`, in such case `value()` returns `T`
-4. `std::vector<some type>` - as 3. but holds vector of values (eg. -I path -I other/path), `value()` will return `std::vector<type>`
-
-**WARNING:** as for now there is no validation implemented!
+2. any type which can be converted by `std::stringstream`, in such case `value()` returns `T`
+3. `std::vector<some type>` - as 3. but holds vector of values (eg. -I path -I other/path), `value()` will return `std::vector<type>`
 
 ## 2. cpp [[doc]](doc/toolbox/cpp/cpp.md)
 Some common C++ helpers related only to language and standard library
