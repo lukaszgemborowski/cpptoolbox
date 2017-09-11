@@ -33,7 +33,7 @@ keep in mind that `make_parser` will get references to your option objects so yo
 
 **WARNING:** as for now there is no validation implemented!
 
-## 2. cpp
+## 2. cpp [[doc]](doc/toolbox/cpp/cpp.md)
 Some common C++ helpers related only to language and standard library
 
 ### 2.1. call_seq
