@@ -124,58 +124,43 @@ using httpheader = option_def<CURLOPT_HTTPHEADER, std::vector<std::string>>;
 
 } // namespace options
 
-
-// this is just sugar to give a new name for make_tuple
-// unnecesary right now but may be helpful when changing
-// implementation later
-template<typename... Options>
-auto make_options(Options&&... options)
-{
-	return std::make_tuple( std::forward<Options>(options)...);
-}
-
+template<typename Options>
 class easy
 {
 public:
-	easy() :
-		curl_ (curl_easy_init())
+	easy(Options &&options) :
+		curl_ (curl_easy_init()),
+		options_ (std::move(options))
 	{
+		cpp::tuple_for_each(
+			options_,
+			[this](const auto &option) {
+				auto res = curl_easy_setopt(curl_, std::decay<decltype(option)>::type::option, option.value());
+
+				if (res != CURLE_OK)
+					throw curl_error(res, "curl_easy_setopt failed");
+			}
+		);
 	}
 
-	easy(easy &&other) :
-		curl_(other.curl_)
+	easy(easy<Options> &&rhs) :
+		curl_ (rhs.curl_),
+		options_ (std::move(rhs.options_))
 	{
-		other.curl_ = nullptr;
+		rhs.curl_ = nullptr;
 	}
 
-	void operator=(easy &&other)
+	void operator=(easy &&rhs)
 	{
-		curl_ = other.curl_;
-		other.curl_ = nullptr;
+		curl_ = rhs.curl_;
+		options_ = std::move(rhs.options_);
+		rhs.curl_ = nullptr;
 	}
 
 	easy(const easy &) = delete;
 	void operator=(const easy &) = delete;
 
-	template<typename T>
-	auto use(const T &options)
-	{
-		auto res = CURLE_OK;
-
-		cpp::tuple_for_each(
-			options,
-			[this, &res](const auto &option) {
-				if (res != CURLE_OK)
-					return;
-
-				res = curl_easy_setopt(curl_, std::decay<decltype(option)>::type::option, option.value());
-			}
-		);
-
-		return res;
-	}
-
-	CURLcode perform()
+	CURLcode perform() const
 	{
 		return curl_easy_perform(curl_);
 	}
@@ -188,7 +173,14 @@ public:
 
 private:
 	CURL* curl_ = nullptr;
+	Options options_;
 };
+
+template<typename... Options>
+auto make_easy(Options&& ... options)
+{
+	return easy<std::tuple<Options...>>(std::tuple<Options...>(std::forward<Options>(options)...));
+}
 
 } // namespace curl
 } // namespace toolbox

@@ -48,9 +48,9 @@ int main(int argc, char **argv)
 	// create global curl instance, this is for curl initialization and cleanup
 	auto curl = toolbox::curl::global(toolbox::curl::flags::Default);
 
-	// prepare options for curl
+	// prepare easy object with preconfigured options
 	namespace opt = toolbox::curl::options;
-	auto options = toolbox::curl::make_options(
+	auto easy = toolbox::curl::make_easy(
 		opt::verbose(verbose.value()),
 		opt::url(parser.non_options()[0]),
 
@@ -59,8 +59,6 @@ int main(int argc, char **argv)
 		opt::writedata(out)
 	);
 
-	auto easy = toolbox::curl::easy{};
-	easy.use(options);
 	easy.perform();
 
 	fclose(out);
