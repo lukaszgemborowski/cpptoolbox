@@ -90,23 +90,17 @@ libcurl C++ wrapper inspired by libcurlpp and providing only small subset of fun
 just a RAII wrapper for curl initialzation and deinitialization, basically it's calling `curl_global_init` in ctor and `curl_global_cleanup` in dtor.
 
 ### 3.2. easy
-C++ implementation of curl's easy interface. To perform curl request you need three things:
-
-1. create `tuple` of toolbox::curl::options::\* objects to configure curl request
-2. pass the options to easy request by calling `easy::set()`
-3. call `perform()` method of easy interface to execute the request
+C++ implementation of curl's easy interface. To perform curl request you need to create `easy` object
+with parameters. Please use `make_easy` helper function to do that:
 
 eg.:
 ```cpp
-auto global = toolbox::curl::global(toolbox::curl::flags::Default);
-auto request = toolbox::curl::easy{};
-auto options = std::make_tuple(
-    toolbox::curl::options::verbose{1},
-    toolbox::curl::options::url{"http://google.com"},
-    toolbox::curl::options::httpheader({"Abc: test", "Def: test2"})
+auto request = toolbox::curl::make_easy(
+	toolbox::curl::options::verbose{1},
+	toolbox::curl::options::url{"http://google.com"},
+	toolbox::curl::options::httpheader({"Abc: test", "Def: test2"})
 );
 
-request.use(options);
 request.perform();
 ```
 
