@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <toolbox/cpp/tuple_for_each.hpp>
+#include <toolbox/curl/curl_error.hpp>
 
 namespace toolbox
 {
