@@ -12,6 +12,7 @@ set(test-sources
 	${test-dir}/make_ref_tuple.cxx
 	${test-dir}/argv.cxx
 	${test-dir}/for_each_param.cxx
+	${test-dir}/stack_allocator.cxx
 )
 
 add_executable(tests ${test-sources})
