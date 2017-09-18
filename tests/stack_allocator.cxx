@@ -12,7 +12,7 @@ TEST_CASE("simple functionality", "[alloc][stack_allocator]")
 
 	REQUIRE(p2 - p1 == 1);
 	REQUIRE(p3 != nullptr);
-	REQUIRE(alloc.allocate(1) == nullptr);
+	REQUIRE_THROWS(alloc.allocate(1));
 	REQUIRE(alloc.available() == 0);
 
 	alloc.deallocate(p1, 1);
