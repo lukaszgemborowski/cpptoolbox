@@ -13,6 +13,7 @@ set(test-sources
 	${test-dir}/argv.cxx
 	${test-dir}/for_each_param.cxx
 	${test-dir}/stack_allocator.cxx
+	${test-dir}/bitview.cxx
 )
 
 add_executable(tests ${test-sources})
