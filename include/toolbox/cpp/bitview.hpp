@@ -42,6 +42,11 @@ public:
 		value_ |= (v & mask<IntT, Size>::value) << Offset;
 	}
 
+	IntT get() const
+	{
+		return (value_ >> Offset) & mask<IntT, Size>::value;
+	}
+
 private:
 	IntT &value_;
 };

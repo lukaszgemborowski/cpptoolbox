@@ -33,4 +33,7 @@ TEST_CASE("Slicing an int", "[bitview]")
 	bv.slice<16, 8>() = 0xab;
 
 	REQUIRE(value == 0xab0050);
+
+	auto slice2 = bv.slice<8, 16>();
+	REQUIRE(slice2.get() == 0xab00);
 }
