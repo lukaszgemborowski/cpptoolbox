@@ -1,5 +1,12 @@
 # cpptoolbox
-My C++ utilities library with some common C++ constructs I'm using. The goal is to keep it small and header only. Currently the library consists of several "modules":
+
+My C++ utilities library with some common C++ constructs I'm using. The goal is to keep it small and header only.
+
+## Thanks
+My library is using Eric Niebler meta lib: https://github.com/ericniebler/meta header files are placed in include/meta directory.
+
+## Contents
+Currently the library consists of several "modules":
 
 ## 1. argv [[doc]](doc/toolbox/argv/argv.md)
 Command line argument parsing (getopt wrapper)
