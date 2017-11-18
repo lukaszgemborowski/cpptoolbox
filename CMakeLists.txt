@@ -15,6 +15,7 @@ set(test-sources
 	${test-dir}/stack_allocator.cxx
 	${test-dir}/bitview.cxx
 	${test-dir}/int_type.cxx
+	${test-dir}/sizeof_tuple.cxx
 )
 
 add_executable(tests ${test-sources})
