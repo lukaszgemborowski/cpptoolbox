@@ -16,6 +16,7 @@ set(test-sources
 	${test-dir}/bitview.cxx
 	${test-dir}/int_type.cxx
 	${test-dir}/sizeof_tuple.cxx
+	${test-dir}/marshall.cxx
 )
 
 add_executable(tests ${test-sources})
