@@ -10,6 +10,19 @@ namespace toolbox
 namespace marshall
 {
 
+template<
+	typename SizeT,
+	typename ElementT,
+	template<typename...> class ContainerT = std::vector>
+struct array : public ContainerT<ElementT>
+{
+	using array_size_t = SizeT;
+	using element_t = ElementT;
+};
+
+template<typename...> struct is_array : std::false_type {};
+template<typename A, typename B, template<typename ... > class C> struct is_array<array<A, B, C>> : std::true_type {};
+
 template<typename... Fields>
 struct record
 {
@@ -90,6 +103,7 @@ public:
 namespace detail
 {
 
+
 template<typename S>
 struct record_serializer
 {
@@ -100,7 +114,20 @@ struct record_serializer
 	template<typename T> void leave(T &) {}
 
 	template<typename T>
-	void visit(T &f)
+	typename std::enable_if<is_array<typename T::type>::value>::type
+	visit(T &f)
+	{
+		typename T::type::array_size_t size = f.value.size();
+		s.write(reinterpret_cast<const char *>(&size), sizeof(size));
+
+		for (const auto &e : f.value) {
+			s.write(reinterpret_cast<const char*>(&e), sizeof(e));
+		}
+	}
+
+	template<typename T>
+	typename std::enable_if<std::is_trivially_copyable<typename T::type>::value>::type
+	visit(T &f)
 	{
 		s.write(reinterpret_cast<const char *>(&f.value), sizeof(f.value));
 	}
@@ -116,7 +143,25 @@ struct record_deserializer
 	template<typename T> void leave(T &) {}
 
 	template<typename T>
-	void visit(T &f)
+	typename std::enable_if<is_array<typename T::type>::value>::type
+	visit(T &f)
+	{
+		using size_type = typename T::type::array_size_t;
+
+		size_type size = f.value.size();
+		s.read(reinterpret_cast<char *>(&size), sizeof(size));
+		f.value.clear();
+
+		for (size_type i = 0; i < size; i ++) {
+			typename T::type::element_t el;
+			s.read(reinterpret_cast<char *>(&el), sizeof(el));
+			f.value.push_back(el);
+		}
+	}
+
+	template<typename T>
+	typename std::enable_if<std::is_trivially_copyable<typename T::type>::value>::type
+	visit(T &f)
 	{
 		s.read(reinterpret_cast<char *>(&f.value), sizeof(f.value));
 	}
@@ -165,7 +210,8 @@ struct json_serializer
 		current = previous;
 	}
 
-	template<typename T> void visit(T &t)
+	template<typename T>
+	void visit(T &t)
 	{
 		(*current)[t.description.short_name] = t.value;
 	}
@@ -190,10 +236,12 @@ struct json_deserializer
 		current = previous;
 	}
 
-	template<typename T> void visit(T &t)
+	template<typename T>
+	void visit(T &t)
 	{
 		t.value = (*current)[t.description.short_name];
 	}
+
 };
 
 } // namespace detail
