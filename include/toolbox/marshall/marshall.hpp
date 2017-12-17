@@ -3,6 +3,7 @@
 
 #include <meta/meta.hpp>
 #include <toolbox/cpp/tuple_for_each.hpp>
+#include <json/json.hpp>
 
 namespace toolbox
 {
@@ -28,6 +29,7 @@ private:
 
 		field_description<T> description;
 		T value = T{};
+		using type = T;
 	};
 
 private:
@@ -43,14 +45,16 @@ private:
 	typename std::enable_if<has_tag<T>::value>::type
 	visit_impl(Visitor &&visitor, field<T> &f)
 	{
+		visitor.enter(f);
 		f.value.visit(visitor);
+		visitor.leave(f);
 	}
 
 	template<typename Visitor, typename T>
 	typename std::enable_if<!has_tag<T>::value>::type
 	visit_impl(Visitor &&visitor, field<T> &f)
 	{
-		visitor(f);
+		visitor.visit(f);
 	}
 
 public:
@@ -92,8 +96,11 @@ struct record_serializer
 	record_serializer(S &s) : s(s) {}
 	S& s;
 
+	template<typename T> void enter(T &) {}
+	template<typename T> void leave(T &) {}
+
 	template<typename T>
-	void operator()(T &f)
+	void visit(T &f)
 	{
 		s.write(reinterpret_cast<const char *>(&f.value), sizeof(f.value));
 	}
@@ -105,8 +112,11 @@ struct record_deserializer
 	record_deserializer(S &s) : s(s) {}
 	S& s;
 
+	template<typename T> void enter(T &) {}
+	template<typename T> void leave(T &) {}
+
 	template<typename T>
-	void operator()(T &f)
+	void visit(T &f)
 	{
 		s.read(reinterpret_cast<char *>(&f.value), sizeof(f.value));
 	}
@@ -125,6 +135,86 @@ void deserialize(S &s, T& record)
 {
 	record.visit(detail::record_deserializer<S>{s});
 }
+
+namespace json
+{
+namespace detail
+{
+struct json_serializer
+{
+	nlohmann::json j;
+	nlohmann::json *current;
+	nlohmann::json *previous;
+
+	json_serializer() :
+		j {},
+		current {&j}
+	{}
+
+	json_serializer(const json_serializer &) = delete;
+	void operator=(const json_serializer &) = delete;
+
+	template<typename T> void enter(T &t)
+	{
+		previous = current;
+		current = &(*current)[t.description.short_name];
+	}
+
+	template<typename T> void leave(T &t)
+	{
+		current = previous;
+	}
+
+	template<typename T> void visit(T &t)
+	{
+		(*current)[t.description.short_name] = t.value;
+	}
+};
+
+struct json_deserializer
+{
+	nlohmann::json &j;
+	nlohmann::json *current;
+	nlohmann::json *previous;
+
+	json_deserializer(nlohmann::json &j) : j(j), current(&j) {}
+
+	template<typename T> void enter(T &t)
+	{
+		previous = current;
+		current = &(*current)[t.description.short_name];
+	}
+
+	template<typename T> void leave(T &t)
+	{
+		current = previous;
+	}
+
+	template<typename T> void visit(T &t)
+	{
+		t.value = (*current)[t.description.short_name];
+	}
+};
+
+} // namespace detail
+
+template<typename T>
+nlohmann::json serialize(T& record)
+{
+	detail::json_serializer visitor{};
+	record.visit(visitor);
+	return visitor.j;
+}
+
+template<typename T>
+void deserialize(nlohmann::json &j, T &record)
+{
+	detail::json_deserializer visitor {j};
+	record.visit(visitor);
+}
+
+} // namespace json
+
 
 }
 }

@@ -31,7 +31,7 @@ struct compound : public toolbox::marshall::record<
 	{}
 };
 
-TEST_CASE("Visiting", "")
+TEST_CASE("Binary stringstream serialize-deserialize", "[marshall]")
 {
 	compound fs, fd;
 	std::stringstream buffer;
@@ -45,6 +45,26 @@ TEST_CASE("Visiting", "")
 	toolbox::marshall::serialize(buffer, fs);
 	toolbox::marshall::deserialize(buffer, fd);
 
+	REQUIRE(fs.get<0>() == fd.get<0>());
+	REQUIRE(fs.get<1>().get<0>() == fd.get<1>().get<0>());
+	REQUIRE(fs.get<1>().get<1>() == fd.get<1>().get<1>());
+	REQUIRE(fs.get<1>().get<2>() == fd.get<1>().get<2>());
+	REQUIRE(fs.get<2>() == fd.get<2>());
+}
+
+TEST_CASE("JSON serialize-deserialize", "[marshall]")
+{
+	compound fs, fd;
+
+	fs.get<0>() = 1;
+	fs.get<1>().get<0>() = 2;
+	fs.get<1>().get<1>() = 3;
+	fs.get<1>().get<2>() = 4;
+	fs.get<2>() = 5;
+
+	auto json = toolbox::marshall::json::serialize(fs);
+
+	toolbox::marshall::json::deserialize(json, fd);
 	REQUIRE(fs.get<0>() == fd.get<0>());
 	REQUIRE(fs.get<1>().get<0>() == fd.get<1>().get<0>());
 	REQUIRE(fs.get<1>().get<1>() == fd.get<1>().get<1>());
