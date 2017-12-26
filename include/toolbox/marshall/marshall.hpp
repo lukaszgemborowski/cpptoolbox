@@ -14,14 +14,14 @@ template<
 	typename SizeT,
 	typename ElementT,
 	template<typename...> class ContainerT = std::vector>
-struct array : public ContainerT<ElementT>
+struct dynamic_array : public ContainerT<ElementT>
 {
 	using array_size_t = SizeT;
 	using element_t = ElementT;
 };
 
-template<typename...> struct is_array : std::false_type {};
-template<typename A, typename B, template<typename ... > class C> struct is_array<array<A, B, C>> : std::true_type {};
+template<typename...> struct is_dynamic_array : std::false_type {};
+template<typename A, typename B, template<typename ... > class C> struct is_dynamic_array<dynamic_array<A, B, C>> : std::true_type {};
 
 template<typename... Fields>
 struct record
@@ -114,7 +114,7 @@ struct record_serializer
 	template<typename T> void leave(T &) {}
 
 	template<typename T>
-	typename std::enable_if<is_array<typename T::type>::value>::type
+	typename std::enable_if<is_dynamic_array<typename T::type>::value>::type
 	visit(T &f)
 	{
 		typename T::type::array_size_t size = f.value.size();
@@ -143,7 +143,7 @@ struct record_deserializer
 	template<typename T> void leave(T &) {}
 
 	template<typename T>
-	typename std::enable_if<is_array<typename T::type>::value>::type
+	typename std::enable_if<is_dynamic_array<typename T::type>::value>::type
 	visit(T &f)
 	{
 		using size_type = typename T::type::array_size_t;

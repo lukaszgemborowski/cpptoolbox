@@ -6,7 +6,7 @@ struct fixed_size : public toolbox::marshall::record<
 		std::uint32_t,
 		std::uint32_t,
 		std::uint8_t,
-		toolbox::marshall::array<int, int>
+		toolbox::marshall::dynamic_array<int, int>
 	>
 {
 	fixed_size() : record(
