@@ -41,7 +41,7 @@ private:
 			description(desc) {}
 
 		field_description<T> description;
-		T value = T{};
+		T value;
 		using type = T;
 	};
 
@@ -211,7 +211,22 @@ struct json_serializer
 	}
 
 	template<typename T>
-	void visit(T &t)
+	typename std::enable_if<std::is_array<typename T::type>::value>::type
+	visit(T &t)
+	{
+		static_assert(std::rank<typename T::type>::value == 1, "can only serialize 1-dimensional array");
+
+		auto arr = nlohmann::json::array();
+
+		for (const auto &e : t.value)
+			arr.push_back(e);
+
+		(*current)[t.description.short_name] = arr;
+	}
+
+	template<typename T>
+	typename std::enable_if<!std::is_array<typename T::type>::value>::type
+	visit(T &t)
 	{
 		(*current)[t.description.short_name] = t.value;
 	}
@@ -237,7 +252,21 @@ struct json_deserializer
 	}
 
 	template<typename T>
-	void visit(T &t)
+	typename std::enable_if<std::is_array<typename T::type>::value>::type
+	visit(T &t)
+	{
+		using array_type = typename T::type;
+		using value_type = typename std::remove_extent<array_type>::type;
+
+		static_assert(std::rank<typename T::type>::value == 1, "can only deserialize 1-dimensional array");
+
+		for (auto i = 0u; i < std::extent<typename T::type>::value; i ++)
+			t.value[i] = (*current)[t.description.short_name][i].template get<value_type>();
+	}
+
+	template<typename T>
+	typename std::enable_if<!std::is_array<typename T::type>::value>::type
+	visit(T &t)
 	{
 		t.value = (*current)[t.description.short_name];
 	}
