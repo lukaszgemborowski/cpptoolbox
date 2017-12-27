@@ -54,21 +54,29 @@ private:
 		static constexpr auto value = decltype(check<T>(nullptr))::value;
 	};
 
-	template<typename Visitor, typename T>
-	typename std::enable_if<has_tag<T>::value>::type
-	visit_impl(Visitor &&visitor, field<T> &f)
+	template<typename Visitor>
+	struct visitor_impl
 	{
-		visitor.enter(f);
-		f.value.visit(visitor);
-		visitor.leave(f);
-	}
+		Visitor &visitor_;
 
-	template<typename Visitor, typename T>
-	typename std::enable_if<!has_tag<T>::value>::type
-	visit_impl(Visitor &&visitor, field<T> &f)
-	{
-		visitor.visit(f);
-	}
+		visitor_impl(Visitor &visitor) : visitor_ (visitor) {}
+
+		template<typename T>
+		typename std::enable_if<has_tag<T>::value>::type
+		operator()(field<T> &f)
+		{
+			visitor_.enter(f);
+			f.value.visit(visitor_);
+			visitor_.leave(f);
+		}
+
+		template<typename T>
+		typename std::enable_if<!has_tag<T>::value>::type
+		operator()(field<T> &f)
+		{
+			visitor_.visit(f);
+		}
+	};
 
 public:
 	using types = meta::list<Fields...>;
@@ -82,12 +90,10 @@ public:
 	template<typename Visitor>
 	void visit(Visitor &&visitor)
 	{
+		visitor_impl<Visitor> vis(visitor);
 		cpp::tuple_for_each(
 			fields,
-			[&](auto &f)
-			{
-				visit_impl(visitor, f);
-			}
+			vis
 		);
 	}
 
