@@ -1,5 +1,7 @@
 # cpptoolbox
 
+[![Build Status](https://travis-ci.org/lukaszgemborowski/cpptoolbox.svg?branch=master)](https://travis-ci.org/lukaszgemborowski/cpptoolbox)
+
 My C++ utilities library with some common C++ constructs I'm using. The goal is to keep it small and header only.
 
 ## Thanks
