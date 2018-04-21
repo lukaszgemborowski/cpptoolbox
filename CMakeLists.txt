@@ -22,10 +22,13 @@ set(test-sources
 	${test-dir}/marshall.cxx
 )
 
+add_library (cpptoolbox INTERFACE)
+target_include_directories (cpptoolbox INTERFACE ${include-dir})
+
 if (CONFIG_TESTS)
     add_executable(tests ${test-sources})
-    target_include_directories(tests PRIVATE ${tests} ${include-dir})
-    target_link_libraries(tests curl)
+    target_include_directories(tests PRIVATE ${tests})
+    target_link_libraries(tests curl cpptoolbox)
 
     include(CTest)
     add_test(
