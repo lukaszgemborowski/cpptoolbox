@@ -20,8 +20,7 @@ set(test-sources
 )
 
 add_executable(tests ${test-sources})
-include_directories(${include-dir})
-target_include_directories(tests PRIVATE ${tests})
+target_include_directories(tests PRIVATE ${tests} ${include-dir})
 target_link_libraries(tests curl)
 
 include(CTest)
