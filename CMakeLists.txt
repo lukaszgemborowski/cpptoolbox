@@ -2,6 +2,9 @@ cmake_minimum_required (VERSION 3.2)
 project (libcpputil)
 set (CMAKE_CXX_STANDARD 14)
 
+option (CONFIG_TESTS "build unit tests" OFF)
+option (CONFIG_EXAMPLES "build examples" OFF)
+
 set(include-dir ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(test-dir ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 set(test-sources
@@ -19,13 +22,17 @@ set(test-sources
 	${test-dir}/marshall.cxx
 )
 
-add_executable(tests ${test-sources})
-target_include_directories(tests PRIVATE ${tests} ${include-dir})
-target_link_libraries(tests curl)
+if (CONFIG_TESTS)
+    add_executable(tests ${test-sources})
+    target_include_directories(tests PRIVATE ${tests} ${include-dir})
+    target_link_libraries(tests curl)
 
-include(CTest)
-add_test(
+    include(CTest)
+    add_test(
 	NAME "unit tests"
 	COMMAND tests)
+endif (CONFIG_TESTS)
 
-add_subdirectory(examples)
+if (CONFIG_EXAMPLES)
+    add_subdirectory(examples)
+endif (CONFIG_EXAMPLES)
