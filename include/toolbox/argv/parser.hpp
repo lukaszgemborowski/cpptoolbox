@@ -32,11 +32,12 @@ public:
 				if (option.has_argument()) ss << ":";
 
 				if (option.get_long().size() > 0) {
-					::option o;
-					o.name = option.get_long().c_str();
-					o.has_arg = option.has_argument() ? required_argument : no_argument;
-					o.flag = nullptr;
-					o.val = option.get_short();
+					::option o = {
+						option.get_long().c_str(),
+						option.has_argument() ? required_argument : no_argument,
+						nullptr,
+						option.get_short()
+					};
 
 					options_arr_.push_back(o);
 				}
