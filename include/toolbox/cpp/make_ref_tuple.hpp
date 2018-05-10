@@ -8,28 +8,17 @@ namespace toolbox
 namespace cpp
 {
 
+template<typename T>
+auto make_ref_tuple(T &&element)
+{
+	return std::tuple<T>(std::forward<T>(element));
+}
+
 template<typename Head, typename... Tail>
 auto make_ref_tuple(Head &&head, Tail&&... tail)
 {
-	// head is rvalue ref
-	auto head_tuple = std::tuple<Head>(std::move(head));
-	auto tail_tuple = make_ref_tuple(tail...);
-
-	return std::tuple_cat(head_tuple, tail_tuple);
-}
-
-template<typename T>
-auto make_ref_tuple(T &object)
-{
-	return std::tuple<T &>(object);
-}
-
-template<typename Head, typename... Tail>
-auto make_ref_tuple(Head &head, Tail&&... tail)
-{
-	// head is lvalue ref
-	auto head_tuple = std::tuple<Head &>(head);
-	auto tail_tuple = make_ref_tuple(tail...);
+	auto head_tuple = std::tuple<Head>(std::forward<Head>(head));
+	auto tail_tuple = make_ref_tuple(std::forward<Tail>(tail)...);
 
 	return std::tuple_cat(head_tuple, tail_tuple);
 }
