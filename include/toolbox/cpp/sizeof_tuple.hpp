@@ -2,6 +2,7 @@
 #define _TOOLBOX_CPP_SIZEOF_TUPLE_HPP_
 
 #include <type_traits>
+#include <tuple>
 
 namespace toolbox
 {
