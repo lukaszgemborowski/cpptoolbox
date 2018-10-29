@@ -1,40 +1,34 @@
 cmake_minimum_required (VERSION 3.2)
 project (libcpputil)
-set (CMAKE_CXX_STANDARD 14)
 
-option (CONFIG_TESTS "build unit tests" OFF)
-option (CONFIG_EXAMPLES "build examples" OFF)
+option (CONFIG_TESTS		"build unit tests" OFF)
+option (CONFIG_EXAMPLES		"build examples" OFF)
+
+set    (TOOLBOX_CXX_STANDARD "14"   CACHE STRING "Define current C++ standard")
+option (TOOLBOX_HAS_STDLIB          "Do we have standard C++ library" ON)
+
+if (TOOLBOX_CXX_STANDARD EQUAL "11")
+	set (CMAKE_CXX_STANDARD 11)
+elseif (TOOLBOX_CXX_STANDARD EQUAL "14")
+	set (CMAKE_CXX_STANDARD 14)
+elseif (TOOLBOX_CXX_STANDARD EQUAL "17")
+	set (CMAKE_CXX_STANDARD 17)
+else ()
+	message (FATAL_ERROR "Wrong TOOLBOX_CXX_STANDARD specified, should be one of: 11, 14, 17")
+endif ()
+
+configure_file(
+	${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.h.in
+	${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/config.h
+)
 
 set(include-dir ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set(test-dir ${CMAKE_CURRENT_SOURCE_DIR}/tests)
-set(test-sources
-	${test-dir}/tuple_for_each.cxx
-	${test-dir}/tuple_at.cxx
-	${test-dir}/call_seq.cxx
-	${test-dir}/curl.cxx
-	${test-dir}/make_ref_tuple.cxx
-	${test-dir}/argv.cxx
-	${test-dir}/for_each_param.cxx
-	${test-dir}/stack_allocator.cxx
-	${test-dir}/bitview.cxx
-	${test-dir}/int_type.cxx
-	${test-dir}/sizeof_tuple.cxx
-	${test-dir}/marshall.cxx
-	${test-dir}/named_type.cxx
-)
 
 add_library (cpptoolbox INTERFACE)
 target_include_directories (cpptoolbox INTERFACE ${include-dir})
 
 if (CONFIG_TESTS)
-    add_executable(tests ${test-sources})
-    target_include_directories(tests PRIVATE ${tests})
-    target_link_libraries(tests curl cpptoolbox)
-
-    include(CTest)
-    add_test(
-	NAME "unit tests"
-	COMMAND tests)
+    add_subdirectory(tests)
 endif (CONFIG_TESTS)
 
 if (CONFIG_EXAMPLES)
