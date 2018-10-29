@@ -1,14 +1,13 @@
-#include "catch.hpp"
-#include <iostream>
+#include <toolbox/testing/test.h>
 #include <toolbox/curl/global.hpp>
 #include <toolbox/curl/easy.hpp>
 
-TEST_CASE("curl init", "[curl]")
+TEST_CASE(curl_curl_init)
 {
 	auto global = toolbox::curl::global(toolbox::curl::flags::Default);
 }
 
-TEST_CASE("curl easy fetch with options", "[curl]")
+TEST_CASE(curl_easy_fetch_with_options)
 {
 	auto global = toolbox::curl::global(toolbox::curl::flags::Default);
 	auto request = toolbox::curl::make_easy(

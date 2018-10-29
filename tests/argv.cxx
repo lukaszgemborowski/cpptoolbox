@@ -1,5 +1,4 @@
-#include "catch.hpp"
-#include <iostream>
+#include <toolbox/testing/test.h>
 #include <toolbox/argv/parser.hpp>
 #include <toolbox/cpp/make_ref_tuple.hpp>
 #include <toolbox/gcc/type_to_string.hpp>
@@ -30,7 +29,7 @@ struct cmd_line_options
 	char **argv;
 };
 
-TEST_CASE("basic parser", "[argv][argv::parser]")
+TEST_CASE(argv_basic_parser)
 {
 	namespace o = toolbox::argv::options;
 	int value_from_callback = 0;
@@ -60,16 +59,16 @@ TEST_CASE("basic parser", "[argv][argv::parser]")
 		"arg1"});
 	parser.parse(args.argc, args.argv);
 
-	REQUIRE(verbose.value() == true);
-	REQUIRE(xes.found() == 3);
-	REQUIRE(number.value() == 123);
-	REQUIRE(value_of_number == 123);
-	REQUIRE(path.value()[0] == "/usr/local");
-	REQUIRE(path.value()[1] == "/var/run");
-	REQUIRE(parser.non_options().size() == 2);
-	REQUIRE(parser.non_options()[0] == "arg0");
-	REQUIRE(parser.non_options()[1] == "arg1");
-	REQUIRE(opt_a.value() == true);
-	REQUIRE(opt_b.value() == true);
-	REQUIRE(value_from_callback == 6);
+	CHECK(verbose.value() == true);
+	CHECK(xes.found() == 3);
+	CHECK(number.value() == 123);
+	CHECK(value_of_number == 123);
+	CHECK(path.value()[0] == "/usr/local");
+	CHECK(path.value()[1] == "/var/run");
+	CHECK(parser.non_options().size() == 2);
+	CHECK(parser.non_options()[0] == "arg0");
+	CHECK(parser.non_options()[1] == "arg1");
+	CHECK(opt_a.value() == true);
+	CHECK(opt_b.value() == true);
+	CHECK(value_from_callback == 6);
 }

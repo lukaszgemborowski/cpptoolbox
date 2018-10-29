@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <toolbox/testing/test.h>
 #include <sstream>
 #include <toolbox/cpp/for_each_param.hpp>
 
@@ -16,13 +16,13 @@ auto sum_args(Args... args)
 	return result;
 }
 
-TEST_CASE("example useage", "[cpp][for_each_param]")
+TEST_CASE(for_each_param_example_usage)
 {
 	auto a = sum_args(1, 2, 3);
 	auto b = sum_args(4, 5, 6);
 
-	REQUIRE(a == 6);
-	REQUIRE(b == 15);
+	CHECK(a == 6);
+	CHECK(b == 15);
 }
 
 template<typename... Args>
@@ -36,10 +36,10 @@ auto printer(std::ostream &os, Args... args)
 	);
 }
 
-TEST_CASE("printer", "[cpp][for_each_param]")
+TEST_CASE(for_each_param_printer)
 {
 	std::stringstream ss;
 	printer(ss, 1, "test", 1.5f);
 
-	REQUIRE(ss.str() == " -> 1\n -> test\n -> 1.5\n");
+	CHECK(ss.str() == " -> 1\n -> test\n -> 1.5\n");
 }

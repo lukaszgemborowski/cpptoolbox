@@ -1,7 +1,7 @@
-#include "catch.hpp"
+#include <toolbox/testing/test.h>
 #include <toolbox/cpp/call_seq.hpp>
 
-TEST_CASE("Simple use case", "[call_seq]")
+TEST_CASE(call_seq_simple_use_case)
 {
 	// create sequence of lambda calls
 	auto seq = toolbox::cpp::make_call_seq(
@@ -16,5 +16,5 @@ TEST_CASE("Simple use case", "[call_seq]")
 	auto value = 2;
 	seq(value);
 
-	REQUIRE(value == (2+2)*2);
+	CHECK(value == (2+2)*2);
 }

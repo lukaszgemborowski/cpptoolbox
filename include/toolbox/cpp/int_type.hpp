@@ -2,6 +2,7 @@
 #define _TOOLBOX_CPP_INT_TYPE_HPP_H_
 
 #include <type_traits>
+#include <cstdint>
 
 namespace toolbox
 {

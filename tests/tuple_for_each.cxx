@@ -1,25 +1,25 @@
-#define CATCH_CONFIG_MAIN
-#include "catch.hpp"
+#define TOOLBOX_TEST_MAIN
+#include <toolbox/testing/test.h>
 #include <toolbox/cpp/tuple_for_each.hpp>
 
-TEST_CASE("Iterate and sum", "[tuple_for_each][tuple]")
+TEST_CASE(tuple_for_each_iterate_and_sum)
 {
 	auto sum = 0;
 
 	toolbox::cpp::tuple_for_each(std::make_tuple(1, 2, 3), [&sum](auto arg) { sum += arg; });
 
-	REQUIRE(sum == 6);
+	CHECK(sum == 6);
 }
 
-TEST_CASE("Increment elements", "[tuple_for_each][tuple]")
+TEST_CASE(tuple_for_each_increament_elements)
 {
 	auto tuple = std::make_tuple(1, 2, 3);
 
 	toolbox::cpp::tuple_for_each(tuple, [](auto &arg) { arg ++; });
 
-	REQUIRE(std::get<0>(tuple) == 2);
-	REQUIRE(std::get<1>(tuple) == 3);
-	REQUIRE(std::get<2>(tuple) == 4);
+	CHECK(std::get<0>(tuple) == 2);
+	CHECK(std::get<1>(tuple) == 3);
+	CHECK(std::get<2>(tuple) == 4);
 }
 
 struct adder
@@ -33,11 +33,11 @@ struct adder
 	int sum = 0;
 };
 
-TEST_CASE("Functor with state", "[tuple_for_each][tuple]")
+TEST_CASE(tuple_for_each_functor_with_state)
 {
 	auto fun = toolbox::cpp::tuple_for_each(std::make_tuple(1, 2, 3), adder{});
 
-	REQUIRE(fun.sum == 6);
+	CHECK(fun.sum == 6);
 }
 
 struct int_doubler
@@ -57,17 +57,24 @@ struct int_doubler
 	disable_for_type_t<T, int> operator()(T &) {}
 };
 
-TEST_CASE("Selective modification", "[tuple_for_each][tuple]")
+TEST_CASE(tuple_for_each_selective_modification)
 {
 	auto tuple = std::make_tuple(1, 2, 3.0, 4.0, 5.f, 6.f);
 	const auto orig = tuple;
 
 	toolbox::cpp::tuple_for_each(tuple, int_doubler{});
 
-	REQUIRE(std::get<0>(tuple) == 2);
-	REQUIRE(std::get<1>(tuple) == 4);
-	REQUIRE(std::get<2>(tuple) == 3.0);
-	REQUIRE(std::get<3>(tuple) == 4.0);
-	REQUIRE(std::get<4>(tuple) == 5.f);
-	REQUIRE(std::get<5>(tuple) == 6.f);
+	CHECK(std::get<0>(tuple) == 2);
+	CHECK(std::get<1>(tuple) == 4);
+	CHECK(std::get<2>(tuple) == 3.0);
+	CHECK(std::get<3>(tuple) == 4.0);
+	CHECK(std::get<4>(tuple) == 5.f);
+	CHECK(std::get<5>(tuple) == 6.f);
+}
+
+TEST_INIT;
+
+int main(int, char**)
+{
+	return toolbox::test_run();
 }

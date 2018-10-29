@@ -1,4 +1,3 @@
-#include "catch.hpp"
 #include <toolbox/cpp/int_type.hpp>
 
 // static checks

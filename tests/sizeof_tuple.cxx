@@ -1,4 +1,3 @@
-#include "catch.hpp"
 #include <toolbox/cpp/sizeof_tuple.hpp>
 
 using namespace toolbox::cpp;

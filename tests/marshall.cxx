@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <toolbox/testing/test.h>
 #include <toolbox/marshall/marshall.hpp>
 #include <sstream>
 
@@ -34,7 +34,7 @@ struct compound : public toolbox::marshall::record<
 	{}
 };
 
-TEST_CASE("Serialize and seserialize tests", "[marshall]")
+TEST_CASE(marshall_serialize_and_deserialize)
 {
 	compound fs, fd;
 
@@ -47,26 +47,19 @@ TEST_CASE("Serialize and seserialize tests", "[marshall]")
 	fs.get<3>()[0] = 'A';
 	fs.get<3>()[1] = 'B';
 
-	SECTION("deserialize as binary")
 	{
 		std::stringstream buffer;
 		toolbox::marshall::serialize(buffer, fs);
 		toolbox::marshall::deserialize(buffer, fd);
 	}
 
-	SECTION("deserialize as JSON")
-	{
-		auto json = toolbox::marshall::json::serialize(fs);
-		toolbox::marshall::json::deserialize(json, fd);
-	}
-
-	REQUIRE(fs.get<0>() == fd.get<0>());
-	REQUIRE(fs.get<1>().get<0>() == fd.get<1>().get<0>());
-	REQUIRE(fs.get<1>().get<1>() == fd.get<1>().get<1>());
-	REQUIRE(fs.get<1>().get<2>() == fd.get<1>().get<2>());
-	REQUIRE(fs.get<1>().get<3>().size() == 1);
-	REQUIRE(fs.get<1>().get<3>()[0] == 42);
-	REQUIRE(fs.get<2>() == fd.get<2>());
-	REQUIRE(fs.get<3>()[0] == fd.get<3>()[0]);
-	REQUIRE(fs.get<3>()[1] == fd.get<3>()[1]);
+	CHECK(fs.get<0>() == fd.get<0>());
+	CHECK(fs.get<1>().get<0>() == fd.get<1>().get<0>());
+	CHECK(fs.get<1>().get<1>() == fd.get<1>().get<1>());
+	CHECK(fs.get<1>().get<2>() == fd.get<1>().get<2>());
+	CHECK(fs.get<1>().get<3>().size() == 1);
+	CHECK(fs.get<1>().get<3>()[0] == 42);
+	CHECK(fs.get<2>() == fd.get<2>());
+	CHECK(fs.get<3>()[0] == fd.get<3>()[0]);
+	CHECK(fs.get<3>()[1] == fd.get<3>()[1]);
 }

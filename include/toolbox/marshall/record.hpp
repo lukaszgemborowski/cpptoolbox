@@ -3,6 +3,7 @@
 
 #include <tuple>
 #include <string>
+#include <vector>
 #include <toolbox/cpp/tuple_for_each.hpp>
 #include <meta/meta.hpp>
 

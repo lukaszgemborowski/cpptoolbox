@@ -1,7 +1,7 @@
-#include "catch.hpp"
+#include <toolbox/testing/test.h>
 #include <toolbox/cpp/tuple_at.hpp>
 
-TEST_CASE("Manipulate element at index", "[tuple_at][tuple]")
+TEST_CASE(tuple_at_manipulate_element_at)
 {
 	auto tuple = std::make_tuple(1, 2, 3);
 	toolbox::cpp::tuple_at(
@@ -12,5 +12,5 @@ TEST_CASE("Manipulate element at index", "[tuple_at][tuple]")
 		}
 	);
 
-	REQUIRE(std::get<1>(tuple) == 4);
+	CHECK(std::get<1>(tuple) == 4);
 }
