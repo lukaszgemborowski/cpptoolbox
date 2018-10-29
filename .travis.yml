@@ -50,4 +50,4 @@ script:
   # Check versions of gcc, g++ and cmake
   - gcc -v && g++ -v && cmake --version
   # Run your build commands next
-  - mkdir build && cd build && cmake .. && make
+  - mkdir build && cd build && cmake .. -DCONFIG_TESTS=ON && make
