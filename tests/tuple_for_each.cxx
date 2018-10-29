@@ -1,4 +1,3 @@
-#define TOOLBOX_TEST_MAIN
 #include <toolbox/testing/test.h>
 #include <toolbox/cpp/tuple_for_each.hpp>
 
@@ -70,11 +69,4 @@ TEST_CASE(tuple_for_each_selective_modification)
 	CHECK(std::get<3>(tuple) == 4.0);
 	CHECK(std::get<4>(tuple) == 5.f);
 	CHECK(std::get<5>(tuple) == 6.f);
-}
-
-TEST_INIT;
-
-int main(int, char**)
-{
-	return toolbox::test_run();
 }

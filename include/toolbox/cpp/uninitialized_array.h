@@ -2,8 +2,8 @@
 #define _TOOLBOX_CPP_UNINITIALIZED_ARRAY_H_
 
 #include <toolbox/config.h>
-#include <type_traits>
-#include <new>
+#include <toolbox/std/type_traits.h>
+#include <toolbox/std/new.h>
 
 namespace toolbox
 {

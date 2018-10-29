@@ -6,6 +6,6 @@
 
 // do we have c++ standard library
 // for example gcc for AVR does not have C++ standard library
-#define TOOLBOX_HAS_STDLIB
+/* #undef TOOLBOX_HAS_STDLIB */
 
 #endif
