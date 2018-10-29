@@ -6,6 +6,7 @@ matrix:
       dist: trusty
       env:
         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+        - CONFIG=""
       addons:
         apt:
           sources:
@@ -19,6 +20,7 @@ matrix:
       dist: trusty
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+        - CONFIG=""
       addons:
         apt:
           sources:
@@ -31,6 +33,20 @@ matrix:
       dist: trusty
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - CONFIG=""
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-7
+            - g++-7
+            - cmake
+    - os: linux
+      dist: trusty
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - CONFIG="-DTOOLBOX_HAS_STDLIB=OFF"
       addons:
         apt:
           sources:
@@ -50,4 +66,5 @@ script:
   # Check versions of gcc, g++ and cmake
   - gcc -v && g++ -v && cmake --version
   # Run your build commands next
-  - mkdir build && cd build && cmake .. -DCONFIG_TESTS=ON && make
+  - mkdir build && cd build && cmake .. -DCONFIG_TESTS=ON $CONFIG && make
+  - ./tests/tests
