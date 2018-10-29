@@ -15,6 +15,7 @@ set(linux-sources
 	sizeof_tuple.cxx
 	marshall.cxx
 	named_type.cxx
+	array.cxx
 )
 
 set(osless-sources
