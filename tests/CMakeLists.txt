@@ -15,6 +15,7 @@ set(test-sources
 	sizeof_tuple.cxx
 	marshall.cxx
 	named_type.cxx
+	uninitialized_array.cxx
 )
 
 add_executable(tests ${test-sources})
