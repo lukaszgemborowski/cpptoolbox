@@ -16,11 +16,11 @@ set(linux-sources
 	marshall.cxx
 	named_type.cxx
 	array.cxx
-	tuple.cxx
 )
 
 set(osless-sources
 	uninitialized_array.cxx
+	tuple.cxx
 )
 
 if (TOOLBOX_HAS_STDLIB)

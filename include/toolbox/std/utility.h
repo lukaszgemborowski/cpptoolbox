@@ -9,6 +9,9 @@
 
 #include "type_traits.h"
 
+namespace std
+{
+
 // --------------------------------------------------------------
 // https://stackoverflow.com/questions/27501400/the-implementation-of-stdforward
 template <class T>
@@ -65,6 +68,8 @@ template<class T> struct make_integer_sequence_impl<T, 1> : integer_sequence<T, 
 
 template<class T, T N>
 using make_integer_sequence = typename make_integer_sequence_impl<T, N>::type;
+
+}
 
 #endif // TOOLBOX_HAS_STDLIB
 
