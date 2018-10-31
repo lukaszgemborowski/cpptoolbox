@@ -3,7 +3,7 @@
 
 #include <toolbox/config.h>
 
-#if TOOLBOX_HAS_STDLIB
+#ifdef TOOLBOX_HAS_STDLIB
     #include <utility>
 #else
 
