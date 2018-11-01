@@ -3,7 +3,7 @@
 
 #include <toolbox/config.h>
 #include <toolbox/std/type_traits.h>
-#include <toolbox/std/new.h>
+#include <toolbox/std/new.hpp>
 
 namespace toolbox
 {
