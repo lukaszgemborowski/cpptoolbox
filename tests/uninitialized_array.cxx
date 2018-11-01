@@ -1,5 +1,5 @@
 #include <toolbox/testing/test.h>
-#include <toolbox/cpp/uninitialized_array.h>
+#include <toolbox/container/uninitialized_array.hpp>
 
 TEST_CASE(uninitialized_array_construct)
 {
@@ -10,7 +10,7 @@ TEST_CASE(uninitialized_array_construct)
         }
     };
 
-    toolbox::cpp::uninitialized_array<default_constructible, 10> arr;
+    toolbox::uninitialized_array<default_constructible, 10> arr;
     CHECK(count == 0);
 }
 
@@ -26,7 +26,7 @@ TEST_CASE(uninitialized_array_construct_and_destruct_one_element)
         }
     };
 
-    toolbox::cpp::uninitialized_array<default_constructible, 10> arr;
+    toolbox::uninitialized_array<default_constructible, 10> arr;
     CHECK(count == 0);
 
     arr.construct(0);
@@ -38,7 +38,7 @@ TEST_CASE(uninitialized_array_construct_and_destruct_one_element)
 
 TEST_CASE(uninitialized_array_check_ownership)
 {
-     toolbox::cpp::uninitialized_array<int, 2> arr;
+     toolbox::uninitialized_array<int, 2> arr;
      int out_of_array = 0;
 
      arr.construct(0);

@@ -1,13 +1,11 @@
-#ifndef _TOOLBOX_CPP_UNINITIALIZED_ARRAY_H_
-#define _TOOLBOX_CPP_UNINITIALIZED_ARRAY_H_
+#ifndef _TOOLBOX_CONTAINER_UNINITIALIZED_ARRAY_HPP_
+#define _TOOLBOX_CONTAINER_UNINITIALIZED_ARRAY_HPP_
 
 #include <toolbox/config.h>
 #include <toolbox/std/type_traits.h>
 #include <toolbox/std/new.h>
 
 namespace toolbox
-{
-namespace cpp
 {
 
 template<typename T, unsigned int N>
@@ -63,7 +61,6 @@ private:
     char buffer_[buffer_size::value];
 };
 
-} // namespace cpp
 } // namespace toolbox
 
-#endif // _TOOLBOX_CPP_UNINITIALIZED_ARRAY_H_
+#endif // _TOOLBOX_CONTAINER_UNINITIALIZED_ARRAY_HPP_

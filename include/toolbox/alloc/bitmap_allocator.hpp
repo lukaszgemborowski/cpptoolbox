@@ -1,7 +1,7 @@
 #ifndef _TOOLBOX_ALLOC_BITMAP_ALLOCATOR_H_
 #define _TOOLBOX_ALLOC_BITMAP_ALLOCATOR_H_
 
-#include <toolbox/cpp/uninitialized_array.h>
+#include <toolbox/container/uninitialized_array.hpp>
 #include <toolbox/container/array.hpp>
 
 namespace toolbox
@@ -85,7 +85,7 @@ private:
     }
 
 private:
-    toolbox::cpp::uninitialized_array<T, N> pool_;
+    toolbox::uninitialized_array<T, N> pool_;
     toolbox::array<unsigned char, (N/8)+1> bits_;
     unsigned int allocated_ = 0; 
 };

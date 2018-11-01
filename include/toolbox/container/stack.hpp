@@ -1,7 +1,7 @@
 #ifndef _TOOLBOX_CONTAINER_STACK_HPP_
 #define _TOOLBOX_CONTAINER_STACK_HPP_
 
-#include <toolbox/cpp/uninitialized_array.h>
+#include <toolbox/container/uninitialized_array.hpp>
 
 namespace toolbox
 {
@@ -54,7 +54,7 @@ public:
     }
 
 private:
-    toolbox::cpp::uninitialized_array<T, N> buffer_;
+    toolbox::uninitialized_array<T, N> buffer_;
     unsigned int top_ = 0;
 };
 
