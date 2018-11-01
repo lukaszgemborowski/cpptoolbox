@@ -324,6 +324,15 @@ template< class T> struct add_const { typedef const T type; };
  
 template< class T> struct add_volatile { typedef volatile T type; };
 
+// --------------------------------------------------------------
+// https://en.cppreference.com/w/cpp/types/aligned_storage
+template<std::size_t Len, std::size_t Align /* default alignment not implemented */>
+struct aligned_storage {
+    struct type {
+        alignas(Align) unsigned char data[Len];
+    };
+};
+
 }
 
 #endif // TOOLBOX_HAS_STDLIB

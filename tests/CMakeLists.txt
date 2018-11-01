@@ -7,7 +7,6 @@ set(linux-sources
 	call_seq.cxx
 	make_ref_tuple.cxx
 	argv.cxx
-	stack_allocator.cxx
 	sizeof_tuple.cxx
 	marshall.cxx
 )
@@ -25,6 +24,7 @@ set(osless-sources
 	bitview.cxx
 	int_type.cxx
 	named_type.cxx
+	stack_allocator.cxx
 )
 
 set(requires-exceptions-sources
