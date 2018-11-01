@@ -1,5 +1,5 @@
-#ifndef _TOOLBOX_CONTAINER_TUPLE_H_
-#define _TOOLBOX_CONTAINER_TUPLE_H_
+#ifndef _TOOLBOX_CONTAINER_TUPLE_HPP_
+#define _TOOLBOX_CONTAINER_TUPLE_HPP_
 
 #include <toolbox/std/type_traits.h>
 #include <toolbox/std/utility.h>
@@ -141,4 +141,4 @@ constexpr auto make_tuple(Args&&... args)
 
 } // namespace avros
 
-#endif // _TOOLBOX_CONTAINER_TUPLE_H_
+#endif // _TOOLBOX_CONTAINER_TUPLE_HPP_
