@@ -2,12 +2,12 @@
 
 [![Build Status](https://travis-ci.org/lukaszgemborowski/cpptoolbox.svg?branch=master)](https://travis-ci.org/lukaszgemborowski/cpptoolbox)
 
-My C++ utilities library with some common C++ constructs I'm using. The goal is to keep it small and header only.
+My C++ utilities library with some common C++ constructs I'm using in several different kind of projects. You will find here modern c++ high level utilities abstracting some common Linux operations and also things I've used in my embedded project, even some stuff from 8-bit AVR microcontrollers. Therefore many classes and utilities does not even require compiler to support standard C++ library. The project itself tries to emulate some standard things such as type_traits if libstdc++/libc++ is not available. This requires generation (with cmake) of config.h before using the library (look at cmake/config.h.in).
 
 ## Thanks
 My library is using Eric Niebler meta lib: https://github.com/ericniebler/meta header files are placed in include/meta directory.
 
-## Contents
+## Help
 Currently the library consists of several "modules":
 
 ## 1. argv [[doc]](doc/toolbox/argv/argv.md)
