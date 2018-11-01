@@ -2,7 +2,7 @@
 #define _TOOLBOX_ALLOC_BITMAP_ALLOCATOR_H_
 
 #include <toolbox/cpp/uninitialized_array.h>
-#include <toolbox/container/array.h>
+#include <toolbox/container/array.hpp>
 
 namespace toolbox
 {

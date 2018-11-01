@@ -1,5 +1,5 @@
 #include <toolbox/testing/test.h>
-#include <toolbox/container/array.h>
+#include <toolbox/container/array.hpp>
 
 TEST_CASE(array_default_initialization)
 {

@@ -1,5 +1,5 @@
-#ifndef _TOOLBOX_CONTAINER_ARRAY_H_
-#define _TOOLBOX_CONTAINER_ARRAY_H_
+#ifndef _TOOLBOX_CONTAINER_ARRAY_HPP_
+#define _TOOLBOX_CONTAINER_ARRAY_HPP_
 
 #include <toolbox/std/cstddef.h>
 
@@ -47,4 +47,4 @@ private:
 
 } // namespace toolbox
 
-#endif // _TOOLBOX_CONTAINER_ARRAY_H_
+#endif // _TOOLBOX_CONTAINER_ARRAY_HPP_
