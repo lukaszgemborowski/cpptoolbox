@@ -21,6 +21,7 @@ set(linux-sources
 set(osless-sources
 	uninitialized_array.cxx
 	tuple.cxx
+	stack.cxx
 )
 
 if (TOOLBOX_HAS_STDLIB)
