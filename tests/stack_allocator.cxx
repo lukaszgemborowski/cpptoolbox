@@ -1,6 +1,5 @@
 #include <toolbox/testing/test.h>
 #include <toolbox/alloc/stack_allocator.hpp>
-#include <vector>
 
 TEST_CASE(stack_allocator_simple_functionality)
 {
@@ -22,6 +21,9 @@ TEST_CASE(stack_allocator_simple_functionality)
 	CHECK(alloc.available() == 8);
 }
 
+#ifdef TOOLBOX_HAS_STDLIB
+#include <vector>
+
 TEST_CASE(stack_allocator_test_with_vector)
 {
 	toolbox::alloc::stack_allocator<float, 5> alloc;
@@ -30,3 +32,4 @@ TEST_CASE(stack_allocator_test_with_vector)
 	vec.push_back(1);
 	vec.push_back(1);
 }
+#endif

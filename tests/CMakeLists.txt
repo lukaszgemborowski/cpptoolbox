@@ -5,17 +5,10 @@ set(linux-sources
 	tuple_for_each.cxx
 	tuple_at.cxx
 	call_seq.cxx
-	curl.cxx
 	make_ref_tuple.cxx
 	argv.cxx
-	for_each_param.cxx
-	stack_allocator.cxx
-	bitview.cxx
-	int_type.cxx
 	sizeof_tuple.cxx
 	marshall.cxx
-	named_type.cxx
-	array.cxx
 )
 
 set(osless-sources
@@ -26,13 +19,30 @@ set(osless-sources
 	queue.cxx
 	format.cxx
 	meta_compile_without_stdcpp.cxx
+	array.cxx
+	for_each_param.cxx
+	bitview.cxx
+	int_type.cxx
+	named_type.cxx
+	stack_allocator.cxx
 )
 
-if (TOOLBOX_HAS_STDLIB)
-	set(test-sources ${osless-sources} ${linux-sources})
+set(requires-exceptions-sources
+	curl.cxx
+)
+
+set(test-sources ${osless-sources})
+
+if (TOOLBOX_HAS_EXCEPTIONS)
+	set(test-source "${test-sources} ${requires-exceptions-sources}")
 else ()
-	set(CMAKE_CXX_FLAGS "-nostdinc++")
-	set(test-sources ${osless-sources})
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions")
+endif ()
+
+if (TOOLBOX_HAS_STDLIB)
+	set(test-sources ${test-sources} ${linux-sources})
+else ()
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc++")
 endif ()
 
 add_executable(tests ${test-sources} main.cxx)

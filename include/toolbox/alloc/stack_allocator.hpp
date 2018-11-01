@@ -1,9 +1,9 @@
 #ifndef _TOOLBOX_CPP_STACK_ALLOCATOR_HPP_
 #define _TOOLBOX_CPP_STACK_ALLOCATOR_HPP_
 
-#include <cstddef>
-#include <type_traits>
-#include <new>
+#include <toolbox/std/cstddef.hpp>
+#include <toolbox/std/type_traits.hpp>
+#include <toolbox/std/new.hpp>
 
 namespace toolbox
 {
@@ -44,7 +44,11 @@ struct stack_allocator
 	T* allocate(std::size_t n)
 	{
 		if (size_ + n > N)
+		#ifdef TOOLBOX_HAS_EXCEPTIONS
 			throw std::bad_alloc {};
+		#else
+			return nullptr;
+		#endif
 
 		auto res = reinterpret_cast<T *>(&storage_[size_]);
 		size_ += n;
