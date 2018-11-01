@@ -24,6 +24,7 @@ set(osless-sources
 	stack.cxx
 	bitmap_allocator.cxx
 	queue.cxx
+	format.cxx
 )
 
 if (TOOLBOX_HAS_STDLIB)
