@@ -1,7 +1,6 @@
 #pragma once
 
-#include <type_traits>
-#include <utility>
+#include <toolbox/std/utility.hpp>
 
 namespace cpptoolbox
 {

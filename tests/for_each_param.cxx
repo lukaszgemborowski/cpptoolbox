@@ -1,5 +1,4 @@
 #include <toolbox/testing/test.h>
-#include <sstream>
 #include <toolbox/cpp/for_each_param.hpp>
 
 template<typename... Args>
@@ -23,23 +22,4 @@ TEST_CASE(for_each_param_example_usage)
 
 	CHECK(a == 6);
 	CHECK(b == 15);
-}
-
-template<typename... Args>
-auto printer(std::ostream &os, Args... args)
-{
-	toolbox::cpp::for_each_param(
-		[&os](auto arg) {
-			os << " -> " << arg << std::endl;
-		},
-		args...
-	);
-}
-
-TEST_CASE(for_each_param_printer)
-{
-	std::stringstream ss;
-	printer(ss, 1, "test", 1.5f);
-
-	CHECK(ss.str() == " -> 1\n -> test\n -> 1.5\n");
 }

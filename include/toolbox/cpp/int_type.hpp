@@ -1,8 +1,8 @@
 #ifndef _TOOLBOX_CPP_INT_TYPE_HPP_H_
 #define _TOOLBOX_CPP_INT_TYPE_HPP_H_
 
-#include <type_traits>
-#include <cstdint>
+#include <toolbox/std/type_traits.hpp>
+#include <toolbox/std/cstdint.hpp>
 
 namespace toolbox
 {
@@ -26,7 +26,8 @@ template<std::size_t N> struct int_type
 	static_assert(!std::is_same<signed_type, std::false_type>::value,
 		"wrong N, outside [1, 64] range");
 
-	using unsigned_type = typename std::make_unsigned<signed_type>::type;
+	// TODO: implement make_unsigned in type_traits
+	//using unsigned_type = typename std::make_unsigned<signed_type>::type;
 };
 
 } // namespace cpp

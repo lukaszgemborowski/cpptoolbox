@@ -8,14 +8,9 @@ set(linux-sources
 	curl.cxx
 	make_ref_tuple.cxx
 	argv.cxx
-	for_each_param.cxx
 	stack_allocator.cxx
-	bitview.cxx
-	int_type.cxx
 	sizeof_tuple.cxx
 	marshall.cxx
-	named_type.cxx
-	array.cxx
 )
 
 set(osless-sources
@@ -26,6 +21,11 @@ set(osless-sources
 	queue.cxx
 	format.cxx
 	meta_compile_without_stdcpp.cxx
+	array.cxx
+	for_each_param.cxx
+	bitview.cxx
+	int_type.cxx
+	named_type.cxx
 )
 
 if (TOOLBOX_HAS_STDLIB)

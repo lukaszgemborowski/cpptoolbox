@@ -1,7 +1,7 @@
 #ifndef _CPP_BITVIEW_HPP_
 #define _CPP_BITVIEW_HPP_
 
-#include <type_traits>
+#include <toolbox/std/type_traits.hpp>
 
 namespace toolbox
 {
