@@ -1,8 +1,9 @@
 #ifndef _TOOLBOX_TESTING_H_
 #define _TOOLBOX_TESTING_H_
 
+#include <toolbox/config.h>
 #include <stddef.h>
-#if !defined(TOOLBOX_TEST_DISABLE_STDIO) && defined(TOOLBOX_TEST_MAIN)
+#if defined(TOOLBOX_HAS_STDLIB) && !defined(TOOLBOX_TEST_DISABLE_STDIO) && defined(TOOLBOX_TEST_MAIN)
 #include <iostream>
 #endif
 
@@ -18,8 +19,8 @@ struct test_results
     bool success;
 };
 
-#if !defined(TOOLBOX_TEST_DISABLE_STDIO) && defined(TOOLBOX_TEST_MAIN)
-#include <iostream>
+#if defined(TOOLBOX_HAS_STDLIB) && !defined(TOOLBOX_TEST_DISABLE_STDIO) && defined(TOOLBOX_TEST_MAIN)
+
 struct iostream_handler
 {
     void start(const char *tc_name) const {
@@ -33,6 +34,14 @@ struct iostream_handler
             std::cout << "FAILED" << std::endl;
     }
 };
+#else
+
+struct null_handler
+{
+    void start(const char *) const {}
+    void stop(const test_results &) const {}
+};
+
 #endif
 
 struct base_test_case;
@@ -84,10 +93,10 @@ struct base_test_case {
 namespace toolbox
 {
 
-#ifndef TOOLBOX_TEST_DISABLE_STDIO
+#if defined(TOOLBOX_HAS_STDLIB) && !defined(TOOLBOX_TEST_DISABLE_STDIO)
 template<typename ResultHandler = toolbox::detail::iostream_handler>
 #else
-template<typename ResultHandler>
+template<typename ResultHandler = toolbox::detail::null_handler>
 #endif
 int test_run(ResultHandler handler = ResultHandler())
 {

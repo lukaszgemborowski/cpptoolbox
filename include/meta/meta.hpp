@@ -15,11 +15,16 @@
 #ifndef META_HPP
 #define META_HPP
 
-#include <cstddef>
-#include <initializer_list>
+#include <toolbox/config.h>
+
+#include <toolbox/std/cstddef.hpp>
+
+#ifdef TOOLBOX_HAS_STDLIB
+    #include <initializer_list>
+#endif
 #include <meta/meta_fwd.hpp>
-#include <type_traits>
-#include <utility>
+#include <toolbox/std/type_traits.hpp>
+#include <toolbox/std/utility.hpp>
 
 #if defined(__clang__)
 #pragma GCC diagnostic push
@@ -2458,6 +2463,7 @@ namespace meta
 
         ///\endcond
 
+#ifdef TOOLBOX_HAS_STDLIB
         ///////////////////////////////////////////////////////////////////////////////////////////
         // for_each
         /// \cond
@@ -2487,6 +2493,7 @@ namespace meta
             /// \cond
         }
         /// \endcond
+#endif // TOOLBOX_HAS_STDLIB
 
         ///////////////////////////////////////////////////////////////////////////////////////////
         // transpose
