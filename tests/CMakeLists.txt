@@ -25,6 +25,7 @@ set(osless-sources
 	bitmap_allocator.cxx
 	queue.cxx
 	format.cxx
+	meta_compile_without_stdcpp.cxx
 )
 
 if (TOOLBOX_HAS_STDLIB)
