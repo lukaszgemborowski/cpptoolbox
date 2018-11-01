@@ -1,7 +1,7 @@
 #ifndef _TOOLBOX_CONTAINER_ARRAY_HPP_
 #define _TOOLBOX_CONTAINER_ARRAY_HPP_
 
-#include <toolbox/std/cstddef.h>
+#include <toolbox/std/cstddef.hpp>
 
 namespace toolbox
 {

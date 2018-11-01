@@ -4,7 +4,7 @@
 #ifdef TOOLBOX_HAS_STDLIB
 #include <new>
 #else
-#include "cstddef.h"
+#include "cstddef.hpp"
 inline void* operator new(std::size_t, void* __p) throw() { return __p; }
 inline void  operator delete(void*, void*) throw() { }
 #endif

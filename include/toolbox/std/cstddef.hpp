@@ -1,5 +1,5 @@
-#ifndef _TOOLBOX_STD_CSTDDEF_H_
-#define _TOOLBOX_STD_CSTDDEF_H_
+#ifndef _TOOLBOX_STD_CSTDDEF_HPP_
+#define _TOOLBOX_STD_CSTDDEF_HPP_
 
 #ifdef TOOLBOX_HAS_STDLIB
     #include <cstddef>
@@ -14,4 +14,4 @@ using size_t = ::size_t;
 
 #endif
 
-#endif // _TOOLBOX_STD_CSTDDEF_H_
+#endif // _TOOLBOX_STD_CSTDDEF_HPP_

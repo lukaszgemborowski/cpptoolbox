@@ -17,7 +17,7 @@
 
 #include <toolbox/config.h>
 
-#include <toolbox/std/cstddef.h>
+#include <toolbox/std/cstddef.hpp>
 
 #ifdef TOOLBOX_HAS_STDLIB
     #include <initializer_list>
