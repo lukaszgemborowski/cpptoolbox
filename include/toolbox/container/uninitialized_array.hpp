@@ -2,7 +2,7 @@
 #define _TOOLBOX_CONTAINER_UNINITIALIZED_ARRAY_HPP_
 
 #include <toolbox/config.h>
-#include <toolbox/std/type_traits.h>
+#include <toolbox/std/type_traits.hpp>
 #include <toolbox/std/new.hpp>
 
 namespace toolbox

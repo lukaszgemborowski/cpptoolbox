@@ -23,7 +23,7 @@
     #include <initializer_list>
 #endif
 #include <meta/meta_fwd.hpp>
-#include <toolbox/std/type_traits.h>
+#include <toolbox/std/type_traits.hpp>
 #include <toolbox/std/utility.h>
 
 #if defined(__clang__)
