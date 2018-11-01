@@ -15,7 +15,7 @@
 #ifndef META_FWD_HPP
 #define META_FWD_HPP
 
-#include <toolbox/std/utility.h>
+#include <toolbox/std/utility.hpp>
 
 #ifndef META_DISABLE_DEPRECATED_WARNINGS
 #ifdef __cpp_attribute_deprecated

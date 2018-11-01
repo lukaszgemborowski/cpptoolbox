@@ -24,7 +24,7 @@
 #endif
 #include <meta/meta_fwd.hpp>
 #include <toolbox/std/type_traits.hpp>
-#include <toolbox/std/utility.h>
+#include <toolbox/std/utility.hpp>
 
 #if defined(__clang__)
 #pragma GCC diagnostic push
