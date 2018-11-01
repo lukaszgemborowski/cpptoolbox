@@ -44,7 +44,11 @@ struct stack_allocator
 	T* allocate(std::size_t n)
 	{
 		if (size_ + n > N)
+		#ifdef TOOLBOX_HAS_EXCEPTIONS
 			throw std::bad_alloc {};
+		#else
+			return nullptr;
+		#endif
 
 		auto res = reinterpret_cast<T *>(&storage_[size_]);
 		size_ += n;

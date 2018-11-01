@@ -8,4 +8,7 @@
 // for example gcc for AVR does not have C++ standard library
 #cmakedefine TOOLBOX_HAS_STDLIB
 
+// do we have exceptions support
+#cmakedefine TOOLBOX_HAS_EXCEPTIONS
+
 #endif

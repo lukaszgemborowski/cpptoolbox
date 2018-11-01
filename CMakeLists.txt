@@ -6,6 +6,7 @@ option (CONFIG_EXAMPLES		"build examples" OFF)
 
 set    (TOOLBOX_CXX_STANDARD "14"   CACHE STRING "Define current C++ standard")
 option (TOOLBOX_HAS_STDLIB          "Do we have standard C++ library" ON)
+option (TOOLBOX_HAS_EXCEPTIONS		"Do we have exceptions support" ON)
 
 if (TOOLBOX_CXX_STANDARD EQUAL "11")
 	set (CMAKE_CXX_STANDARD 11)
