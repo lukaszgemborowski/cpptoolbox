@@ -1,12 +1,15 @@
 cmake_minimum_required (VERSION 3.2)
 project (libcpputil)
 
+include(CMakeDependentOption)
+
 option (CONFIG_TESTS		"build unit tests" OFF)
 option (CONFIG_EXAMPLES		"build examples" OFF)
 
 set    (TOOLBOX_CXX_STANDARD "14"   CACHE STRING "Define current C++ standard")
 option (TOOLBOX_HAS_STDLIB          "Do we have standard C++ library" ON)
-option (TOOLBOX_HAS_EXCEPTIONS		"Do we have exceptions support" ON)
+
+cmake_dependent_option(TOOLBOX_HAS_EXCEPTIONS "Do we have exceptions support" ON "TOOLBOX_HAS_STDLIB" OFF)
 
 if (TOOLBOX_CXX_STANDARD EQUAL "11")
 	set (CMAKE_CXX_STANDARD 11)
