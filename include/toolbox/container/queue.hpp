@@ -1,5 +1,5 @@
-#ifndef _TOOLBOX_CONTAINER_QUEUE_H_
-#define _TOOLBOX_CONTAINER_QUEUE_H_
+#ifndef _TOOLBOX_CONTAINER_QUEUE_HPP_
+#define _TOOLBOX_CONTAINER_QUEUE_HPP_
 
 #include <toolbox/std/utility.h>
 

@@ -1,5 +1,5 @@
 #include <toolbox/testing/test.h>
-#include <toolbox/container/queue.h>
+#include <toolbox/container/queue.hpp>
 #include <toolbox/alloc/bitmap_allocator.hpp>
 
 TEST_CASE(queue_basic_scenario)
