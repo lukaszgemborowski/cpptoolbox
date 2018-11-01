@@ -1,5 +1,5 @@
 #include <toolbox/testing/test.h>
-#include <toolbox/container/stack.h>
+#include <toolbox/container/stack.hpp>
 
 TEST_CASE(stack_empty_default_init)
 {

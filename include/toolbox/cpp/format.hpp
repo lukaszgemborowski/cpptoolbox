@@ -1,7 +1,7 @@
 #ifndef _TOOLBOX_CPP_FORMAT_HPP_
 #define _TOOLBOX_CPP_FORMAT_HPP_
 
-#include <toolbox/container/stack.h>
+#include <toolbox/container/stack.hpp>
 
 namespace toolbox
 {

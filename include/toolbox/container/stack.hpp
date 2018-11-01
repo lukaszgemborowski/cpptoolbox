@@ -1,5 +1,5 @@
-#ifndef _TOOLBOX_CONTAINER_STACK_H_
-#define _TOOLBOX_CONTAINER_STACK_H_
+#ifndef _TOOLBOX_CONTAINER_STACK_HPP_
+#define _TOOLBOX_CONTAINER_STACK_HPP_
 
 #include <toolbox/cpp/uninitialized_array.h>
 
@@ -60,4 +60,4 @@ private:
 
 } // namespace toolbox
 
-#endif // _TOOLBOX_CONTAINER_STACK_H_
+#endif // _TOOLBOX_CONTAINER_STACK_HPP_
