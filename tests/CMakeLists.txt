@@ -22,6 +22,8 @@ set(osless-sources
 	uninitialized_array.cxx
 	tuple.cxx
 	stack.cxx
+	bitmap_allocator.cxx
+	queue.cxx
 )
 
 if (TOOLBOX_HAS_STDLIB)
