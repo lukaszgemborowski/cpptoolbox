@@ -25,6 +25,7 @@ set(osless-sources
 	int_type.cxx
 	named_type.cxx
 	stack_allocator.cxx
+	static_config.cxx
 )
 
 set(requires-exceptions-sources
