@@ -38,3 +38,6 @@ endif (CONFIG_TESTS)
 if (CONFIG_EXAMPLES)
     add_subdirectory(examples)
 endif (CONFIG_EXAMPLES)
+
+file(GLOB headers "${CMAKE_CURRENT_SOURCE_DIR}/include/**/*.hpp")
+install(FILES ${headers} DESTINATION include)
