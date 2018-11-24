@@ -2,6 +2,7 @@
 #define _TOOLBOX_CPP_FORMAT_HPP_
 
 #include <toolbox/container/stack.hpp>
+#include <toolbox/span.hpp>
 
 namespace toolbox
 {
@@ -13,7 +14,7 @@ struct flags {
 };
 } // namespace detail
 template<typename Output, typename T>
-void format_argument(Output &out, detail::flags flags, T number)
+void format(Output &out, detail::flags flags, T number)
 {
     // TODO: may be removed when we fix stack size
     static_assert(sizeof(number) <= 4, "does not support integer types > 4 bytes");
@@ -61,19 +62,77 @@ void print(Output &out, const char *fmt)
     }
 }
 
+
+namespace detail
+{
+template<template<typename> typename M, class T>
+struct modifier
+{
+    modifier(const T& value)
+        : value (value)
+    {}
+
+    using type = T;
+    const T& value;
+};
+}
+
+template<template <typename> typename M, class T>
+auto modifier(const T& value)
+{
+    return detail::modifier<M, T>(value);
+}
+
+template<class Out>
+struct Quote
+{
+    Quote(Out &out)
+        : out (out)
+    {
+        out.put('"');
+    }
+
+    ~Quote()
+    {
+        out.put('"');
+    }
+
+    Out &out;
+};
+
+template<typename Output, template<typename> typename M, typename T>
+void format(Output &out, detail::flags flags, const detail::modifier<M, T> &m)
+{
+    M<Output> mod(out);
+    format(out, flags, m.value);
+}
+
+template<typename Output, typename Next>
+void format_argument(Output &out, span<const char> fmt, const Next &next)
+{
+    detail::flags flags;
+
+    for (auto c : fmt)
+    {
+        if (c == 'x') {
+            flags.hex = true;
+        }
+    }
+
+    format(out, flags, next);
+}
+
 template<typename Output, typename Next, typename... Args>
-void print(Output &out, const char *fmt, Next next, Args... args)
+void print(Output &out, const char *fmt, const Next &next, const Args&... args)
 {
     bool format = false;
+    const char *fmtBegin = nullptr;
     detail::flags flags;
 
     while (*fmt) {
         if (format) {
-            if (*fmt == 'x')
-                flags.hex = true;
-
             if (*fmt == '}') {
-                format_argument(out, flags, next);
+                format_argument(out, span<const char>{fmtBegin, fmt}, next);
                 print(out, fmt + 1, args...);
                 return;
             }
@@ -82,7 +141,7 @@ void print(Output &out, const char *fmt, Next next, Args... args)
                 out.put(*fmt);
             } else {
                 format = true;
-                flags = detail::flags{};
+                fmtBegin = fmt + 1;
             }
         }
 
