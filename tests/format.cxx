@@ -39,3 +39,11 @@ TEST_CASE(format_print_with_hex_number)
 
     CHECK(strncmp(os.buffer, "test 0x00000042", 15) == 0);
 }
+
+TEST_CASE(format_quote_modifier)
+{
+    output_stream<10> os;
+    toolbox::format::print(os, "{}", toolbox::format::modifier<toolbox::format::Quote>(42));
+
+    CHECK(strncmp(os.buffer, "\"42\"", 5) == 0);
+}

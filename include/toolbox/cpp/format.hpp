@@ -62,6 +62,51 @@ void print(Output &out, const char *fmt)
     }
 }
 
+
+namespace detail
+{
+template<template<typename> typename M, class T>
+struct modifier
+{
+    modifier(const T& value)
+        : value (value)
+    {}
+
+    using type = T;
+    const T& value;
+};
+}
+
+template<template <typename> typename M, class T>
+auto modifier(const T& value)
+{
+    return detail::modifier<M, T>(value);
+}
+
+template<class Out>
+struct Quote
+{
+    Quote(Out &out)
+        : out (out)
+    {
+        out.put('"');
+    }
+
+    ~Quote()
+    {
+        out.put('"');
+    }
+
+    Out &out;
+};
+
+template<typename Output, template<typename> typename M, typename T>
+void format(Output &out, detail::flags flags, const detail::modifier<M, T> &m)
+{
+    M<Output> mod(out);
+    format(out, flags, m.value);
+}
+
 template<typename Output, typename Next>
 void format_argument(Output &out, span<const char> fmt, const Next &next)
 {
