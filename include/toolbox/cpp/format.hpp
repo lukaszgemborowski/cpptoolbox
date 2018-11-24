@@ -78,7 +78,7 @@ void format_argument(Output &out, span<const char> fmt, const Next &next)
 }
 
 template<typename Output, typename Next, typename... Args>
-void print(Output &out, const char *fmt, Next next, Args... args)
+void print(Output &out, const char *fmt, const Next &next, const Args&... args)
 {
     bool format = false;
     const char *fmtBegin = nullptr;
