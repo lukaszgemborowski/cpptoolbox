@@ -59,7 +59,6 @@ struct int_doubler
 TEST_CASE(tuple_for_each_selective_modification)
 {
 	auto tuple = std::make_tuple(1, 2, 3.0, 4.0, 5.f, 6.f);
-	const auto orig = tuple;
 
 	toolbox::cpp::tuple_for_each(tuple, int_doubler{});
 
