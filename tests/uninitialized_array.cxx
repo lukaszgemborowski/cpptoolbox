@@ -12,6 +12,7 @@ TEST_CASE(uninitialized_array_construct)
 
     toolbox::uninitialized_array<default_constructible, 10> arr;
     CHECK(count == 0);
+    CHECK(arr.size() == 10);
 }
 
 TEST_CASE(uninitialized_array_construct_and_destruct_one_element)

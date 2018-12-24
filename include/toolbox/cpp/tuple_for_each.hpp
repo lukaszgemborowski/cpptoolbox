@@ -13,7 +13,7 @@ namespace detail
 {
 	template<typename Idx, typename Size, typename T, typename F>
 	typename std::enable_if<Idx::value == Size::value, void>::type
-	tuple_for_each(T &&tuple, F &&func) {}
+	tuple_for_each(T &&, F &&) {}
 
 	template<typename Idx, typename Size, typename T, typename F>
 	typename std::enable_if<Idx::value < Size::value, void>::type

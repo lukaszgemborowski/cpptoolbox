@@ -44,7 +44,7 @@ void format(Output &out, detail::flags flags, T number)
         };
 
         constexpr auto hexSize = sizeof(T) * 2;
-        for (int i = 0; i < hexSize; i ++) {
+        for (unsigned i = 0; i < hexSize; i ++) {
             out.put(
                 lt[(number >> (hexSize-1-i)*4) & 0xf]
             );

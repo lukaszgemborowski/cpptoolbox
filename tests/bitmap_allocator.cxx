@@ -94,7 +94,7 @@ TEST_CASE(bitmap_allocator_deallocate_random)
     CHECK(alloc.allocated_count() == 8);
 
     // we should be able to allocate 12 more objects
-    for (int i = 0; i < 12; i ++) {
+    for (unsigned i = 0; i < 12; i ++) {
         auto &ptr = alloc.allocate();
         CHECK(alloc.own(ptr));
         CHECK(alloc.allocated_count() == (9 + i));

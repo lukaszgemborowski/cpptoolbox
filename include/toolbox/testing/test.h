@@ -65,7 +65,7 @@ struct base_test_case {
     }
 
     virtual void run() {}
-    virtual const char* name() const {}
+    virtual const char* name() const { return ""; }
 };
 
 } // namespace detail
