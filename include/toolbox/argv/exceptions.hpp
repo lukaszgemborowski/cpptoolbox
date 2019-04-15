@@ -13,12 +13,12 @@ namespace exceptions
 
 struct missing_required : public std::invalid_argument
 {
-	missing_required(std::vector<std::pair<char, std::string>> &&options) :
-		invalid_argument("Missing command line arguments"),
-		missing(std::move(options))
-	{}
+    missing_required(std::vector<std::pair<char, std::string>> &&options) :
+        invalid_argument("Missing command line arguments"),
+        missing(std::move(options))
+    {}
 
-	std::vector<std::pair<char, std::string>> missing;
+    std::vector<std::pair<char, std::string>> missing;
 };
 
 } // namespace exceptions
