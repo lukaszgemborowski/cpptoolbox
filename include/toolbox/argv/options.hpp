@@ -4,6 +4,10 @@
 #include <functional>
 #include <string>
 #include <vector>
+#include "toolbox/config.h"
+#if TOOLBOX_CXX_STANDARD >= 17
+# include <string_view>
+#endif
 
 namespace toolbox
 {
@@ -125,6 +129,19 @@ struct option
         description_ {}
     {
     }
+
+#if TOOLBOX_CXX_STANDARD >= 17
+    option(char name, std::string_view long_name) :
+        short_name_ {name}
+        long_name_ {long_name}
+#else
+    option(char name, const std::string long_name) :
+        short_name_ {name},
+        long_name_ {long_name},
+        description_ {}
+    {
+    }
+#endif
 
     option& description(const std::string &desc, const std::string &arg_name = std::string())
     {

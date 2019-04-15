@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	auto help = o::option<void>(o::short_name('h'), o::long_name("help")).description("this help message");
 
 	// user may pass -v option meaning "verbose"
-	auto verbose = o::option<void>(o::short_name('v'), o::long_name("verbose")).description("be verbose");
+	auto verbose = o::option<void>('v', "verbose").description("be verbose");
 
 	// more complex option, if user pass -o some/path.ext callback (lambda)
 	// will be called with user provided path, this lambda will open file
