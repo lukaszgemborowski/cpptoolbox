@@ -134,38 +134,6 @@ public:
     {
     }
 
-protected:
-    const char short_name_;
-    const std::string long_name_;
-    std::string description_;
-    std::string argument_name_;
-    unsigned found_ = 0u;
-};
-
-template<typename T = void>
-struct option : public base_option
-{
-    option(const short_name &name, const long_name &lname = long_name{}) :
-        base_option (name, lname)
-    {
-    }
-
-#if TOOLBOX_CXX_STANDARD >= 17
-    option(char name, std::string_view long_name) :
-#else
-    option(char name, const std::string long_name) :
-#endif
-        base_option (name, long_name)
-    {
-    }
-
-    option& description(const std::string &desc, const std::string &arg_name = std::string())
-    {
-        description_ = desc;
-        argument_name_ = arg_name;
-        return *this;
-    }
-
     char get_short() const
     {
         return short_name_;
@@ -186,6 +154,36 @@ struct option : public base_option
         return argument_name_;
     }
 
+    auto found() const
+    {
+        return found_;
+    }
+
+protected:
+    const char          short_name_;
+    const std::string   long_name_;
+    std::string         description_ {};
+    std::string         argument_name_ {};
+    unsigned            found_  {0u};
+};
+
+template<typename T = void>
+struct option : public base_option
+{
+    option(const short_name &name, const long_name &lname = long_name{}) :
+        base_option (name, lname)
+    {
+    }
+
+#if TOOLBOX_CXX_STANDARD >= 17
+    option(char name, std::string_view long_name) :
+#else
+    option(char name, const std::string long_name) :
+#endif
+        base_option (name, long_name)
+    {
+    }
+
     bool has_argument() const
     {
         return detail::value_container<T>::is_void::value == false;
@@ -197,24 +195,18 @@ struct option : public base_option
         return value_.get();
     }
 
-    void set_found(const char *arg)
-    {
-        found_ ++;
-        const auto &value = value_.set(arg);
-        if (func_)
-            func_(value);
-    }
-
-    auto found() const
-    {
-        return found_;
-    }
-
     using callback_type = std::function<void (const typename detail::value_container<T>::element_type_t &)>;
 
     option<T>& action(const callback_type &func)
     {
         func_ = func;
+        return *this;
+    }
+
+    option& description(const std::string &desc, const std::string &arg_name = std::string())
+    {
+        description_ = desc;
+        argument_name_ = arg_name;
         return *this;
     }
 
@@ -225,6 +217,14 @@ struct option : public base_option
         };
 
         return *this;
+    }
+
+    void set_found(const char *arg)
+    {
+        found_ ++;
+        const auto &value = value_.set(arg);
+        if (func_)
+            func_(value);
     }
 
     void transfer_to_storage() const
