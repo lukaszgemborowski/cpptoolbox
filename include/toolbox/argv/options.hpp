@@ -120,28 +120,44 @@ template<> struct function_type<void>
 
 } // namespace detail
 
+struct base_option
+{
+public:
+#if TOOLBOX_CXX_STANDARD >= 17
+    base_option(char name, std::string_view long_name)
+#else
+    base_option(char name, const std::string long_name)
+#endif
+        : short_name_ {name}
+        , long_name_ {long_name}
+        , description_ {}
+    {
+    }
+
+protected:
+    const char short_name_;
+    const std::string long_name_;
+    std::string description_;
+    std::string argument_name_;
+    unsigned found_ = 0u;
+};
+
 template<typename T = void>
-struct option
+struct option : public base_option
 {
     option(const short_name &name, const long_name &lname = long_name{}) :
-        short_name_ (name),
-        long_name_ (lname),
-        description_ {}
+        base_option (name, lname)
     {
     }
 
 #if TOOLBOX_CXX_STANDARD >= 17
     option(char name, std::string_view long_name) :
-        short_name_ {name}
-        long_name_ {long_name}
 #else
     option(char name, const std::string long_name) :
-        short_name_ {name},
-        long_name_ {long_name},
-        description_ {}
+#endif
+        base_option (name, long_name)
     {
     }
-#endif
 
     option& description(const std::string &desc, const std::string &arg_name = std::string())
     {
@@ -217,15 +233,10 @@ struct option
             transfer_to_storage_(value_.get());
     }
 
-protected:
-    const char short_name_;
-    const std::string long_name_;
-    std::string description_;
-    std::string argument_name_;
+private:
     detail::value_container<T> value_;
     callback_type func_;
     std::function<void (const typename detail::value_container<T>::type_t &)> transfer_to_storage_;
-    unsigned found_ = 0u;
 };
 
 } // namespace options
