@@ -16,29 +16,6 @@ namespace argv
 namespace options
 {
 
-struct short_name
-{
-    explicit short_name(const char name) :
-        value_ (name)
-    {}
-
-    operator char() const
-    {
-        return value_;
-    }
-
-private:
-    char value_;
-};
-
-struct long_name : public  std::string
-{
-    long_name() : std::string{} {}
-    explicit long_name(const char *name) :
-        std::string (name)
-    {}
-};
-
 namespace detail
 {
 
@@ -126,7 +103,7 @@ public:
 #if TOOLBOX_CXX_STANDARD >= 17
     base_option(char name, std::string_view long_name)
 #else
-    base_option(char name, const std::string long_name)
+    base_option(char name, const std::string& long_name)
 #endif
         : short_name_ {name}
         , long_name_ {long_name}
@@ -170,15 +147,10 @@ protected:
 template<typename T = void>
 struct option : public base_option
 {
-    option(const short_name &name, const long_name &lname = long_name{}) :
-        base_option (name, lname)
-    {
-    }
-
 #if TOOLBOX_CXX_STANDARD >= 17
-    option(char name, std::string_view long_name) :
+    option(char name, std::string_view long_name = std::string_view{}) :
 #else
-    option(char name, const std::string long_name) :
+    option(char name, const std::string &long_name = std::string{}) :
 #endif
         base_option (name, long_name)
     {

@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	// handy shortcut for options parser
 	namespace o = toolbox::argv::options;
 
-	auto help = o::option<void>(o::short_name('h'), o::long_name("help")).description("this help message");
+	auto help = o::option<void>('h', "help").description("this help message");
 
 	// user may pass -v option meaning "verbose"
 	auto verbose = o::option<void>('v', "verbose").description("be verbose");
@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 	// more complex option, if user pass -o some/path.ext callback (lambda)
 	// will be called with user provided path, this lambda will open file
 	// for writing
-	auto output = o::option<std::string>(o::short_name('o'), o::long_name("output"))
+	auto output = o::option<std::string>('o', "output")
 					.description("save downloaded file to FILE", "FILE")
 					.action(
 						[&out](const std::string &path) {

@@ -35,13 +35,13 @@ TEST_CASE(argv_basic_parser)
     int value_from_callback = 0;
     int value_of_number = 0;
 
-    auto verbose = o::option<void>(o::short_name('v'));
-    auto opt_a = o::option<void>(o::short_name('a'));
-    auto opt_b = o::option<void>(o::short_name('b'));
-    auto xes = o::option<void>(o::short_name('x'), o::long_name("longX"));
-    auto number = o::option<int>(o::short_name('n')).store(value_of_number);
-    auto path = o::option<std::vector<std::string>>(o::short_name('p'));
-    auto callback = o::option<int>(o::short_name('c')).action([&value_from_callback](int value) { value_from_callback = value * 2; });
+    auto verbose = o::option<void>('v');
+    auto opt_a = o::option<void>('a');
+    auto opt_b = o::option<void>('b');
+    auto xes = o::option<void>('x', "longX");
+    auto number = o::option<int>('n').store(value_of_number);
+    auto path = o::option<std::vector<std::string>>('p');
+    auto callback = o::option<int>('c').action([&value_from_callback](int value) { value_from_callback = value * 2; });
 
     auto parser = toolbox::argv::make_parser(verbose, number, path, xes, opt_a, opt_b, callback);
 
