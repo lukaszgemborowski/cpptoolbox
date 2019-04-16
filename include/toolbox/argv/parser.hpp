@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <getopt.h>
 #include <toolbox/cpp/tuple_for_each.hpp>
-#include <toolbox/cpp/make_ref_tuple.hpp>
 #include <toolbox/cpp/for_each_param.hpp>
 #include <toolbox/argv/options.hpp>
 #include <toolbox/argv/exceptions.hpp>
@@ -137,8 +136,8 @@ private:
 template<typename... Options>
 auto make_parser(Options&&... options)
 {
-    auto options_tuple = cpp::make_ref_tuple(options...);
-    return parser<decltype(options_tuple)>(std::move(options_tuple));
+    auto options_tuple { std::forward_as_tuple(options...) };
+    return parser<decltype(options_tuple)>{ std::move(options_tuple) };
 }
 
 } // namespace argv
