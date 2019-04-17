@@ -20,7 +20,7 @@ namespace argv
 class base_parser
 {
 public:
-    void updateOptions(std::stringstream &ss, const options::base_option &option, bool has_argument);
+    void updateOptions(std::stringstream &ss, const base_option &option, bool has_argument);
 
 protected:
     std::vector<::option>       options_arr_;

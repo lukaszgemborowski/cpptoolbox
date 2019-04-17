@@ -13,8 +13,6 @@ namespace toolbox
 {
 namespace argv
 {
-namespace options
-{
 
 namespace detail
 {
@@ -211,7 +209,6 @@ private:
     std::function<void (const typename detail::value_container<T>::type_t &)> transfer_to_storage_;
 };
 
-} // namespace options
 } // namespace argv
 } // namespace toolbox
 

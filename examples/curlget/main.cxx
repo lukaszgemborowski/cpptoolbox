@@ -10,17 +10,17 @@ int main(int argc, char **argv)
 	FILE* out = stdout;
 
 	// handy shortcut for options parser
-	namespace o = toolbox::argv::options;
+	namespace arg = toolbox::argv;
 
-	auto help = o::option<void>('h', "help").description("this help message");
+	auto help = arg::option<void>('h', "help").description("this help message");
 
 	// user may pass -v option meaning "verbose"
-	auto verbose = o::option<void>('v', "verbose").description("be verbose");
+	auto verbose = arg::option<void>('v', "verbose").description("be verbose");
 
 	// more complex option, if user pass -o some/path.ext callback (lambda)
 	// will be called with user provided path, this lambda will open file
 	// for writing
-	auto output = o::option<std::string>('o', "output")
+	auto output = arg::option<std::string>('o', "output")
 					.description("save downloaded file to FILE", "FILE")
 					.action(
 						[&out](const std::string &path) {

@@ -5,7 +5,7 @@ namespace toolbox
 namespace argv
 {
 
-void base_parser::updateOptions(std::stringstream &ss, const options::base_option &option, bool has_argument)
+void base_parser::updateOptions(std::stringstream &ss, const base_option &option, bool has_argument)
 {
     ss << option.get_short();
     if (has_argument)

@@ -31,17 +31,17 @@ struct cmd_line_options
 
 TEST_CASE(argv_basic_parser)
 {
-    namespace o = toolbox::argv::options;
+    namespace argv = toolbox::argv;
     int value_from_callback = 0;
     int value_of_number = 0;
 
-    auto verbose = o::option<void>('v');
-    auto opt_a = o::option<void>('a');
-    auto opt_b = o::option<void>('b');
-    auto xes = o::option<void>('x', "longX");
-    auto number = o::option<int>('n').store(value_of_number);
-    auto path = o::option<std::vector<std::string>>('p');
-    auto callback = o::option<int>('c').action([&value_from_callback](int value) { value_from_callback = value * 2; });
+    auto verbose = argv::option<void>('v');
+    auto opt_a = argv::option<void>('a');
+    auto opt_b = argv::option<void>('b');
+    auto xes = argv::option<void>('x', "longX");
+    auto number = argv::option<int>('n').store(value_of_number);
+    auto path = argv::option<std::vector<std::string>>('p');
+    auto callback = argv::option<int>('c').action([&value_from_callback](int value) { value_from_callback = value * 2; });
 
     auto parser = toolbox::argv::make_parser(verbose, number, path, xes, opt_a, opt_b, callback);
 
