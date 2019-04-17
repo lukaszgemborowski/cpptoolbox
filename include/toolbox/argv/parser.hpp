@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <getopt.h>
 #include <toolbox/cpp/tuple_for_each.hpp>
-#include <toolbox/cpp/make_ref_tuple.hpp>
 #include <toolbox/cpp/for_each_param.hpp>
 #include <toolbox/argv/options.hpp>
 #include <toolbox/argv/exceptions.hpp>
@@ -17,10 +16,26 @@ namespace toolbox
 namespace argv
 {
 
-template<typename Options>
-class parser
+// non-templated part of parser class
+class base_parser
 {
 public:
+    void updateOptions(std::stringstream &ss, const base_option &option, bool has_argument);
+
+protected:
+    std::vector<::option>       options_arr_;
+    std::string                 opt_descriptor_;
+    std::vector<std::string>    non_options_;
+    std::size_t                 longest_name_ = 0;
+    std::size_t                 longest_argname_ = 0;
+};
+
+// command line argument parser class
+template<typename Options>
+class parser : public base_parser
+{
+public:
+    // creates parser object from all available arguments
     parser(Options &&options) :
         options_(std::move(options))
     {
@@ -28,32 +43,32 @@ public:
         cpp::tuple_for_each(
             options_,
             [&ss, this](auto& option) {
-                ss << option.get_short();
-                if (option.has_argument()) ss << ":";
-
-                if (option.get_long().size() > 0) {
-                    ::option o = {
-                        option.get_long().c_str(),
-                        option.has_argument() ? required_argument : no_argument,
-                        nullptr,
-                        option.get_short()
-                    };
-
-                    options_arr_.push_back(o);
-                }
-
-                longest_name_ = std::max(longest_name_, option.get_long().size());
-                longest_argname_ = std::max(longest_argname_, option.get_argument_name().size());
+                // on gcc 5 & 6 call to updateOptions
+                // without -> fails to compile
+                this->updateOptions(ss, option, option.has_argument());
             }
         );
 
         opt_descriptor_ = ss.str();
     }
 
+    // disable copying for now, revise later if needed
+    parser() = delete;
+    parser(const parser &) = delete;
+    parser& operator=(const parser &) = delete;
+    parser& operator=(parser &&) = delete;
+
+    // this is needed for make_parser utility
+    // as it will return rvalue
+    parser(parser &&) = default;
+
+    // actually parse command line arguments with getopt library
+    // this shall populate data to options objects
     void parse(int argc, char ** argv)
     {
         int c;
         int index;
+        optind = 0;
 
         while (
             (c = getopt_long(
@@ -84,6 +99,7 @@ public:
         );
     }
 
+    // return vector of all remaining free arguments (ie. not in form of -f or --foo
     const std::vector<std::string> &non_options() const
     {
         return non_options_;
@@ -133,18 +149,14 @@ public:
 
 private:
     Options options_;
-    std::vector<::option> options_arr_;
-    std::string opt_descriptor_;
-    std::vector<std::string> non_options_;
-    std::size_t longest_name_ = 0;
-    std::size_t longest_argname_ = 0;
 };
 
+// helper function for creating parser object from available options
 template<typename... Options>
 auto make_parser(Options&&... options)
 {
-    auto options_tuple = cpp::make_ref_tuple(options...);
-    return parser<decltype(options_tuple)>(std::move(options_tuple));
+    auto options_tuple { std::forward_as_tuple(options...) };
+    return parser<decltype(options_tuple)>{ std::move(options_tuple) };
 }
 
 } // namespace argv

@@ -28,8 +28,17 @@ configure_file(
 
 set(include-dir ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_library (cpptoolbox INTERFACE)
-target_include_directories (cpptoolbox INTERFACE ${include-dir})
+add_library (
+    cpptoolbox
+    STATIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/argv/parser.cxx
+)
+
+target_include_directories (
+    cpptoolbox
+    INTERFACE ${include-dir}
+    PRIVATE ${include-dir}
+)
 
 if (CONFIG_TESTS)
     add_subdirectory(tests)

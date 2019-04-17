@@ -13,31 +13,6 @@ namespace toolbox
 {
 namespace argv
 {
-namespace options
-{
-
-struct short_name
-{
-    explicit short_name(const char name) :
-        value_ (name)
-    {}
-
-    operator char() const
-    {
-        return value_;
-    }
-
-private:
-    char value_;
-};
-
-struct long_name : public  std::string
-{
-    long_name() : std::string{} {}
-    explicit long_name(const char *name) :
-        std::string (name)
-    {}
-};
 
 namespace detail
 {
@@ -47,19 +22,26 @@ struct value_container
 {
     using type_t = T;
     using element_type_t = T;
-    using is_void = std::false_type;
+    using callback_t = std::function<void (const T&)>;
 
     T value_;
+    callback_t func_;
+
     const auto& set(const char *p)
     {
         std::stringstream ss(p);
         ss >> value_;
+        if (func_) func_ (value_);
         return value_;
     }
 
     const T& get() const
     {
         return value_;
+    }
+
+    void action(const callback_t &func) {
+        func_ = func;
     }
 };
 
@@ -68,21 +50,28 @@ struct value_container<std::vector<T>>
 {
     using type_t = std::vector<T>;
     using element_type_t = T;
-    using is_void = std::false_type;
+    using callback_t = std::function<void (const T&)>;
 
     std::vector<T> value_;
+    callback_t func_;
+
     const auto& set(const char *p)
     {
         std::stringstream ss(p);
         T temp;
         ss >> temp;
         value_.push_back(temp);
+        if (func_) func_ (temp);
         return value_.back();
     }
 
     const auto& get() const
     {
         return value_;
+    }
+
+    void action(const callback_t &func) {
+        func_ = func;
     }
 };
 
@@ -91,12 +80,14 @@ struct value_container<void>
 {
     using type_t = bool;
     using element_type_t = bool;
-    using is_void = std::true_type;
+    using callback_t = std::function<void ()>;
+    callback_t func_;
 
     bool value_ = false;
     const auto& set(const char *)
     {
         value_ = true;
+        if (func_) func_ ();
         return value_;
     }
 
@@ -104,50 +95,27 @@ struct value_container<void>
     {
         return value_;
     }
+
+    void action(const callback_t &func) {
+        func_ = func;
+    }
 };
 
-template<typename T> struct function_type
-{
-    using have_argument_t = std::true_type;
-    using type_t = std::function<void (T &)>;
-};
-
-template<> struct function_type<void>
-{
-    using have_argument_t = std::false_type;
-    using type_t = std::function<void ()>;
-};
 
 } // namespace detail
 
-template<typename T = void>
-struct option
+struct base_option
 {
-    option(const short_name &name, const long_name &lname = long_name{}) :
-        short_name_ (name),
-        long_name_ (lname),
-        description_ {}
-    {
-    }
-
+public:
 #if TOOLBOX_CXX_STANDARD >= 17
-    option(char name, std::string_view long_name) :
-        short_name_ {name}
-        long_name_ {long_name}
+    base_option(char name, std::string_view long_name)
 #else
-    option(char name, const std::string long_name) :
-        short_name_ {name},
-        long_name_ {long_name},
-        description_ {}
-    {
-    }
+    base_option(char name, const std::string& long_name)
 #endif
-
-    option& description(const std::string &desc, const std::string &arg_name = std::string())
+        : short_name_ {name}
+        , long_name_ {long_name}
+        , description_ {}
     {
-        description_ = desc;
-        argument_name_ = arg_name;
-        return *this;
     }
 
     char get_short() const
@@ -170,9 +138,34 @@ struct option
         return argument_name_;
     }
 
+    auto found() const
+    {
+        return found_;
+    }
+
+protected:
+    const char          short_name_;
+    const std::string   long_name_;
+    std::string         description_ {};
+    std::string         argument_name_ {};
+    unsigned            found_  {0u};
+};
+
+template<typename T = void>
+struct option : public base_option
+{
+#if TOOLBOX_CXX_STANDARD >= 17
+    option(char name, std::string_view long_name = std::string_view{}) :
+#else
+    option(char name, const std::string &long_name = std::string{}) :
+#endif
+        base_option (name, long_name)
+    {
+    }
+
     bool has_argument() const
     {
-        return detail::value_container<T>::is_void::value == false;
+        return std::is_same<T, void>::value == false;
     }
 
     typename detail::value_container<T>::type_t
@@ -181,24 +174,17 @@ struct option
         return value_.get();
     }
 
-    void set_found(const char *arg)
+    template<class F>
+    option<T>& action(const F &func)
     {
-        found_ ++;
-        const auto &value = value_.set(arg);
-        if (func_)
-            func_(value);
+        value_.action(func);
+        return *this;
     }
 
-    auto found() const
+    option& description(const std::string &desc, const std::string &arg_name = std::string())
     {
-        return found_;
-    }
-
-    using callback_type = std::function<void (const typename detail::value_container<T>::element_type_t &)>;
-
-    option<T>& action(const callback_type &func)
-    {
-        func_ = func;
+        description_ = desc;
+        argument_name_ = arg_name;
         return *this;
     }
 
@@ -211,24 +197,23 @@ struct option
         return *this;
     }
 
+    void set_found(const char *arg)
+    {
+        found_ ++;
+        value_.set(arg);
+    }
+
     void transfer_to_storage() const
     {
         if (transfer_to_storage_)
             transfer_to_storage_(value_.get());
     }
 
-protected:
-    const char short_name_;
-    const std::string long_name_;
-    std::string description_;
-    std::string argument_name_;
+private:
     detail::value_container<T> value_;
-    callback_type func_;
     std::function<void (const typename detail::value_container<T>::type_t &)> transfer_to_storage_;
-    unsigned found_ = 0u;
 };
 
-} // namespace options
 } // namespace argv
 } // namespace toolbox
 
