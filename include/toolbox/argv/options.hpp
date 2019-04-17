@@ -22,7 +22,6 @@ struct value_container
 {
     using type_t = T;
     using element_type_t = T;
-    using is_void = std::false_type;
 
     T value_;
     const auto& set(const char *p)
@@ -43,7 +42,6 @@ struct value_container<std::vector<T>>
 {
     using type_t = std::vector<T>;
     using element_type_t = T;
-    using is_void = std::false_type;
 
     std::vector<T> value_;
     const auto& set(const char *p)
@@ -66,7 +64,6 @@ struct value_container<void>
 {
     using type_t = bool;
     using element_type_t = bool;
-    using is_void = std::true_type;
 
     bool value_ = false;
     const auto& set(const char *)
@@ -156,7 +153,7 @@ struct option : public base_option
 
     bool has_argument() const
     {
-        return detail::value_container<T>::is_void::value == false;
+        return std::is_same<T, void>::value == false;
     }
 
     typename detail::value_container<T>::type_t
