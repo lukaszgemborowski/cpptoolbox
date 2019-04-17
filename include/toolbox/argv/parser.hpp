@@ -68,6 +68,7 @@ public:
     {
         int c;
         int index;
+        optind = 0;
 
         while (
             (c = getopt_long(

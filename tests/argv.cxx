@@ -29,9 +29,10 @@ struct cmd_line_options
     char **argv;
 };
 
+namespace argv = toolbox::argv;
+
 TEST_CASE(argv_basic_parser)
 {
-    namespace argv = toolbox::argv;
     int value_from_callback = 0;
     int value_of_number = 0;
 
@@ -71,4 +72,22 @@ TEST_CASE(argv_basic_parser)
     CHECK(opt_a.value() == true);
     CHECK(opt_b.value() == true);
     CHECK(value_from_callback == 6);
+}
+
+TEST_CASE(argv_rvalue_options)
+{
+    int value_from_callback = 0;
+
+    auto parser = argv::make_parser(
+        argv::option<void>{'f'}.action(
+            [&value_from_callback](bool) {
+                value_from_callback = 42;
+            }
+        ));
+
+    auto args = cmd_line_options({"foo", "-f"});
+
+    parser.parse(args.argc, args.argv);
+
+    CHECK(value_from_callback == 42);
 }
