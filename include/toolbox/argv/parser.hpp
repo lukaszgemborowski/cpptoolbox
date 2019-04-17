@@ -16,6 +16,7 @@ namespace toolbox
 namespace argv
 {
 
+// non-templated part of parser class
 class base_parser
 {
 public:
@@ -29,10 +30,12 @@ protected:
     std::size_t                 longest_argname_ = 0;
 };
 
+// command line argument parser class
 template<typename Options>
 class parser : public base_parser
 {
 public:
+    // creates parser object from all available arguments
     parser(Options &&options) :
         options_(std::move(options))
     {
@@ -49,7 +52,18 @@ public:
         opt_descriptor_ = ss.str();
     }
 
+    // disable copying for now, revise later if needed
+    parser() = delete;
+    parser(const parser &) = delete;
+    parser& operator=(const parser &) = delete;
+    parser& operator=(parser &&) = delete;
 
+    // this is needed for make_parser utility
+    // as it will return rvalue
+    parser(parser &&) = default;
+
+    // actually parse command line arguments with getopt library
+    // this shall populate data to options objects
     void parse(int argc, char ** argv)
     {
         int c;
@@ -84,6 +98,7 @@ public:
         );
     }
 
+    // return vector of all remaining free arguments (ie. not in form of -f or --foo
     const std::vector<std::string> &non_options() const
     {
         return non_options_;
@@ -135,6 +150,7 @@ private:
     Options options_;
 };
 
+// helper function for creating parser object from available options
 template<typename... Options>
 auto make_parser(Options&&... options)
 {
