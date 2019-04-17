@@ -80,7 +80,7 @@ TEST_CASE(argv_rvalue_options)
 
     auto parser = argv::make_parser(
         argv::option<void>{'f'}.action(
-            [&value_from_callback](bool) {
+            [&value_from_callback]() {
                 value_from_callback = 42;
             }
         ));
