@@ -40,7 +40,9 @@ public:
         cpp::tuple_for_each(
             options_,
             [&ss, this](auto& option) {
-                updateOptions(ss, option, option.has_argument());
+                // on gcc 5 & 6 call to updateOptions
+                // without -> fails to compile
+                this->updateOptions(ss, option, option.has_argument());
             }
         );
 
