@@ -78,6 +78,9 @@ TEST_CASE(argv_rvalue_options)
 {
     int value_from_callback = 0;
 
+    // if you want just to perform some action on argument occurence
+    // you don't need to create lvalue option object, you may just
+    // pass temporary to the parser
     auto parser = argv::make_parser(
         argv::option<void>{'f'}.action(
             [&value_from_callback]() {
