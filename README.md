@@ -17,12 +17,12 @@ Command line argument parsing (getopt wrapper)
 idea behind this wrapper is a little bit different than in most of the other parsers. You do not fetch parsed options by name (such as `parser.get('help')`) but instead you define option objects (`option` class) which acts both as a definition and a proxy object for argument value. First you define option objects and than based on that you create the parser
 
 ```cpp
-namespace o = toolbox::argv::options;
-auto help = o::option<void>(o::short_name('h'), o::long_name("help")).description("this help message");
-auto verbose = o::option<void>(o::short_name('v'), o::long_name("verbose")).description("be verbose");
-auto value = o::option<int>(o::short_name('n'));
+namespace arg = toolbox::arg;
+auto help = arg::option<void>('h', "help").description("this help message");
+auto verbose = arg::option<void>('v', "verbose").description("be verbose");
+auto value = arg::option<int>('n');
 
-auto parser = toolbox::argv::make_parser(help, verbose, value);
+auto parser = arg::make_parser(help, verbose, value);
 parser.parse(argc, argv);
 ```
 
