@@ -1,6 +1,6 @@
 #include <toolbox/curl/global.hpp>
 #include <toolbox/curl/easy.hpp>
-#include <toolbox/argv/parser.hpp>
+#include <toolbox/argv.hpp>
 #include <cstdio>
 #include <iostream>
 
