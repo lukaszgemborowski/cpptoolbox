@@ -56,6 +56,21 @@ matrix:
             - g++-7
             - cmake
 
+    - os: linux
+      dist: trusty
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - CONFIG=""
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - wget
+            - gcc-7
+            - g++-7
+            - cmake
+
 before_install:
   - eval "${MATRIX_EVAL}"
 
@@ -66,5 +81,5 @@ script:
   # Check versions of gcc, g++ and cmake
   - gcc -v && g++ -v && cmake --version
   # Run your build commands next
-  - mkdir build && cd build && cmake .. -DCONFIG_TESTS=ON $CONFIG && make
+  - mkdir build && cd build && cmake .. -DTOOLBOX_USE_FMT=ON -DCONFIG_TESTS=ON $CONFIG && make
   - ./tests/tests
