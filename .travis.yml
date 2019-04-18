@@ -56,6 +56,21 @@ matrix:
             - g++-7
             - cmake
 
+    - os: linux
+      dist: trusty
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - CONFIG="-DTOOLBOX_USE_FMT=ON"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - wget
+            - gcc-7
+            - g++-7
+            - cmake
+
 before_install:
   - eval "${MATRIX_EVAL}"
 

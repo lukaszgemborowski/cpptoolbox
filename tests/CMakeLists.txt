@@ -34,6 +34,7 @@ set(requires-exceptions-sources
 
 set(test-sources ${osless-sources})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
+list(APPEND test-libs curl cpptoolbox)
 
 if (TOOLBOX_HAS_EXCEPTIONS)
 	set(test-source "${test-sources} ${requires-exceptions-sources}")
@@ -47,8 +48,12 @@ else ()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc++")
 endif ()
 
+if (TOOLBOX_USE_FMT)
+    list(APPEND test-libs fmt)
+endif ()
+
 add_executable(tests ${test-sources} main.cxx)
-target_link_libraries(tests curl cpptoolbox)
+target_link_libraries(tests ${test-libs})
 
 include(CTest)
 add_test(

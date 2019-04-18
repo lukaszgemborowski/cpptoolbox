@@ -11,4 +11,7 @@
 // do we have exceptions support
 #cmakedefine TOOLBOX_HAS_EXCEPTIONS
 
+// do we have libfmt
+#cmakedefine TOOLBOX_USE_FMT
+
 #endif

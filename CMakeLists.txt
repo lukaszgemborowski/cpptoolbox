@@ -8,6 +8,7 @@ option (CONFIG_EXAMPLES		"build examples" OFF)
 
 set    (TOOLBOX_CXX_STANDARD "14"   CACHE STRING "Define current C++ standard")
 option (TOOLBOX_HAS_STDLIB          "Do we have standard C++ library" ON)
+option (TOOLBOX_USE_FMT             "Download fmt library" OFF)
 
 cmake_dependent_option(TOOLBOX_HAS_EXCEPTIONS "Do we have exceptions support" ON "TOOLBOX_HAS_STDLIB" OFF)
 
@@ -73,3 +74,22 @@ install(FILES ${toolbox-marshall-headers} DESTINATION include/toolbox/marshall)
 install(FILES ${toolbox-std-headers} DESTINATION include/toolbox/std)
 install(FILES ${toolbox-testing-headers} DESTINATION include/toolbox/testing)
 install(FILES ${toolbox-config-header} DESTINATION include/toolbox/)
+
+# TODO: make this a function/macro
+if (TOOLBOX_USE_FMT)
+    message(STATUS "Downloading dependencies...")
+
+    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/deps)
+
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} ${CMAKE_SOURCE_DIR}/cmake/libs/fmt
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/deps/
+    )
+
+    execute_process(
+        COMMAND cmake --build .
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/deps/
+    )
+
+    add_subdirectory(${CMAKE_BINARY_DIR}/deps/src/cpptoolbox-fmt/)
+endif ()
