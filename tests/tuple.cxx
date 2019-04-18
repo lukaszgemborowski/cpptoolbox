@@ -1,4 +1,4 @@
-#include <toolbox/testing/test.h>
+#include <toolbox/testing/test.hpp>
 #include <toolbox/container/tuple.hpp>
 
 TEST_CASE(tuple_default_initialize)

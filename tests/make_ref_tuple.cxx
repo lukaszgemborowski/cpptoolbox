@@ -1,4 +1,4 @@
-#include <toolbox/testing/test.h>
+#include <toolbox/testing/test.hpp>
 #include <toolbox/cpp/make_ref_tuple.hpp>
 
 TEST_CASE(make_ref_tuple_tuple_of_references)

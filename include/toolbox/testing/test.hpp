@@ -1,5 +1,5 @@
-#ifndef _TOOLBOX_TESTING_H_
-#define _TOOLBOX_TESTING_H_
+#ifndef TOOLBOX_TESTING_HPP
+#define TOOLBOX_TESTING_HPP
 
 #include <toolbox/config.h>
 #include <stddef.h>
@@ -142,4 +142,4 @@ int test_run(ResultHandler handler = ResultHandler())
 } // namespace toolbox
 #endif
 
-#endif // _TOOLBOX_TESTING_H_
+#endif // TOOLBOX_TESTING_HPP

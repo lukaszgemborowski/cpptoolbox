@@ -1,4 +1,4 @@
-#include <toolbox/testing/test.h>
+#include <toolbox/testing/test.hpp>
 #include <toolbox/cpp/for_each_param.hpp>
 
 template<typename... Args>

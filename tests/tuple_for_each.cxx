@@ -1,4 +1,4 @@
-#include <toolbox/testing/test.h>
+#include <toolbox/testing/test.hpp>
 #include <toolbox/cpp/tuple_for_each.hpp>
 
 TEST_CASE(tuple_for_each_iterate_and_sum)

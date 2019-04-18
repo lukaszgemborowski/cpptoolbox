@@ -1,0 +1,3 @@
+include/toolbox/config.h
+.*.swp
+CMakeCache.txt

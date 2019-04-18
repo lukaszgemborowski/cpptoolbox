@@ -1,5 +1,5 @@
 #define TOOLBOX_TEST_MAIN
-#include <toolbox/testing/test.h>
+#include <toolbox/testing/test.hpp>
 
 TEST_INIT;
 
