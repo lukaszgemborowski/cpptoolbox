@@ -1,4 +1,4 @@
-#include <toolbox/testing/test.h>
+#include <toolbox/testing/test.hpp>
 #include <toolbox/container/uninitialized_array.hpp>
 
 TEST_CASE(uninitialized_array_construct)

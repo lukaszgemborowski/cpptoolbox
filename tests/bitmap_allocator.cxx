@@ -1,4 +1,4 @@
-#include <toolbox/testing/test.h>
+#include <toolbox/testing/test.hpp>
 #include <toolbox/alloc/bitmap_allocator.hpp>
 
 TEST_CASE(bitmap_allocatorallocate_one_object)

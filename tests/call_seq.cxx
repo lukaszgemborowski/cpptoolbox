@@ -1,4 +1,4 @@
-#include <toolbox/testing/test.h>
+#include <toolbox/testing/test.hpp>
 #include <toolbox/cpp/call_seq.hpp>
 
 TEST_CASE(call_seq_simple_use_case)

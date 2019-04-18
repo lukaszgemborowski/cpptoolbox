@@ -1,4 +1,4 @@
-#include <toolbox/testing/test.h>
+#include <toolbox/testing/test.hpp>
 #include <toolbox/container/array.hpp>
 
 TEST_CASE(array_default_initialization)

@@ -1,4 +1,4 @@
-#include <toolbox/testing/test.h>
+#include <toolbox/testing/test.hpp>
 #include <toolbox/curl/global.hpp>
 #include <toolbox/curl/easy.hpp>
 

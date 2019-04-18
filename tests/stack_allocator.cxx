@@ -1,4 +1,4 @@
-#include <toolbox/testing/test.h>
+#include <toolbox/testing/test.hpp>
 #include <toolbox/alloc/stack_allocator.hpp>
 
 TEST_CASE(stack_allocator_simple_functionality)

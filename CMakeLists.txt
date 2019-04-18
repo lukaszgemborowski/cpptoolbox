@@ -59,7 +59,7 @@ file(GLOB toolbox-curl-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/curl
 file(GLOB toolbox-gcc-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/gcc/*.hpp")
 file(GLOB toolbox-marshall-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/marshall/*.hpp")
 file(GLOB toolbox-std-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/std/*.hpp")
-file(GLOB toolbox-testing-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/testing/*.h")
+file(GLOB toolbox-testing-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/testing/*.hpp")
 set(toolbox-config-header ${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/config.h)
 
 install(FILES ${json-headers} DESTINATION include/json)

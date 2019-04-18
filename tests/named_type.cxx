@@ -1,4 +1,4 @@
-#include <toolbox/testing/test.h>
+#include <toolbox/testing/test.hpp>
 #include <toolbox/cpp/named_type.hpp>
 
 using MyInt = cpptoolbox::cpp::named_type<int, struct MyIntTag>;
