@@ -61,6 +61,7 @@ file(GLOB toolbox-marshall-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/
 file(GLOB toolbox-std-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/std/*.hpp")
 file(GLOB toolbox-testing-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/testing/*.hpp")
 set(toolbox-config-header ${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/config.h)
+file(GLOB toolbox-main-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/*.hpp")
 
 install(FILES ${json-headers} DESTINATION include/json)
 install(FILES ${meta-headers} DESTINATION include/meta)
@@ -74,6 +75,7 @@ install(FILES ${toolbox-marshall-headers} DESTINATION include/toolbox/marshall)
 install(FILES ${toolbox-std-headers} DESTINATION include/toolbox/std)
 install(FILES ${toolbox-testing-headers} DESTINATION include/toolbox/testing)
 install(FILES ${toolbox-config-header} DESTINATION include/toolbox/)
+install(FILES ${toolbox-main-headers} DESTINATION include/toolbox/)
 
 # TODO: make this a function/macro
 if (TOOLBOX_USE_FMT)
