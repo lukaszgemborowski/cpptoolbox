@@ -60,7 +60,7 @@ matrix:
       dist: trusty
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-        - CONFIG=""
+        - CONFIG="-DTOOLBOX_USE_FMT=ON"
       addons:
         apt:
           sources:
@@ -81,5 +81,5 @@ script:
   # Check versions of gcc, g++ and cmake
   - gcc -v && g++ -v && cmake --version
   # Run your build commands next
-  - mkdir build && cd build && cmake .. -DTOOLBOX_USE_FMT=ON -DCONFIG_TESTS=ON $CONFIG && make
+  - mkdir build && cd build && cmake .. -DCONFIG_TESTS=ON $CONFIG && make
   - ./tests/tests
