@@ -4,7 +4,12 @@
 #include <toolbox/config.h>
 #include <stddef.h>
 #if defined(TOOLBOX_HAS_STDLIB) && !defined(TOOLBOX_TEST_DISABLE_STDIO) && defined(TOOLBOX_TEST_MAIN)
-#include <iostream>
+# include <iostream>
+#endif
+
+#if defined(TOOLBOX_USE_FMT)
+# include <fmt/core.h>
+# include <fmt/color.h>
 #endif
 
 namespace toolbox
@@ -21,6 +26,7 @@ struct test_results
 
 #if defined(TOOLBOX_HAS_STDLIB) && !defined(TOOLBOX_TEST_DISABLE_STDIO) && defined(TOOLBOX_TEST_MAIN)
 
+#ifndef TOOLBOX_USE_FMT
 struct iostream_handler
 {
     void start(const char *tc_name) const {
@@ -34,6 +40,22 @@ struct iostream_handler
             std::cout << "FAILED" << std::endl;
     }
 };
+#else
+struct iostream_handler
+{
+    void start(const char *tc_name) const {
+        fmt::print("{:<65}", tc_name);
+    }
+
+    void stop(const test_results &res) const {
+        if (res.success)
+            print(fg(fmt::terminal_color::green), "PASSED\n");
+        else
+            print(fg(fmt::terminal_color::red), "FAILED\n");
+    }
+};
+#endif
+
 #else
 
 struct null_handler
