@@ -20,8 +20,16 @@ public:
         return begin_;
     }
 
+    constexpr T const * begin() const {
+        return begin_;
+    }
+
     T* end()
     {
+        return end_;
+    }
+
+    constexpr T const * end() const {
         return end_;
     }
 
