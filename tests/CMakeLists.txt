@@ -8,6 +8,7 @@ set(linux-sources
 	argv.cxx
 	sizeof_tuple.cxx
 	marshall.cxx
+	cstring_ref.cxx
 )
 
 set(osless-sources

@@ -5,11 +5,13 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <cstring>
 #include <getopt.h>
 #include <toolbox/cpp/tuple_for_each.hpp>
 #include <toolbox/cpp/for_each_param.hpp>
 #include <toolbox/argv/options.hpp>
 #include <toolbox/argv/exceptions.hpp>
+#include <toolbox/cpp/cstring_ref.hpp>
 
 namespace toolbox
 {
@@ -25,7 +27,7 @@ public:
 protected:
     std::vector<::option>       options_arr_;
     std::string                 opt_descriptor_;
-    std::vector<std::string>    non_options_;
+    std::vector<cstring_ref>    non_options_;
     std::size_t                 longest_name_ = 0;
     std::size_t                 longest_argname_ = 0;
 };
@@ -89,7 +91,7 @@ public:
         }
 
         for (int i = optind; i < argc; i ++)
-            non_options_.push_back(std::string(argv[i]));
+            non_options_.push_back(cstring_ref(static_cast<char const *>(argv[i])));
 
         cpp::tuple_for_each(
             options_,
@@ -100,7 +102,7 @@ public:
     }
 
     // return vector of all remaining free arguments (ie. not in form of -f or --foo
-    const std::vector<std::string> &non_options() const
+    const auto &non_options() const
     {
         return non_options_;
     }
