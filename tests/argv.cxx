@@ -66,8 +66,8 @@ TEST_CASE(argv_basic_parser)
     CHECK(path.value()[0] == "/usr/local");
     CHECK(path.value()[1] == "/var/run");
     CHECK(parser.non_options().size() == 2);
-    CHECK(parser.non_options()[0] == "arg0");
-    CHECK(parser.non_options()[1] == "arg1");
+    CHECK(std::strcmp(parser.non_options()[0], "arg0") == 0);
+    CHECK(std::strcmp(parser.non_options()[1], "arg1") == 0);
     CHECK(opt_a.value() == true);
     CHECK(opt_b.value() == true);
     CHECK(value_from_callback == 6);
