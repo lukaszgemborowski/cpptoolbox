@@ -11,6 +11,7 @@
 #include <toolbox/cpp/for_each_param.hpp>
 #include <toolbox/argv/options.hpp>
 #include <toolbox/argv/exceptions.hpp>
+#include <toolbox/cpp/cstring_ref.hpp>
 
 namespace toolbox
 {
@@ -26,7 +27,7 @@ public:
 protected:
     std::vector<::option>       options_arr_;
     std::string                 opt_descriptor_;
-    std::vector<char const *>   non_options_;
+    std::vector<cstring_ref>    non_options_;
     std::size_t                 longest_name_ = 0;
     std::size_t                 longest_argname_ = 0;
 };
@@ -90,7 +91,7 @@ public:
         }
 
         for (int i = optind; i < argc; i ++)
-            non_options_.push_back(argv[i]);
+            non_options_.push_back(cstring_ref(static_cast<char const *>(argv[i])));
 
         cpp::tuple_for_each(
             options_,

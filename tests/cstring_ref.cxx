@@ -30,4 +30,5 @@ TEST_CASE(cstring_ref_comparison)
 
     CHECK(a1 != b);
     CHECK(a1 < b);
+    CHECK(b > a2);
 }
