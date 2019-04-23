@@ -5,7 +5,6 @@ set(linux-sources
 	tuple_for_each.cxx
 	tuple_at.cxx
 	call_seq.cxx
-	make_ref_tuple.cxx
 	argv.cxx
 	sizeof_tuple.cxx
 	marshall.cxx

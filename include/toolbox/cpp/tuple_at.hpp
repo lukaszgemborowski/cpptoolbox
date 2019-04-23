@@ -11,20 +11,20 @@ namespace cpp
 template<typename T, typename F>
 F tuple_at(T &&tuple, std::size_t index, F &&func)
 {
-	std::size_t current = 0;
+    std::size_t current = 0;
 
-	tuple_for_each(
-		tuple,
-		[&index, &func, &current](auto &arg) {
-			if (current == index) {
-				func(arg);
-			}
+    tuple_for_each(
+        tuple,
+        [&index, &func, &current](auto &arg) {
+            if (current == index) {
+                func(arg);
+            }
 
-			current ++;
-		}
-	);
+            current ++;
+        }
+    );
 
-	return func;
+    return func;
 }
 
 } // namespace cpp

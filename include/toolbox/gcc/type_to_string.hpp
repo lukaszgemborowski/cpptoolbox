@@ -12,14 +12,14 @@ namespace gcc
 template<typename T>
 std::string type_to_string()
 {
-	int status = 0;
-	return abi::__cxa_demangle(typeid(T).name(), nullptr, nullptr, &status);
+    int status = 0;
+    return abi::__cxa_demangle(typeid(T).name(), nullptr, nullptr, &status);
 }
 
 template<typename T>
 std::string type_to_string(const T&)
 {
-	return type_to_string<T>();
+    return type_to_string<T>();
 }
 
 } // namespace gcc
