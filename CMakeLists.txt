@@ -29,11 +29,19 @@ configure_file(
 
 set(include-dir ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_library (
-    cpptoolbox
-    STATIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/argv/parser.cxx
-)
+if (TOOLBOX_HAS_STDLIB)
+    add_library (
+        cpptoolbox
+        STATIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/argv/parser.cxx
+    )
+else ()
+    add_library (
+        cpptoolbox
+        STATIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/argv/dummy.cxx
+    )
+endif ()
 
 target_include_directories (
     cpptoolbox
