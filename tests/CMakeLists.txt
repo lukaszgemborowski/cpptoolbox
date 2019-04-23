@@ -8,6 +8,7 @@ set(linux-sources
 	argv.cxx
 	sizeof_tuple.cxx
 	marshall.cxx
+	cstring_ref.cxx
 )
 
 set(osless-sources
@@ -25,7 +26,6 @@ set(osless-sources
 	named_type.cxx
 	stack_allocator.cxx
 	static_config.cxx
-	cstring_ref.cxx
 )
 
 set(requires-exceptions-sources
