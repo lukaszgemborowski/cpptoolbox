@@ -53,9 +53,9 @@ if (CONFIG_TESTS)
     add_subdirectory(tests)
 endif (CONFIG_TESTS)
 
-if (CONFIG_EXAMPLES)
+if (CONFIG_EXAMPLES AND TOOLBOX_HAS_STDLIB)
     add_subdirectory(examples)
-endif (CONFIG_EXAMPLES)
+endif (CONFIG_EXAMPLES AND TOOLBOX_HAS_STDLIB)
 
 file(GLOB json-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/json/*.hpp")
 file(GLOB meta-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/meta/*.hpp")

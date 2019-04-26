@@ -2,7 +2,7 @@
 #define _TOOLBOX_CPP_FORMAT_HPP_
 
 #include <toolbox/container/stack.hpp>
-#include <toolbox/span.hpp>
+#include <toolbox/cpp/span.hpp>
 
 namespace toolbox
 {
