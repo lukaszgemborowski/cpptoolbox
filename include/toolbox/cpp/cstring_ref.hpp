@@ -19,7 +19,7 @@ struct basic_cstring_ref : public span<const CharT>
         static_assert(std::is_const<T>::value == true, "c-string must be const");
     }
 
-    basic_cstring_ref(nullptr_t) = delete;
+    basic_cstring_ref(std::nullptr_t) = delete;
 
     auto length() const noexcept {
         return span<const CharT>::size();
