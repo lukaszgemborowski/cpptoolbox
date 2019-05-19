@@ -85,21 +85,16 @@ install(FILES ${toolbox-testing-headers} DESTINATION include/toolbox/testing)
 install(FILES ${toolbox-config-header} DESTINATION include/toolbox/)
 install(FILES ${toolbox-main-headers} DESTINATION include/toolbox/)
 
-# TODO: make this a function/macro
 if (TOOLBOX_USE_FMT)
-    message(STATUS "Downloading dependencies...")
+    # find package
+    find_package(fmt 5.0)
 
-    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/deps)
-
-    execute_process(
-        COMMAND ${CMAKE_COMMAND} ${CMAKE_SOURCE_DIR}/cmake/libs/fmt
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/deps/
-    )
-
-    execute_process(
-        COMMAND cmake --build .
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/deps/
-    )
-
-    add_subdirectory(${CMAKE_BINARY_DIR}/deps/src/cpptoolbox-fmt/)
+    if (NOT fmt_FOUND)
+        message(STATUS "No fmt library found via find_package")
+        if (TARGET fmt)
+            message (WARNING "fmt target available in current configuration, can't determine version. Trying to use it anyway...")
+        else ()
+            message (FATAL_ERROR "fmt support requested but library not found")
+        endif ()
+    endif ()
 endif ()
