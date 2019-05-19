@@ -109,8 +109,7 @@ struct base_test_case {
         return; }
 
 #if defined(TOOLBOX_TEST_MAIN)
-#define TEST_INIT \
-    toolbox::detail::base_test_case *root_test = NULL;
+toolbox::detail::base_test_case *root_test = NULL;
 
 namespace toolbox
 {
