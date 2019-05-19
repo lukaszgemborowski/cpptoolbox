@@ -65,7 +65,7 @@ void print(Output &out, const char *fmt)
 
 namespace detail
 {
-template<template<typename> typename M, class T>
+template<template<typename> class M, class T>
 struct modifier
 {
     modifier(const T& value)
@@ -77,7 +77,7 @@ struct modifier
 };
 }
 
-template<template <typename> typename M, class T>
+template<template <typename> class M, class T>
 auto modifier(const T& value)
 {
     return detail::modifier<M, T>(value);
@@ -100,7 +100,7 @@ struct Quote
     Out &out;
 };
 
-template<typename Output, template<typename> typename M, typename T>
+template<typename Output, template<typename> class M, typename T>
 void format(Output &out, detail::flags flags, const detail::modifier<M, T> &m)
 {
     M<Output> mod(out);
