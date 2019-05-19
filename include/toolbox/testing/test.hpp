@@ -1,5 +1,5 @@
-#ifndef TOOLBOX_TESTING_HPP
-#define TOOLBOX_TESTING_HPP
+#ifndef TOOLBOX_TEST_HPP
+#define TOOLBOX_TEST_HPP
 
 #include <toolbox/config.h>
 #include <stddef.h>
@@ -109,8 +109,7 @@ struct base_test_case {
         return; }
 
 #if defined(TOOLBOX_TEST_MAIN)
-#define TEST_INIT \
-    toolbox::detail::base_test_case *root_test = NULL;
+toolbox::detail::base_test_case *root_test = NULL;
 
 namespace toolbox
 {
