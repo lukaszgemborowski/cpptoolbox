@@ -127,7 +127,6 @@ void print(Output &out, const char *fmt, const Next &next, const Args&... args)
 {
     bool format = false;
     const char *fmtBegin = nullptr;
-    detail::flags flags;
 
     while (*fmt) {
         if (format) {
