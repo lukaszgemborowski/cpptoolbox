@@ -1,5 +1,5 @@
-#ifndef TOOLBOX_TESTING_HPP
-#define TOOLBOX_TESTING_HPP
+#ifndef TOOLBOX_TEST_HPP
+#define TOOLBOX_TEST_HPP
 
 #include <toolbox/config.h>
 #include <stddef.h>
