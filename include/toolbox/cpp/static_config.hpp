@@ -22,7 +22,7 @@ struct options {
 template<class A, class B>
 struct same_base_template : public std::false_type {};
 
-template<class A, class B, template<typename> typename Template>
+template<class A, class B, template<typename> class Template>
 struct same_base_template<Template<A>, Template<B>> : public std::true_type {};
 
 template<class Defaults, class Options>

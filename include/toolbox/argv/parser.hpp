@@ -82,7 +82,7 @@ public:
                 != -1) {
             cpp::tuple_for_each(
                 options_,
-                [this, c](auto& option) {
+                [c](auto& option) {
                     if (option.get_short() == c) {
                         option.set_found(optarg);
                     }
