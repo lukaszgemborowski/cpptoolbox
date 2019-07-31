@@ -34,6 +34,7 @@ if (TOOLBOX_HAS_STDLIB)
         cpptoolbox
         STATIC
         ${CMAKE_CURRENT_SOURCE_DIR}/src/argv/parser.cxx
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/string.cxx
     )
 else ()
     add_library (

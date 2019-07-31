@@ -10,6 +10,7 @@ set(linux-sources
 	marshall.cxx
 	cstring_ref.cxx
 	common_headers_compilation.cxx
+	string_tests.cxx
 )
 
 set(osless-sources
