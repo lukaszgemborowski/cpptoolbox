@@ -1,5 +1,6 @@
 #include <toolbox/testing/test.hpp>
 #include <toolbox/cpp/string.hpp>
+#include <string>
 
 using namespace std::string_literals;
 

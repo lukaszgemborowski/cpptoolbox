@@ -10,7 +10,6 @@ set(linux-sources
 	marshall.cxx
 	cstring_ref.cxx
 	common_headers_compilation.cxx
-	string_tests.cxx
 )
 
 set(osless-sources
@@ -30,6 +29,10 @@ set(osless-sources
 	static_config.cxx
 )
 
+set(cpp17-linux-sources
+	string_tests.cxx
+)
+
 set(requires-exceptions-sources
 	curl.cxx
 )
@@ -46,6 +49,10 @@ endif ()
 
 if (TOOLBOX_HAS_STDLIB)
 	set(test-sources ${test-sources} ${linux-sources})
+
+	if (TOOLBOX_CXX_STANDARD GREATER "16")
+	    list(APPEND test-sources ${cpp17-linux-sources})
+	endif ()
 else ()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc++")
 endif ()
