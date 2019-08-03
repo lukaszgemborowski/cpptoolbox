@@ -33,7 +33,7 @@ struct json_serializer
         current = &(*current)[t.description.short_name];
     }
 
-    template<typename T> void leave(T &t)
+    template<typename T> void leave(T &)
     {
         current = previous;
     }
@@ -74,7 +74,7 @@ struct json_deserializer
         current = &(*current)[t.description.short_name];
     }
 
-    template<typename T> void leave(T &t)
+    template<typename T> void leave(T &)
     {
         current = previous;
     }
