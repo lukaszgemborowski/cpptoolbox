@@ -6,7 +6,7 @@ matrix:
       dist: trusty
       env:
         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
-        - CONFIG=""
+        - CONFIG="-DTOOLBOX_CXX_STANDARD=14"
       addons:
         apt:
           sources:
@@ -20,7 +20,7 @@ matrix:
       dist: trusty
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
-        - CONFIG=""
+        - CONFIG="-DTOOLBOX_CXX_STANDARD=14"
       addons:
         apt:
           sources:
@@ -33,7 +33,7 @@ matrix:
       dist: trusty
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-        - CONFIG=""
+        - CONFIG="-DTOOLBOX_CXX_STANDARD=17"
       addons:
         apt:
           sources:
