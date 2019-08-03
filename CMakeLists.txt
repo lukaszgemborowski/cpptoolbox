@@ -96,6 +96,12 @@ install(FILES ${toolbox-testing-headers} DESTINATION include/toolbox/testing)
 install(FILES ${toolbox-config-header} DESTINATION include/toolbox/)
 install(FILES ${toolbox-main-headers} DESTINATION include/toolbox/)
 
+include(FindCURL)
+
+if (CURL_FOUND)
+    target_link_libraries(cpptoolbox CURL::libcurl)
+endif ()
+
 if (TOOLBOX_USE_FMT)
     # find package
     find_package(fmt 5.0)
