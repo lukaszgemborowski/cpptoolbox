@@ -99,7 +99,8 @@ install(FILES ${toolbox-main-headers} DESTINATION include/toolbox/)
 include(FindCURL)
 
 if (CURL_FOUND)
-    target_link_libraries(cpptoolbox CURL::libcurl)
+    target_link_libraries(cpptoolbox ${CURL_LIBRARIES})
+    target_include_directories(cpptoolbox PUBLIC ${CURL_INCLUDE_DIRS})
 endif ()
 
 if (TOOLBOX_USE_FMT)
