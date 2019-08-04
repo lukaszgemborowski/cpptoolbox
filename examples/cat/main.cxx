@@ -1,5 +1,4 @@
 #include <toolbox/system/input_file_stream.hpp>
-#include <boost/iostreams/stream.hpp>
 #include <iostream>
 
 int main(int argc, char **argv)
@@ -18,9 +17,8 @@ int main(int argc, char **argv)
 
     toolbox::input_file_stream ifs {f};
 
-
     for (std::string line; std::getline(ifs, line);) {
-        std::cout << line << std::endl;
+        std::cout << line << '\n';
     }
 
     std::fclose(f);
