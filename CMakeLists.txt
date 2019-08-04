@@ -44,6 +44,8 @@ if (TOOLBOX_HAS_STDLIB)
         list(
             APPEND sources
             ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/string.cxx
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/system/input_file_stream.cxx
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/system/popen.cxx
         )
     endif ()
 endif ()

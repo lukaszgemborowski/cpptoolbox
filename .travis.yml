@@ -42,6 +42,7 @@ matrix:
             - gcc-7
             - g++-7
             - cmake
+            - libboost-all-dev
     - os: linux
       dist: trusty
       env:
