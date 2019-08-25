@@ -9,6 +9,7 @@ option (CONFIG_EXAMPLES		"build examples" OFF)
 set    (TOOLBOX_CXX_STANDARD "14"   CACHE STRING "Define current C++ standard")
 option (TOOLBOX_HAS_STDLIB          "Do we have standard C++ library" ON)
 option (TOOLBOX_USE_FMT             "Download fmt library" OFF)
+option (TOOLBOX_USE_CURL            "Use CURL library" ON)
 
 cmake_dependent_option(TOOLBOX_HAS_EXCEPTIONS "Do we have exceptions support" ON "TOOLBOX_HAS_STDLIB" OFF)
 
@@ -98,11 +99,13 @@ install(FILES ${toolbox-testing-headers} DESTINATION include/toolbox/testing)
 install(FILES ${toolbox-config-header} DESTINATION include/toolbox/)
 install(FILES ${toolbox-main-headers} DESTINATION include/toolbox/)
 
-include(FindCURL)
+if (TOOLBOX_USE_CURL)
+    include(FindCURL)
 
-if (CURL_FOUND)
-    target_link_libraries(cpptoolbox ${CURL_LIBRARIES})
-    target_include_directories(cpptoolbox PUBLIC ${CURL_INCLUDE_DIRS})
+    if (CURL_FOUND)
+        target_link_libraries(cpptoolbox ${CURL_LIBRARIES})
+        target_include_directories(cpptoolbox PUBLIC ${CURL_INCLUDE_DIRS})
+    endif ()
 endif ()
 
 if (TOOLBOX_USE_FMT)
