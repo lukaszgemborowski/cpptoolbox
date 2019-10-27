@@ -10,16 +10,12 @@ set(linux-sources
     marshall.cxx
     cstring_ref.cxx
     common_headers_compilation.cxx
-)
-
-set(osless-sources
     uninitialized_array.cxx
     tuple.cxx
     stack.cxx
     bitmap_allocator.cxx
     queue.cxx
     format.cxx
-    meta_compile_without_stdcpp.cxx
     array.cxx
     for_each_param.cxx
     bitview.cxx
@@ -37,17 +33,16 @@ set(requires-exceptions-sources
     curl.cxx
 )
 
-set(test-sources ${osless-sources})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 list(APPEND test-libs cpptoolbox)
+
+set(test-sources ${linux-sources})
 
 if (TOOLBOX_HAS_EXCEPTIONS)
     set(test-source "${test-sources} ${requires-exceptions-sources}")
 else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions")
 endif ()
-
-set(test-sources ${test-sources} ${linux-sources})
 
 if (TOOLBOX_CXX_STANDARD GREATER "16")
     list(APPEND test-sources ${cpp17-linux-sources})
