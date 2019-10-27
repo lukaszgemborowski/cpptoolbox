@@ -43,19 +43,6 @@ matrix:
             - g++-7
             - cmake
             - libboost-all-dev
-    - os: linux
-      dist: trusty
-      env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-        - CONFIG="-DTOOLBOX_HAS_STDLIB=OFF"
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-7
-            - g++-7
-            - cmake
 
 before_install:
   - eval "${MATRIX_EVAL}"

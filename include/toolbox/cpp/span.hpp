@@ -1,7 +1,7 @@
 #ifndef _TOOLBOX_SPAN_HPP_
 #define _TOOLBOX_SPAN_HPP_
 
-#include <toolbox/std/cstddef.hpp>
+#include <cstddef>
 
 namespace toolbox
 {

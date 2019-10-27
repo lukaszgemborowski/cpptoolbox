@@ -3,8 +3,8 @@
 
 #include <cstring>
 #include <string>
+#include <type_traits>
 #include "toolbox/cpp/span.hpp"
-#include "toolbox/std/type_traits.hpp"
 
 namespace toolbox
 {

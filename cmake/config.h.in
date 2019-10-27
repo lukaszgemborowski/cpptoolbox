@@ -4,10 +4,6 @@
 // may be 98 (?), 11, 14, 17...
 #cmakedefine TOOLBOX_CXX_STANDARD   @TOOLBOX_CXX_STANDARD@
 
-// do we have c++ standard library
-// for example gcc for AVR does not have C++ standard library
-#cmakedefine TOOLBOX_HAS_STDLIB
-
 // do we have exceptions support
 #cmakedefine TOOLBOX_HAS_EXCEPTIONS
 

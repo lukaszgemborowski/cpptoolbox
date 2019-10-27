@@ -1,7 +1,7 @@
 #ifndef _TOOLBOX_CPP_STATIC_CONFIG_HPP_
 #define _TOOLBOX_CPP_STATIC_CONFIG_HPP_
 
-#include <toolbox/std/type_traits.hpp>
+#include <type_traits>
 #include <meta/meta.hpp>
 
 namespace toolbox

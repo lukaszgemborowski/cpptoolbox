@@ -1,9 +1,9 @@
 #ifndef _TOOLBOX_CPP_STACK_ALLOCATOR_HPP_
 #define _TOOLBOX_CPP_STACK_ALLOCATOR_HPP_
 
-#include <toolbox/std/cstddef.hpp>
-#include <toolbox/std/type_traits.hpp>
-#include <toolbox/std/new.hpp>
+#include <cstddef>
+#include <type_traits>
+#include <new>
 
 namespace toolbox
 {

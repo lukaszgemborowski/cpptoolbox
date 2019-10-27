@@ -7,11 +7,9 @@ option (CONFIG_TESTS		"build unit tests" OFF)
 option (CONFIG_EXAMPLES		"build examples" OFF)
 
 set    (TOOLBOX_CXX_STANDARD "14"   CACHE STRING "Define current C++ standard")
-option (TOOLBOX_HAS_STDLIB          "Do we have standard C++ library" ON)
 option (TOOLBOX_USE_FMT             "Download fmt library" OFF)
 option (TOOLBOX_USE_CURL            "Use CURL library" ON)
-
-cmake_dependent_option(TOOLBOX_HAS_EXCEPTIONS "Do we have exceptions support" ON "TOOLBOX_HAS_STDLIB" OFF)
+option (TOOLBOX_HAS_EXCEPTIONS      "C++ exceptions support" ON)
 
 if (TOOLBOX_CXX_STANDARD EQUAL "11")
 	set (CMAKE_CXX_STANDARD 11)
@@ -35,20 +33,18 @@ set(
     ${CMAKE_CURRENT_SOURCE_DIR}/src/argv/dummy.cxx
 )
 
-if (TOOLBOX_HAS_STDLIB)
+list(
+    APPEND sources
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/argv/parser.cxx
+)
+
+if (TOOLBOX_CXX_STANDARD GREATER "16")
     list(
         APPEND sources
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/argv/parser.cxx
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/string.cxx
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/system/input_file_stream.cxx
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/system/popen.cxx
     )
-
-    if (TOOLBOX_CXX_STANDARD GREATER "16")
-        list(
-            APPEND sources
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/string.cxx
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/system/input_file_stream.cxx
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/system/popen.cxx
-        )
-    endif ()
 endif ()
 
 add_library(
@@ -67,9 +63,9 @@ if (CONFIG_TESTS)
     add_subdirectory(tests)
 endif (CONFIG_TESTS)
 
-if (CONFIG_EXAMPLES AND TOOLBOX_HAS_STDLIB)
+if (CONFIG_EXAMPLES)
     add_subdirectory(examples)
-endif (CONFIG_EXAMPLES AND TOOLBOX_HAS_STDLIB)
+endif (CONFIG_EXAMPLES)
 
 file(GLOB json-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/json/*.hpp")
 file(GLOB meta-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/meta/*.hpp")
