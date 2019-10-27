@@ -17,14 +17,11 @@
 
 #include <toolbox/config.h>
 
-#include <toolbox/std/cstddef.hpp>
-
-#ifdef TOOLBOX_HAS_STDLIB
-    #include <initializer_list>
-#endif
+#include <cstddef>
+#include <initializer_list>
 #include <meta/meta_fwd.hpp>
-#include <toolbox/std/type_traits.hpp>
-#include <toolbox/std/utility.hpp>
+#include <type_traits>
+#include <utility>
 
 #if defined(__clang__)
 #pragma GCC diagnostic push
