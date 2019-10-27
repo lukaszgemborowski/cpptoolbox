@@ -3,7 +3,7 @@
 
 #include <toolbox/config.h>
 #include <stddef.h>
-#if defined(TOOLBOX_HAS_STDLIB) && !defined(TOOLBOX_TEST_DISABLE_STDIO) && defined(TOOLBOX_TEST_MAIN)
+#if !defined(TOOLBOX_TEST_DISABLE_STDIO) && defined(TOOLBOX_TEST_MAIN)
 # include <iostream>
 #endif
 
@@ -24,7 +24,7 @@ struct test_results
     bool success;
 };
 
-#if defined(TOOLBOX_HAS_STDLIB) && !defined(TOOLBOX_TEST_DISABLE_STDIO) && defined(TOOLBOX_TEST_MAIN)
+#if !defined(TOOLBOX_TEST_DISABLE_STDIO) && defined(TOOLBOX_TEST_MAIN)
 
 #ifndef TOOLBOX_USE_FMT
 struct iostream_handler
@@ -114,7 +114,7 @@ toolbox::detail::base_test_case *root_test = NULL;
 namespace toolbox
 {
 
-#if defined(TOOLBOX_HAS_STDLIB) && !defined(TOOLBOX_TEST_DISABLE_STDIO)
+#if !defined(TOOLBOX_TEST_DISABLE_STDIO)
 template<typename ResultHandler = toolbox::detail::iostream_handler>
 #else
 template<typename ResultHandler = toolbox::detail::null_handler>

@@ -10,6 +10,4 @@
 // do we have libfmt
 #cmakedefine TOOLBOX_USE_FMT
 
-#define TOOLBOX_HAS_STDLIB
-
 #endif

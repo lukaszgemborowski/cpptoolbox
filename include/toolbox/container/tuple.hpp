@@ -1,8 +1,8 @@
 #ifndef _TOOLBOX_CONTAINER_TUPLE_HPP_
 #define _TOOLBOX_CONTAINER_TUPLE_HPP_
 
-#include <toolbox/std/type_traits.hpp>
-#include <toolbox/std/utility.hpp>
+#include <type_traits>
+#include <utility>
 
 namespace toolbox
 {

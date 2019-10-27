@@ -1,7 +1,7 @@
 #ifndef _TOOLBOX_CONTAINER_QUEUE_HPP_
 #define _TOOLBOX_CONTAINER_QUEUE_HPP_
 
-#include <toolbox/std/utility.hpp>
+#include <utility>
 
 namespace toolbox
 {

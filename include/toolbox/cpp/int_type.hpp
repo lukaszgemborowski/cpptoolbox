@@ -1,8 +1,8 @@
 #ifndef _TOOLBOX_CPP_INT_TYPE_HPP_H_
 #define _TOOLBOX_CPP_INT_TYPE_HPP_H_
 
-#include <toolbox/std/type_traits.hpp>
-#include <toolbox/std/cstdint.hpp>
+#include <type_traits>
+#include <cstdint>
 
 namespace toolbox
 {
