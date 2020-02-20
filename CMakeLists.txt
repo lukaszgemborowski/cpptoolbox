@@ -30,12 +30,7 @@ set(include-dir ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set(
     sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/argv/dummy.cxx
-)
-
-list(
-    APPEND sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/argv/parser.cxx
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/dummy.cxx
 )
 
 if (TOOLBOX_CXX_STANDARD GREATER "16")
@@ -70,7 +65,6 @@ endif (CONFIG_EXAMPLES)
 file(GLOB json-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/json/*.hpp")
 file(GLOB meta-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/meta/*.hpp")
 file(GLOB toolbox-alloc-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/alloc/*.hpp")
-file(GLOB toolbox-argv-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/argv/*.hpp")
 file(GLOB toolbox-container-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/container/*.hpp")
 file(GLOB toolbox-cpp-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/cpp/*.hpp")
 file(GLOB toolbox-curl-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/curl/*.hpp")
@@ -84,7 +78,6 @@ file(GLOB toolbox-main-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/*.hp
 install(FILES ${json-headers} DESTINATION include/json)
 install(FILES ${meta-headers} DESTINATION include/meta)
 install(FILES ${toolbox-alloc-headers} DESTINATION include/toolbox/alloc)
-install(FILES ${toolbox-argv-headers} DESTINATION include/toolbox/argv)
 install(FILES ${toolbox-container-headers} DESTINATION include/toolbox/container)
 install(FILES ${toolbox-cpp-headers} DESTINATION include/toolbox/cpp)
 install(FILES ${toolbox-curl-headers} DESTINATION include/toolbox/curl)
