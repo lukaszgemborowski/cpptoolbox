@@ -81,6 +81,23 @@ public:
         return lineNumber_;
     }
 
+    void recalculate()
+    {
+        auto p = str_->find(CharT{'\n'}, pos_);
+
+        if (p != string_t::npos) {
+            len_ = p - pos_;
+        } else {
+            if (pos_ >= str_->size()) {
+                str_ = nullptr;
+                pos_ = 0;
+                len_ = 0;
+            } else {
+                len_ = str_->size() - pos_;
+            }
+        }
+    }
+
 private:
     const string_t *str_;
     typename string_t::size_type pos_;
