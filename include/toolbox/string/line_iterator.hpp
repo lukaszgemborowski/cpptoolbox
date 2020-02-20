@@ -22,6 +22,7 @@ public:
         : str_ {&str}
         , pos_ {0}
         , len_ {str.find(CharT{'\n'})}
+        , lineNumber_ {0}
     {
         if (str_->size() == 0) {
             str_ = nullptr;
@@ -33,6 +34,7 @@ public:
         : str_ {nullptr}
         , pos_ {0}
         , len_ {0}
+        , lineNumber_ {0}
     {}
 
     string_view_t operator*() const
@@ -42,6 +44,7 @@ public:
 
     line_iterator& operator++()
     {
+        lineNumber_ ++;
         pos_ += len_ + 1;
         auto p = str_->find(CharT{'\n'}, pos_);
 
@@ -73,12 +76,33 @@ public:
         return !(*this == rhs);
     }
 
-    auto pos() const { return pos_; }
+    auto lineNumber() const
+    {
+        return lineNumber_;
+    }
+
+    void recalculate()
+    {
+        auto p = str_->find(CharT{'\n'}, pos_);
+
+        if (p != string_t::npos) {
+            len_ = p - pos_;
+        } else {
+            if (pos_ >= str_->size()) {
+                str_ = nullptr;
+                pos_ = 0;
+                len_ = 0;
+            } else {
+                len_ = str_->size() - pos_;
+            }
+        }
+    }
 
 private:
     const string_t *str_;
     typename string_t::size_type pos_;
     typename string_t::size_type len_;
+    std::size_t lineNumber_;
 };
 
 line_iterator() -> line_iterator<char, std::char_traits<char>, std::allocator<char>>;
