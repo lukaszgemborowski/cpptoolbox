@@ -1,4 +1,5 @@
 #include <toolbox/testing/test.hpp>
+#include <toolbox/string/line_iterator.hpp>
 #include <toolbox/getline.hpp>
 #include <iostream>
 
@@ -19,7 +20,7 @@ TEST_CASE(getline_one_endline)
 TEST_CASE(getline_iterator)
 {
     auto input = "one\ntwo\nthree"s;
-    auto it = toolbox::string_line_iterator{input};
+    auto it = toolbox::string::line_iterator{input};
 
     CHECK("one"s == *it);
     ++ it;
@@ -29,10 +30,10 @@ TEST_CASE(getline_iterator)
     ++ it;
 
     // check if end
-    CHECK(it == toolbox::string_line_iterator{});
+    CHECK(it == toolbox::string::line_iterator{});
 }
 
 TEST_CASE(getline_iterator_empty_string)
 {
-    CHECK(toolbox::string_line_iterator{""s} == toolbox::string_line_iterator{});
+    CHECK(toolbox::string::line_iterator{""s} == toolbox::string::line_iterator{});
 }
