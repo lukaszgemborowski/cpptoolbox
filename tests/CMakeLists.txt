@@ -27,6 +27,7 @@ set(linux-sources
 
 set(cpp17-linux-sources
     string_tests.cxx
+    getline_tests.cxx
 )
 
 set(requires-exceptions-sources
