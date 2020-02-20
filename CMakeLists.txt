@@ -3,8 +3,8 @@ project (libcpputil)
 
 include(CMakeDependentOption)
 
-option (CONFIG_TESTS		"build unit tests" OFF)
-option (CONFIG_EXAMPLES		"build examples" OFF)
+option (TOOLBOX_CONFIG_TESTS		"build unit tests" OFF)
+option (TOOLBOX_CONFIG_EXAMPLES		"build examples" OFF)
 
 set    (TOOLBOX_CXX_STANDARD "14"   CACHE STRING "Define current C++ standard")
 option (TOOLBOX_USE_FMT             "Download fmt library" OFF)
@@ -53,13 +53,13 @@ target_include_directories (
     PRIVATE ${include-dir}
 )
 
-if (CONFIG_TESTS)
+if (TOOLBOX_CONFIG_TESTS)
     add_subdirectory(tests)
-endif (CONFIG_TESTS)
+endif (TOOLBOX_CONFIG_TESTS)
 
-if (CONFIG_EXAMPLES)
+if (TOOLBOX_CONFIG_EXAMPLES)
     add_subdirectory(examples)
-endif (CONFIG_EXAMPLES)
+endif (TOOLBOX_CONFIG_EXAMPLES)
 
 file(GLOB json-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/json/*.hpp")
 file(GLOB meta-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/meta/*.hpp")
