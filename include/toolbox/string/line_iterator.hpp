@@ -68,6 +68,11 @@ public:
             len_ == rhs.len_;
     }
 
+    bool operator!=(const line_iterator &rhs) const
+    {
+        return !(*this == rhs);
+    }
+
     auto pos() const { return pos_; }
 
 private:

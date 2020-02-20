@@ -22,6 +22,7 @@ set(linux-sources
     named_type.cxx
     stack_allocator.cxx
     static_config.cxx
+    string_split_tests.cxx
 )
 
 set(cpp17-linux-sources
