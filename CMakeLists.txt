@@ -30,12 +30,7 @@ set(include-dir ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set(
     sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/argv/dummy.cxx
-)
-
-list(
-    APPEND sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/argv/parser.cxx
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/dummy.cxx
 )
 
 if (TOOLBOX_CXX_STANDARD GREATER "16")
