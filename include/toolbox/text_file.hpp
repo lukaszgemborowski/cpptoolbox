@@ -8,7 +8,7 @@
 namespace toolbox::text_file
 {
 
-std::string load(std::ifstream &file)
+inline std::string load(std::ifstream &file)
 {
     std::string result;
 
@@ -21,18 +21,18 @@ std::string load(std::ifstream &file)
     return result;
 }
 
-std::string load(toolbox::fs::path path)
+inline std::string load(toolbox::fs::path path)
 {
     std::ifstream ifs{path};
     return load(ifs);
 }
 
-void save(std::ofstream &file, const std::string &str)
+inline void save(std::ofstream &file, const std::string &str)
 {
     file.write(str.data(), str.size());
 }
 
-void save(fs::path path, const std::string &str)
+inline void save(fs::path path, const std::string &str)
 {
     std::ofstream ofs{path};
     save(ofs, str);
