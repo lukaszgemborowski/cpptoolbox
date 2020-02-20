@@ -10,8 +10,7 @@ namespace toolbox::string
 {
 
 template<class CharT, class Traits>
-std::basic_string<CharT, Traits> concatenate(
-    const std::initializer_list<std::basic_string_view<CharT, Traits>> &list)
+std::basic_string<CharT, Traits> cat(const std::initializer_list<std::basic_string_view<CharT, Traits>> &list)
 {
     std::basic_stringstream<CharT, Traits> ss;
 
@@ -23,8 +22,7 @@ std::basic_string<CharT, Traits> concatenate(
 }
 
 template<class CharT, class Traits, class Allocator>
-std::basic_string<CharT, Traits> concatenate(
-    const std::initializer_list<std::basic_string<CharT, Traits, Allocator>> &list)
+std::basic_string<CharT, Traits> cat(const std::initializer_list<std::basic_string<CharT, Traits, Allocator>> &list)
 {
     std::basic_stringstream<CharT, Traits> ss;
 
@@ -36,17 +34,16 @@ std::basic_string<CharT, Traits> concatenate(
 }
 
 template<class CharT, class Traits, class Allocator>
-const std::basic_string<CharT, Traits>& concatenate(
-    const std::basic_string<CharT, Traits, Allocator> &s)
+const std::basic_string<CharT, Traits>& cat(const std::basic_string<CharT, Traits, Allocator> &s)
 {
     return s;
 }
 
 // TODO: result type will be wrong for any other type than char.
 template<class... Args>
-std::string concatenate(const Args&... args)
+std::string cat(const Args&... args)
 {
-    return (concatenate(args) + ...);
+    return (cat(args) + ...);
 }
 
 } // namespace toolbox::string

@@ -6,7 +6,7 @@ namespace toolbox
 
 Popen::Popen(std::string_view command, std::initializer_list<std::string_view> arguments, Mode mode)
 {
-    auto cmd = string::concatenate(command, arguments);
+    auto cmd = string::cat(command, arguments);
     fd = popen(cmd.c_str(), mode == Mode::Read ? "r" : "w");
 }
 
