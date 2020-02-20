@@ -1,5 +1,6 @@
 #include <toolbox/testing/test.hpp>
 #include <toolbox/cpp/string.hpp>
+#include <toolbox/string/trim.hpp>
 #include <string>
 
 using namespace std::string_literals;
@@ -8,7 +9,7 @@ using namespace std::string_view_literals;
 TEST_CASE(string_trim_left_no_whitespace)
 {
     auto input = "text"s;
-    auto result = std::string{toolbox::trim_left(input)};
+    auto result = std::string{toolbox::string::trim_left(input)};
 
     CHECK(input == result);
 }
@@ -16,7 +17,7 @@ TEST_CASE(string_trim_left_no_whitespace)
 TEST_CASE(string_trim_left_one_space)
 {
     auto input = " text"s;
-    auto result = std::string{toolbox::trim_left(input)};
+    auto result = std::string{toolbox::string::trim_left(input)};
 
     CHECK("text"s == result);
 }
@@ -24,7 +25,7 @@ TEST_CASE(string_trim_left_one_space)
 TEST_CASE(string_trim_right_no_whitespace)
 {
     auto input = "text"s;
-    auto result = std::string{toolbox::trim_right(input)};
+    auto result = std::string{toolbox::string::trim_right(input)};
 
     CHECK(input == result);
 }
@@ -32,7 +33,7 @@ TEST_CASE(string_trim_right_no_whitespace)
 TEST_CASE(string_trim_right_one_space)
 {
     auto input = "text "s;
-    auto result = std::string{toolbox::trim_right(input)};
+    auto result = std::string{toolbox::string::trim_right(input)};
 
     CHECK("text"s == result);
 }
@@ -40,7 +41,7 @@ TEST_CASE(string_trim_right_one_space)
 TEST_CASE(string_trim_no_whitespace)
 {
     auto input = "text"s;
-    auto result = std::string{toolbox::trim(input)};
+    auto result = std::string{toolbox::string::trim(input)};
 
     CHECK(input == result);
 }
@@ -48,7 +49,7 @@ TEST_CASE(string_trim_no_whitespace)
 TEST_CASE(string_trim_on_space_left)
 {
     auto input = " text"s;
-    auto result = std::string{toolbox::trim(input)};
+    auto result = std::string{toolbox::string::trim(input)};
 
     CHECK("text"s == result);
 }
@@ -56,7 +57,7 @@ TEST_CASE(string_trim_on_space_left)
 TEST_CASE(string_trim_on_space_right)
 {
     auto input = "text "s;
-    auto result = std::string{toolbox::trim(input)};
+    auto result = std::string{toolbox::string::trim(input)};
 
     CHECK("text"s == result);
 }
@@ -64,7 +65,7 @@ TEST_CASE(string_trim_on_space_right)
 TEST_CASE(string_trim_on_space_both_sides)
 {
     auto input = " text "s;
-    auto result = std::string{toolbox::trim(input)};
+    auto result = std::string{toolbox::string::trim(input)};
 
     CHECK("text"s == result);
 }

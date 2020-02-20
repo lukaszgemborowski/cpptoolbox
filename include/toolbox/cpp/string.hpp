@@ -7,10 +7,6 @@
 namespace toolbox
 {
 
-std::string_view trim_left(std::string_view input);
-std::string_view trim_right(std::string_view input);
-std::string_view trim(std::string_view input);
-
 std::string concatenate(const std::initializer_list<std::string_view> &list);
 std::string concatenate(const std::initializer_list<std::string> &list);
 
