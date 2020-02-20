@@ -36,7 +36,6 @@ set(
 if (TOOLBOX_CXX_STANDARD GREATER "16")
     list(
         APPEND sources
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/string.cxx
         ${CMAKE_CURRENT_SOURCE_DIR}/src/system/input_file_stream.cxx
         ${CMAKE_CURRENT_SOURCE_DIR}/src/system/popen.cxx
     )
@@ -72,6 +71,7 @@ file(GLOB toolbox-gcc-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/gcc/*
 file(GLOB toolbox-marshall-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/marshall/*.hpp")
 file(GLOB toolbox-std-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/std/*.hpp")
 file(GLOB toolbox-testing-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/testing/*.hpp")
+file(GLOB toolbox-string-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/string/*.hpp")
 set(toolbox-config-header ${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/config.h)
 file(GLOB toolbox-main-headers "${CMAKE_CURRENT_SOURCE_DIR}/include/toolbox/*.hpp")
 

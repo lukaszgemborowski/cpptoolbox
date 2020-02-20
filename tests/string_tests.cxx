@@ -1,5 +1,5 @@
 #include <toolbox/testing/test.hpp>
-#include <toolbox/cpp/string.hpp>
+#include <toolbox/string/cat.hpp>
 #include <toolbox/string/trim.hpp>
 #include <string>
 
@@ -72,19 +72,19 @@ TEST_CASE(string_trim_on_space_both_sides)
 
 TEST_CASE(string_concatenate_strings)
 {
-    auto r = toolbox::concatenate("a"s, "b"s, "c"s);
+    auto r = toolbox::string::concatenate("a"s, "b"s, "c"s);
     CHECK("abc"s == r);
 }
 
 TEST_CASE(string_concatenate_init_list_strings)
 {
-    auto r = toolbox::concatenate( {"a"s, "b"s, "c"s} );
+    auto r = toolbox::string::concatenate( {"a"s, "b"s, "c"s} );
     CHECK("abc"s == r);
 }
 
 TEST_CASE(string_concatenate_init_list_str_view)
 {
-    auto r = toolbox::concatenate( {"a"sv, "b"sv, "c"sv} );
+    auto r = toolbox::string::concatenate( {"a"sv, "b"sv, "c"sv} );
     CHECK("abc"s == r);
 }
 
@@ -98,6 +98,6 @@ TEST_CASE(string_concatenate_several_types)
         "e"sv, "f"sv
     };
 
-    auto r = toolbox::concatenate( "a"s, "b"s, ils, ilsv );
+    auto r = toolbox::string::concatenate( "a"s, "b"s, ils, ilsv );
     CHECK("abcdef"s == r);
 }
