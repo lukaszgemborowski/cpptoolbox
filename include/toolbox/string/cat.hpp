@@ -9,9 +9,11 @@
 namespace toolbox::string
 {
 
-inline std::string concatenate(const std::initializer_list<std::string_view> &list)
+template<class CharT, class Traits>
+std::basic_string<CharT, Traits> concatenate(
+    const std::initializer_list<std::basic_string_view<CharT, Traits>> &list)
 {
-    std::stringstream ss;
+    std::basic_stringstream<CharT, Traits> ss;
 
     for (const auto &s : list) {
         ss << s;
@@ -20,9 +22,11 @@ inline std::string concatenate(const std::initializer_list<std::string_view> &li
     return ss.str();
 }
 
-inline std::string concatenate(const std::initializer_list<std::string> &list)
+template<class CharT, class Traits, class Allocator>
+std::basic_string<CharT, Traits> concatenate(
+    const std::initializer_list<std::basic_string<CharT, Traits, Allocator>> &list)
 {
-    std::stringstream ss;
+    std::basic_stringstream<CharT, Traits> ss;
 
     for (const auto &s : list) {
         ss << s;
@@ -31,11 +35,14 @@ inline std::string concatenate(const std::initializer_list<std::string> &list)
     return ss.str();
 }
 
-inline const std::string& concatenate(const std::string &s)
+template<class CharT, class Traits, class Allocator>
+const std::basic_string<CharT, Traits>& concatenate(
+    const std::basic_string<CharT, Traits, Allocator> &s)
 {
     return s;
 }
 
+// TODO: result type will be wrong for any other type than char.
 template<class... Args>
 std::string concatenate(const Args&... args)
 {
