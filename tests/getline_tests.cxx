@@ -22,11 +22,11 @@ TEST_CASE(getline_iterator)
     auto input = "one\ntwo\nthree"s;
     auto it = toolbox::string::line_iterator{input};
 
-    CHECK("one"s == *it);
+    CHECK("one"s == it.get_string_view());
     ++ it;
-    CHECK("two"s == *it);
+    CHECK("two"s == it.get_string_view());
     ++ it;
-    CHECK("three"s == *it);
+    CHECK("three"s == it.get_string_view());
     ++ it;
 
     // check if end
@@ -35,5 +35,6 @@ TEST_CASE(getline_iterator)
 
 TEST_CASE(getline_iterator_empty_string)
 {
-    CHECK(toolbox::string::line_iterator{""s} == toolbox::string::line_iterator{});
+    auto input = ""s;
+    CHECK(toolbox::string::line_iterator{input} == toolbox::string::line_iterator{});
 }
