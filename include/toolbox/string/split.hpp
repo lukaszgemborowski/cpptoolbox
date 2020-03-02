@@ -15,7 +15,7 @@ auto split(Iterator it)
     Container<std::string> result;
 
     for (; it != e; ++it) {
-        result.push_back(std::string{*it});
+        result.push_back(std::string{it.get_string_view()});
     }
 
     return result;

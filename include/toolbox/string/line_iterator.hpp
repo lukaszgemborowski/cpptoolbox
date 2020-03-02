@@ -7,18 +7,21 @@
 namespace toolbox::string
 {
 
-template<
-    class CharT,
-    class Traits,
-    class Allocator>
+template<class String>
+class basic_line_reference;
+
+template<class String>
 class line_iterator
 {
 private:
-    using string_t = std::basic_string<CharT, Traits, Allocator>;
-    using string_view_t = std::basic_string_view<CharT, Traits>;
+    using string_t = String;
+    using CharT = typename String::value_type;
+    using string_view_t = std::basic_string_view<
+        typename String::value_type,
+        typename String::traits_type>;
 
 public:
-    line_iterator(const string_t &str)
+    line_iterator(string_t &str)
         : str_ {&str}
         , pos_ {0}
         , len_ {str.find(CharT{'\n'})}
@@ -37,9 +40,14 @@ public:
         , lineNumber_ {0}
     {}
 
-    string_view_t operator*() const
+    string_view_t get_string_view() const
     {
         return {str_->c_str() + pos_, len_};
+    }
+
+    auto operator*()
+    {
+        return basic_line_reference<String>{*this};
     }
 
     line_iterator& operator++()
@@ -98,14 +106,72 @@ public:
         }
     }
 
+    auto position() const { return pos_; }
+    auto length() const { return len_; }
+    auto& string() { return *str_; }
+
 private:
-    const string_t *str_;
+    string_t *str_;
     typename string_t::size_type pos_;
     typename string_t::size_type len_;
     std::size_t lineNumber_;
 };
 
-line_iterator() -> line_iterator<char, std::char_traits<char>, std::allocator<char>>;
+line_iterator() -> line_iterator<std::string>;
+
+template<class String>
+class basic_line_reference
+{
+    using iterator_t = line_iterator<String>;
+    using string_t = String;
+    using string_view_t = std::basic_string_view<
+        typename String::value_type,
+        typename String::traits_type>;
+
+public:
+    using size_type = typename string_t::size_type;
+
+    basic_line_reference(iterator_t &iter)
+        : iter_ {iter}
+    {
+    }
+
+    auto operator*() const
+    {
+        return iter_.get_string_view();
+    }
+
+    auto lineNumber() const { return iter_.lineNumber(); }
+    auto length() const { return iter_.length(); }
+
+    void recalculate()
+    {
+        iter_.recalculate();
+    }
+
+    // std::basic_string-like interface
+    basic_line_reference& replace(size_type pos, size_type count, const std::string &str)
+    {
+        iter_.string().replace(pos + iter_.position(), count, str);
+        return *this;
+    }
+
+    basic_line_reference& replace(size_type pos, size_type count, string_view_t str)
+    {
+        iter_.string().replace(pos + iter_.position(), count, str);
+        return *this;
+    }
+
+    auto substr(size_type pos, size_type count)
+    {
+        return iter_.get_string_view().substr(pos, count);
+    }
+
+private:
+    iterator_t& iter_;
+};
+
+using line_reference = basic_line_reference<std::string>;
 
 } // namespace toolbox::string
 
